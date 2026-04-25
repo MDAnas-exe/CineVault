@@ -1,10 +1,20 @@
 import React, { useState } from "react";
-
+import { FaSearch } from "react-icons/fa";
 const Navbar = () => {
   const [movies, setMovies] = useState([]);
   const [movieSearchResult, setMovieSearchResult] = useState([]);
-  const handleSearch = (e) => {
-    if (e.key == "Enter") console.log("i was pressed");
+  const searchMovies = async (e) => {
+    if (e.key == "Enter") {
+      try {
+        const encodedMovieName = encodeURIComponent(e.target.value);
+
+        let response = await fetch(
+          `http://localhost:3000/movies?name=${encodedMovieName}&include_adult=false&language=en-US&page=1`,
+        );
+        let result = await response.json();
+        console.log(result);
+      } catch (error) {}
+    }
   };
 
   return (
@@ -17,11 +27,15 @@ const Navbar = () => {
         <span>History</span>
       </div>
       <div className="hidden md:flex gap-4 items-center">
-        <input
-          type="text"
-          placeholder="Search Movies"
-          onKeyDown={handleSearch}
-        />
+        <div className="flex items-center">
+          <input
+            type="text"
+            placeholder="Search Movies"
+            onKeyDown={searchMovies}
+            className="outline-0"
+          />
+          <FaSearch />
+        </div>
         <span>SignIn</span>
       </div>
 
