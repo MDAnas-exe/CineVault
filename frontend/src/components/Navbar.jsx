@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { movieSearchResult } from "../context/MovieSearchResultContext";
 import { FaSearch } from "react-icons/fa";
 const Navbar = () => {
-  const [movies, setMovies] = useState([]);
-  const [movieSearchResult, setMovieSearchResult] = useState([]);
+  const { setMovies } = useContext(movieSearchResult);
+
   const searchMovies = async (e) => {
-    if (e.key == "Enter") {
+    if (e.key === "Enter") {
       try {
         const encodedMovieName = encodeURIComponent(e.target.value);
 
@@ -12,7 +13,7 @@ const Navbar = () => {
           `http://localhost:3000/movies?name=${encodedMovieName}&include_adult=false&language=en-US&page=1`,
         );
         let result = await response.json();
-        console.log(result);
+        setMovies(result.results);
       } catch (error) {}
     }
   };
