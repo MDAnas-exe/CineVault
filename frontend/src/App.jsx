@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "./components/Navbar";
 import MovieCard from "./components/MovieCard";
-import { movieSearchResult } from "./context/MovieSearchResultContext";
+import { MovieProvider } from "./context/MovieSearchResultContext";
 import "./App.css";
 
 const App = () => {
-  const [movies, setMovies] = useState([]);
-
   return (
-    <movieSearchResult.Provider value={{ movies, setMovies }}>
+    <MovieProvider>
       <Navbar />
       <MovieCard />
-    </movieSearchResult.Provider>
+    </MovieProvider>
   );
 };
 
