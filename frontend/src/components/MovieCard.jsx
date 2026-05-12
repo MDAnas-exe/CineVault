@@ -2,11 +2,9 @@ import React, { useContext } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { movieSearchResult } from "../context/MovieSearchResultContext";
-import { SearchLoadingContext } from "../context/SearchLoading";
 import { FaStar } from "react-icons/fa";
 const MovieCard = () => {
-  let { movies } = useContext(movieSearchResult);
-  let { isSearchLoading } = useContext(SearchLoadingContext);
+  let { movies, isSearchLoading } = useContext(movieSearchResult);
 
   if (isSearchLoading) {
     return (
@@ -44,7 +42,6 @@ const MovieCard = () => {
   }
 
   if (!movies || movies.length === 0) return null;
-  console.log(movies);
 
   movies = movies.filter(
     (movie) =>
@@ -65,7 +62,9 @@ const MovieCard = () => {
             />
             <div className=" py-3">
               <h3>{movie.title}</h3>
-              <span>{movie.release_date.split("-")[0]}</span>
+              <span>
+                {movie.release_date ? movie.release_date.split("-")[0] : "N/A"}
+              </span>
               <div className="flex">
                 {movie.vote_average
                   ? Array.from({

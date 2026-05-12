@@ -1,10 +1,8 @@
 import React, { useContext } from "react";
 import { movieSearchResult } from "../context/MovieSearchResultContext";
-import { SearchLoadingContext } from "../context/SearchLoading";
 import { FaSearch } from "react-icons/fa";
 const Navbar = () => {
-  const { setMovies } = useContext(movieSearchResult);
-  const { setSearchLoadingStatus } = useContext(SearchLoadingContext);
+  const { setMovies, setSearchLoadingStatus } = useContext(movieSearchResult);
   const searchMovies = async (e) => {
     if (e.key === "Enter") {
       try {
