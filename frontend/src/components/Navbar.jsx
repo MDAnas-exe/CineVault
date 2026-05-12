@@ -2,19 +2,30 @@ import React, { useContext } from "react";
 import { movieSearchResult } from "../context/MovieSearchResultContext";
 import { FaSearch } from "react-icons/fa";
 const Navbar = () => {
-  const { setMovies, setSearchLoadingStatus } = useContext(movieSearchResult);
+  const {
+    setMovies,
+    setSearchLoadingStatus,
+    setHasSearched,
+    setSearchResultError,
+  } = useContext(movieSearchResult);
   const searchMovies = async (e) => {
     if (e.key === "Enter") {
       try {
         const encodedMovieName = encodeURIComponent(e.target.value);
         setSearchLoadingStatus(true);
+        setHasSearched(true);
+        setSearchResultError(false);
         let response = await fetch(
           `http://localhost:3000/movies?name=${encodedMovieName}&include_adult=false&language=en-US&page=1`,
         );
         let result = await response.json();
         setMovies(result.results);
         setSearchLoadingStatus(false);
-      } catch (error) {}
+      } catch {
+        setMovies([]);
+        setSearchResultError(true);
+        setSearchLoadingStatus(false);
+      }
     }
   };
 

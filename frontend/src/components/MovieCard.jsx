@@ -1,10 +1,24 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { movieSearchResult } from "../context/MovieSearchResultContext";
 import { FaStar } from "react-icons/fa";
 const MovieCard = () => {
-  let { movies, isSearchLoading } = useContext(movieSearchResult);
+  let {
+    movies,
+    isSearchLoading,
+    hasSearched,
+    searchResultError,
+    setSearchResultError,
+  } = useContext(movieSearchResult);
+  useEffect(() => {
+    if (searchResultError) {
+      const timer = setTimeout(() => {
+        setSearchResultError(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [searchResultError, setSearchResultError]);
 
   if (isSearchLoading) {
     return (
@@ -40,17 +54,28 @@ const MovieCard = () => {
       </div>
     );
   }
+  const errorToast = searchResultError ? (
+    <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-red-600 text-white px-6 py-3 rounded-lg shadow-xl">
+      Something went wrong while searching movies. Please try again.
+    </div>
+  ) : null;
 
-  if (!movies || movies.length === 0) return null;
+  if (!movies || (movies.length === 0 && hasSearched === false)) {
+    return errorToast;
+  }
 
-  movies = movies.filter(
+  let filteredMovies = movies.filter(
     (movie) =>
       movie.id && movie.title && (movie.poster_path || movie.backdrop_path),
   );
+  if (filteredMovies.length === 0 && searchResultError) return errorToast;
+
+  if (filteredMovies.length === 0 && hasSearched && !searchResultError)
+    return <div>No Movies Found</div>;
   return (
     <>
       <div className="bg-gray-300 p-3 flex flex-wrap gap-2 justify-evenly">
-        {movies.map((movie) => (
+        {filteredMovies.map((movie) => (
           <div
             className="flex px-5 py-3 w-1/4 h-52 gap-1 border rounded-xl bg-white hover:scale-110 transition-all duration-500 cursor-pointer"
             key={movie.id}
