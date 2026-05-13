@@ -1,14 +1,15 @@
 import React from "react";
 import Navbar from "./components/Navbar";
-import MovieCard from "./components/MovieCard";
+
 import { MovieProvider } from "./context/MovieSearchResultContext";
 import "./App.css";
+import SearchResults from "./components/SearchResults";
 
 const App = () => {
   return (
     <MovieProvider>
       <Navbar />
-      <MovieCard />
+      <SearchResults />
     </MovieProvider>
   );
 };

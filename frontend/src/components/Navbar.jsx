@@ -1,31 +1,13 @@
-import React, { useContext } from "react";
-import { movieSearchResult } from "../context/MovieSearchResultContext";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 const Navbar = () => {
-  const {
-    setMovies,
-    setSearchLoadingStatus,
-    setHasSearched,
-    setSearchResultError,
-  } = useContext(movieSearchResult);
-  const searchMovies = async (e) => {
+  const navigate = useNavigate();
+  const searchMovies = (e) => {
     if (e.key === "Enter") {
-      try {
-        const encodedMovieName = encodeURIComponent(e.target.value);
-        setSearchLoadingStatus(true);
-        setHasSearched(true);
-        setSearchResultError(false);
-        let response = await fetch(
-          `http://localhost:3000/movies?name=${encodedMovieName}&include_adult=false&language=en-US&page=1`,
-        );
-        let result = await response.json();
-        setMovies(result.results);
-        setSearchLoadingStatus(false);
-      } catch {
-        setMovies([]);
-        setSearchResultError(true);
-        setSearchLoadingStatus(false);
-      }
+      if (!e.target.value.trim()) return;
+      const encodedMovieName = encodeURIComponent(e.target.value.trim());
+      navigate(`/search?query=${encodedMovieName}`);
     }
   };
 
