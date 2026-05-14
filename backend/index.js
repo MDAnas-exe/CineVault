@@ -11,7 +11,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.json({ message: "API endpoint is connected and working!" });
 });
-app.get("/movies", async (req, res) => {
+app.get("/movies/search", async (req, res) => {
   try {
     const options = {
       method: "GET",
@@ -27,8 +27,54 @@ app.get("/movies", async (req, res) => {
       options,
     );
     let result = await response.json();
-    res.json(result);
-  } catch (error) {}
+    res.status(response.status).json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch top rated movies" });
+  }
+});
+
+app.get("/movies/trending", async (req, res) => {
+  try {
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: process.env.TMDBtoken,
+      },
+    };
+    let { language = "en-US" } = req.query;
+
+    let response = await fetch(
+      `https://api.themoviedb.org/3/trending/movie/week?language=${language}`,
+      options,
+    );
+    let result = await response.json();
+    res.status(response.status).json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch  trending movies" });
+  }
+});
+
+app.get("/movies/top_rated", async (req, res) => {
+  try {
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: process.env.TMDBtoken,
+      },
+    };
+    let { language = "en-US" } = req.query;
+
+    let response = await fetch(
+      `https://api.themoviedb.org/3/movie/top_rated?language=${language}`,
+      options,
+    );
+    let result = await response.json();
+    res.status(response.status).json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch  top rated movies" });
+  }
 });
 
 app.listen(port, () => {
