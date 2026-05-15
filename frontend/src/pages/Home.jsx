@@ -24,7 +24,7 @@ const Home = () => {
         }
 
         const data = await response.json();
-        movies = data.results;
+        let movies = data.results;
         movies = movies.filter(
           (m) => m.id && (m.poster_path || m.backdrop_path),
         );
@@ -51,7 +51,7 @@ const Home = () => {
         }
 
         const data = await response.json();
-        movies = data.results;
+        let movies = data.results;
         movies = movies.filter(
           (m) => m.id && (m.poster_path || m.backdrop_path),
         );
