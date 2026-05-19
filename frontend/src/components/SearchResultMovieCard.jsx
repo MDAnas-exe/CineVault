@@ -1,9 +1,15 @@
 import React from "react";
-
+import { useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 const MovieCard = ({ movie }) => {
+  const navigate = useNavigate();
   return (
-    <div className="flex px-5 py-3 md:w-1/4 h-52 gap-1 border rounded-xl bg-white hover:scale-110 transition-all duration-500 cursor-pointer">
+    <div
+      className="flex px-5 py-3 md:w-1/4 h-52 gap-1 border rounded-xl bg-white hover:scale-110 transition-all duration-500 cursor-pointer"
+      onClick={() => {
+        navigate(`/movie/${movie.id}`);
+      }}
+    >
       <img
         src={`https://image.tmdb.org/t/p/w200/${movie.poster_path || movie.backdrop_path}`}
         alt=""

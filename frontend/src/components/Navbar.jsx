@@ -7,7 +7,7 @@ const Navbar = () => {
     if (e.key === "Enter") {
       if (!e.target.value.trim()) return;
       const encodedMovieName = encodeURIComponent(e.target.value.trim());
-      navigate(`/search?query=${encodedMovieName}`);
+      navigate(`/search?name=${encodedMovieName}`);
     }
   };
 

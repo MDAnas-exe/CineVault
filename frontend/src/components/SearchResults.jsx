@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import ErrorToast from "./ErrorToast";
@@ -10,20 +10,21 @@ const SearchResults = () => {
   const [hasSearched, setHasSearched] = useState(false);
   const [searchResultErrorMessage, setSearchResultErrorMessage] = useState("");
   const [searchParams] = useSearchParams();
-  const query = searchParams.get("query");
-
+  const name = searchParams.get("name");
+  const navigate = useNavigate();
   useEffect(() => {
     const searchMovies = async () => {
-      if (!query) {
+      if (!name) {
         setMovies([]);
         setHasSearched(false);
         setSearchResultErrorMessage("");
         setSearchLoadingStatus(false);
+        navigate("/");
         return;
       }
 
       try {
-        const encodedMovieName = encodeURIComponent(query.trim());
+        const encodedMovieName = encodeURIComponent(name.trim());
         setSearchLoadingStatus(true);
         setHasSearched(true);
         setSearchResultErrorMessage("");
@@ -44,7 +45,7 @@ const SearchResults = () => {
     };
 
     searchMovies();
-  }, [query]);
+  }, [name]);
 
   if (isSearchLoading) {
     return (

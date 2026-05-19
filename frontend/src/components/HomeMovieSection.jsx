@@ -17,8 +17,6 @@ const HomeMovieSection = ({ title, movies, isLoading, errorMessage }) => {
   }
 
   if (errorMessage) {
-    console.log(errorMessage);
-
     return <div>{errorMessage}</div>;
   }
 
