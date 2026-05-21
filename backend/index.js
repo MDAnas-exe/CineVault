@@ -78,11 +78,11 @@ app.get("/movies/top_rated", async (req, res, next) => {
     if (response.ok) cache.set("top_rated", result);
     res.status(response.status).json(result);
   } catch (error) {
-    next(new Error("Failed to fetch top rated fetch movies"));
+    next(new Error("Failed to fetch top rated  movies"));
   }
 });
 
-app.get("/movies/:id", async (req, res, next) => {
+app.get("/movie/:id", async (req, res, next) => {
   try {
     let { language = "en-US" } = req.query;
     let { id } = req.params;
