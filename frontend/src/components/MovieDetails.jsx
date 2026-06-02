@@ -33,7 +33,7 @@ const MovieDetails = () => {
   }, [id]);
   return (
     movie && (
-      <div className="bg-[#f4f1ec] min-w-[1100px] font-sans text-[#1a1a1a]">
+      <div className="bg-[#f4f1ec] min-w-275 font-sans text-[#1a1a1a]">
         <MovieDetailsHeroSection movie={movie} />
 
         {/* BODY */}
@@ -85,7 +85,7 @@ const MovieDetails = () => {
                     char: "Tom",
                   },
                 ].map(({ img, name, char }) => (
-                  <div key={name} className="flex-shrink-0 w-28 text-center">
+                  <div key={name} className="shrink-0 w-28 text-center">
                     <img
                       src={img}
                       alt={name}
@@ -145,7 +145,7 @@ const MovieDetails = () => {
                 ].map(({ img, title, year }) => (
                   <div
                     key={title}
-                    className="flex-shrink-0 w-28 cursor-pointer group"
+                    className="shrink-0 w-28 cursor-pointer group"
                   >
                     <img
                       src={img}
@@ -161,7 +161,7 @@ const MovieDetails = () => {
           </div>
 
           {/* SIDEBAR - REVIEWS */}
-          <div className="w-64 flex-shrink-0">
+          <div className="w-64 shrink-0">
             <div className="flex justify-between items-center mb-5">
               <h2
                 style={{ fontFamily: "Georgia, serif" }}
@@ -209,7 +209,7 @@ const MovieDetails = () => {
                 <div className="flex justify-between items-start">
                   <div className="flex items-center gap-2">
                     <div
-                      className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
+                      className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0"
                       style={{ backgroundColor: color }}
                     >
                       {initial}
@@ -219,7 +219,7 @@ const MovieDetails = () => {
                       <div className="text-xs text-[#9e9790]">{time}</div>
                     </div>
                   </div>
-                  <div className="text-[#d4a017] text-xs">
+                  <div className="text-accent text-xs">
                     {"★".repeat(rating)}
                     {"☆".repeat(5 - rating)}
                     <span className="text-[#6b6560] ml-1">{rating}.0</span>

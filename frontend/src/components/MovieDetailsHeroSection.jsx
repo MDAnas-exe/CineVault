@@ -3,7 +3,7 @@ import React from "react";
 const MovieDetailsHeroSection = ({ movie }) => {
   return (
     <div
-      className="relative h-[480px] overflow-hidden"
+      className="relative h-120 overflow-hidden"
       style={{
         backgroundImage: `url('https://image.tmdb.org/t/p/original${movie.backdrop_path}')`,
         backgroundSize: "cover",
@@ -20,7 +20,7 @@ const MovieDetailsHeroSection = ({ movie }) => {
 
       {/* Left content */}
       <div className="absolute inset-0 z-10 flex items-end px-14 pb-10 gap-8">
-        <div className="w-40 h-60 rounded-xl overflow-hidden flex-shrink-0 shadow-2xl">
+        <div className="w-40 h-60 rounded-xl overflow-hidden shrink-0 shadow-2xl">
           <img
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             alt="poster"
@@ -52,7 +52,7 @@ const MovieDetailsHeroSection = ({ movie }) => {
             <div>{movie.genres.map((g) => g.name).join(", ")}.</div>
           </div>
           <div className="flex items-center gap-2 mt-3">
-            <span className="text-[#d4a017] text-xl">★</span>
+            <span className="text-accent text-xl">★</span>
             <span
               style={{ fontFamily: "Georgia, serif" }}
               className="text-3xl font-bold"
@@ -69,7 +69,7 @@ const MovieDetailsHeroSection = ({ movie }) => {
               ratings
             </span>
           </div>
-          <div className="italic text-[#6b6560] text-sm mt-3 border-l-4 border-[#d4a017] pl-3">
+          <div className="italic text-[#6b6560] text-sm mt-3 border-l-4 border-accent pl-3">
             {movie.tagline}
           </div>
           <p className="text-sm text-[#3d3830] leading-relaxed mt-2 max-w-lg">
