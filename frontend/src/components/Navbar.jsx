@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink, Link } from "react-router-dom";
 import { FaSearch, FaRegBookmark } from "react-icons/fa";
 import { PiFilmReelFill } from "react-icons/pi";
 import { FaClockRotateLeft } from "react-icons/fa6";
@@ -19,13 +19,16 @@ const Navbar = () => {
 
   return (
     <nav className="flex justify-between items-center p-2 md:px-5 py-2.5 ">
-      <div className="logo flex items-center gap-0.5 text-2xl md:text-3xl cursor-pointer">
+      <Link
+        to="/"
+        className="logo flex items-center gap-0.5 text-2xl md:text-3xl cursor-pointer"
+      >
         <PiFilmReelFill fill="#d4a017" />
         <span className="font-bold font-poppins ">
           <span className=" text-primary">Cine</span>
           <span className="text-accent">Vault</span>
         </span>
-      </div>
+      </Link>
       <div className="w-1/4 outline-1 outline-gray-300 rounded-xl p-2 relative hover:outline-accent focus-within:outline-accent transition-all duration-500">
         <FaSearch className="absolute top-3.5 text-sm text-gray-400" />
         <input
@@ -36,14 +39,6 @@ const Navbar = () => {
         />
       </div>
       <div className="font-inter font-semibold text-primary flex gap-8 items-center">
-        <span className="cursor-pointer hover:text-accent transition-all duration-500 flex items-center gap-2">
-          <FaRegBookmark />
-          Watchlist
-        </span>
-        <span className="cursor-pointer hover:text-accent transition-all duration-500 flex items-center gap-2">
-          <FaClockRotateLeft />
-          History
-        </span>
         <span className="font-medium border border-accent  px-6 py-1 rounded-xl text-accent cursor-pointer hover:bg-accent hover:text-white transition-all duration-500 flex items-center gap-2">
           <MdOutlinePersonOutline className="text-2xl" />
           Sign In
