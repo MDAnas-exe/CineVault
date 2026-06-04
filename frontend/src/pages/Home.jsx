@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import HomeMovieSection from "../components/HomeMovieSection";
 import ErrorToast from "../components/ErrorToast";
 import heroImg from "../assets/images/hero.png";
+import Footer from "../components/Footer";
 const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
@@ -102,18 +103,19 @@ const Home = () => {
         ></div>
       </div>
       <HomeMovieSection
-        title="Trending"
+        title="Trending Movies"
         movies={trendingMovies}
         isLoading={isTrendingLoading}
         errorMessage={trendingError}
       />
 
       <HomeMovieSection
-        title="Top Rated"
+        title="Top Rated Movies"
         movies={topRatedMovies}
         isLoading={isTopRatedLoading}
         errorMessage={topRatedError}
       />
+      <Footer />
     </>
   );
 };
