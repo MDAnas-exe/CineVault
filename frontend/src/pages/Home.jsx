@@ -19,7 +19,9 @@ const Home = () => {
         setIsTrendingLoading(true);
         setTrendingError("");
 
-        const response = await fetch("http://localhost:3000/movies/trending");
+        const response = await fetch(
+          "http://192.168.0.105:3000/movies/trending",
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch trending movies");
@@ -46,7 +48,9 @@ const Home = () => {
         setIsTopRatedLoading(true);
         setTopRatedError("");
 
-        const response = await fetch("http://localhost:3000/movies/top_rated");
+        const response = await fetch(
+          "http://192.168.0.105:3000/movies/top_rated",
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch top rated movies");
@@ -75,22 +79,22 @@ const Home = () => {
   return (
     <>
       <div
-        className=" h-90 mx-5 my-2.5 py-5 px-8 rounded-xl bg-cover text-white flex relative"
+        className="md:h-70 lg:h-90 mx-2 md:mx-5 my-2.5 px-3 py-2 md:py-5 md:px-8 rounded-xl bg-cover bg-center text-white flex relative"
         style={{ backgroundImage: `url(${heroImg})` }}
       >
-        <div className="z-3 h-full flex flex-col justify-between ">
-          <div className="text-6xl font-bold font-poppins ">
+        <div className="z-3 h-full flex flex-col md:justify-between md:gap-0 gap-2">
+          <div className="md:text-3xl lg:text-6xl font-bold font-poppins ">
             <h1>Track Movies.</h1>
             <h1>Build Your Watchlist.</h1>
             <h1>
               <span className="text-accent">Rate and Review </span>Films.
             </h1>
           </div>
-          <div className="font-inter text-xl  text-[#D1D5DB]">
+          <div className="font-inter text-xs md:text-base lg:text-xl  text-[#D1D5DB]">
             <p>Discover movies, save what you want to watch,</p>
             <p>keep track of everything you've seen</p>
           </div>
-          <button className="bg-accent px-12 py-2 rounded-xl self-start cursor-pointer transition-all duration-300 hover:bg-[#B8860B]">
+          <button className="bg-accent text-xs md:text-base p-2 md:px-12 md:py-2 rounded-xl self-start cursor-pointer transition-all duration-300 hover:bg-[#B8860B]">
             Get Started
           </button>
         </div>

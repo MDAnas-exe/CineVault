@@ -18,10 +18,10 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex justify-between items-center p-2 md:px-5 py-2.5 ">
+    <nav className="flex justify-between items-center p-2 md:px-5 md:py-2.5 flex-wrap">
       <Link
         to="/"
-        className="logo flex items-center gap-0.5 text-2xl md:text-3xl cursor-pointer"
+        className="logo flex items-center gap-0.5 lg:text-3xl md:text-2xl cursor-pointer"
       >
         <PiFilmReelFill fill="#d4a017" />
         <span className="font-bold font-poppins ">
@@ -29,20 +29,27 @@ const Navbar = () => {
           <span className="text-accent">Vault</span>
         </span>
       </Link>
-      <div className="w-1/4 outline-1 outline-gray-300 rounded-xl p-2 relative hover:outline-accent focus-within:outline-accent transition-all duration-500">
+      <div className="w-2/5 outline-1 outline-gray-300 rounded-xl p-2 relative hover:outline-accent focus-within:outline-accent transition-all duration-500 hidden md:block">
         <FaSearch className="absolute top-3.5 text-sm text-gray-400" />
         <input
           type="text"
           placeholder="Search Movies..."
-          className="w-full ml-5 placeholder:text-gray-400 placeholder:text-sm font-inter font-medium text-[111827] outline-0"
+          className="w-full ml-5 placeholder:text-gray-400 placeholder:text-sm font-inter font-medium text-primary outline-0"
           onKeyDown={searchMovies}
         />
       </div>
-      <div className="font-inter font-semibold text-primary flex gap-8 items-center">
-        <span className="font-medium border border-accent  px-6 py-1 rounded-xl text-accent cursor-pointer hover:bg-accent hover:text-white transition-all duration-500 flex items-center gap-2">
-          <MdOutlinePersonOutline className="text-2xl" />
-          Sign In
-        </span>
+
+      <span className="flex items-center gap-2 px-2 md:px-6 py-1 border border-accent rounded-xl text-xs md:text-sm text-accent font-inter font-medium cursor-pointer transition-all duration-500 hover:bg-accent hover:text-white">
+        <MdOutlinePersonOutline className=" md:text-2xl" />
+        Sign In
+      </span>
+      <div className="w-full flex outline-1 outline-gray-300 rounded-xl items-center mt-2 p-1 bg-gray-100 md:hidden">
+        <FaSearch className="text-gray-400 text-sm " />
+        <input
+          type="text"
+          placeholder="Search movies..."
+          className="w-full ml-1 outline-0 placeholder:text-xs  font-inter font-medium text-primary text-sm"
+        />
       </div>
     </nav>
   );

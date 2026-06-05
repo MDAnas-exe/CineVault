@@ -5,7 +5,7 @@ const HomeMovieCard = ({ movie, index }) => {
   return (
     <div className="flex gap-0.5 ">
       <p
-        className="text-transparent text-6xl text-stroke-2 text-stroke-accent"
+        className="text-transparent text-3xl lg:text-6xl text-stroke-2 text-stroke-accent"
         style={{
           color: "transparent",
           WebkitTextStroke: "2px #d4a017",
@@ -20,7 +20,7 @@ const HomeMovieCard = ({ movie, index }) => {
         onClick={() => {
           navigate(`/movie/${movie.id}`);
         }}
-        className="w-30 h-50 bg-cover bg-center rounded-xl cursor-pointer shrink-0 hover:scale-110 hover:ml-3 transition-all duration-500"
+        className="w-24 h-40 lg:w-30 lg:h-50 bg-cover bg-center rounded-xl cursor-pointer shrink-0 hover:scale-110 hover:ml-3 transition-all duration-500"
       />
     </div>
   );
