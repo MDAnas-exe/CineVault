@@ -1,10 +1,13 @@
 import React, { useRef } from "react";
 import Skeleton from "react-loading-skeleton";
+import useFetchMovies from "../hooks/useFetchMovies";
 import "react-loading-skeleton/dist/skeleton.css";
 import HomeMovieCard from "./HomeMovieCard";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
-const HomeMovieSection = ({ title, movies, isLoading, errorMessage }) => {
+
+const HomeMovieSection = ({ title, endpoint }) => {
   const ref = useRef(null);
+  const { movies, isLoading, isError, error } = useFetchMovies(endpoint, title);
   if (isLoading) {
     return (
       <div className="flex gap-3 flex-col px-3 md:px-6">
@@ -22,8 +25,8 @@ const HomeMovieSection = ({ title, movies, isLoading, errorMessage }) => {
     );
   }
 
-  if (errorMessage) {
-    return <div>{errorMessage}</div>;
+  if (isError) {
+    return <div>{error.message}</div>;
   }
 
   return (
