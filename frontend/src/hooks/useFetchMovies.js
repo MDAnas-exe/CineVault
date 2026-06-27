@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 export default function useFetchMovies(endpoint, title) {
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: [`${title}`],
     queryFn: async () => {
       const res = await fetch(`http://localhost:3000/movies/${endpoint}`);
@@ -12,5 +12,5 @@ export default function useFetchMovies(endpoint, title) {
     },
   });
 
-  return { movies: data, isLoading, isError, error };
+  return { movies: data || [], isLoading, isError, error, refetch };
 }

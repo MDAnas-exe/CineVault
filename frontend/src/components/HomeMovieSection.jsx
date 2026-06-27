@@ -4,10 +4,14 @@ import useFetchMovies from "../hooks/useFetchMovies";
 import "react-loading-skeleton/dist/skeleton.css";
 import HomeMovieCard from "./HomeMovieCard";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
-
+import SectionState from "./SectionState";
 const HomeMovieSection = ({ title, endpoint }) => {
   const ref = useRef(null);
-  const { movies, isLoading, isError, error } = useFetchMovies(endpoint, title);
+  const { movies, isLoading, isError, refetch } = useFetchMovies(
+    endpoint,
+    title,
+  );
+
   if (isLoading) {
     return (
       <div className="flex gap-3 flex-col px-3 md:px-6">
@@ -25,9 +29,35 @@ const HomeMovieSection = ({ title, endpoint }) => {
     );
   }
 
-  if (isError) {
-    return <div>{error.message}</div>;
-  }
+  if (isError)
+    return (
+      <section className="mx-5 my-2 overflow-hidden">
+        <p className="md:text-xl lg:text-3xl font-bold text-primary  border-l-4 border-accent px-2 mb-1">
+          {title}
+        </p>
+        <SectionState
+          type="error"
+          message={`Couldn't load ${title} movies.`}
+          description="Please check your connection and try again."
+          onRetry={refetch}
+        />
+      </section>
+    );
+
+  if (movies.length === 0)
+    return (
+      <section className="mx-5 my-2 overflow-hidden">
+        <p className="md:text-xl lg:text-3xl font-bold text-primary  border-l-4 border-accent px-2 mb-1">
+          {title}
+        </p>
+        <SectionState
+          type="empty"
+          message={`No ${title} movies available right now.`}
+          description="Please check back later."
+          onRetry={refetch}
+        />
+      </section>
+    );
 
   return (
     <section className="mx-3 overflow-hidden">
