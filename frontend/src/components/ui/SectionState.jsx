@@ -1,5 +1,5 @@
-import emptySign from "../assets/images/reel.png";
-import errorSign from "../assets/images/errorSign.png";
+import emptySign from "../../assets/images/reel.png";
+import errorSign from "../../assets/images/errorSign.png";
 import { IoReload } from "react-icons/io5";
 const SectionState = ({ type, message, description, onRetry }) => {
   return (

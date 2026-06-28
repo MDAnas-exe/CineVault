@@ -1,10 +1,10 @@
 import React from "react";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/layout/Navbar";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
-import SearchResults from "./components/SearchResults";
-import MovieDetails from "./components/MovieDetails";
+import SearchResults from "./features/search/components/SearchResults";
+import MovieDetails from "./features/movie/pages/MovieDetails";
 const App = () => {
   return (
     <>

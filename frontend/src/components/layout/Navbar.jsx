@@ -18,7 +18,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex justify-between items-center p-2 md:px-5 md:py-2.5 flex-wrap">
+    <nav className=" flex justify-between items-center p-2 md:px-5 md:py-2.5 flex-wrap  border-gray-200 ">
       <Link
         to="/"
         className="logo flex items-center gap-0.5 lg:text-3xl md:text-2xl cursor-pointer"
@@ -29,7 +29,7 @@ const Navbar = () => {
           <span className="text-accent">Vault</span>
         </span>
       </Link>
-      <div className="w-2/5 outline-1 outline-gray-300 rounded-xl p-2 relative hover:outline-accent focus-within:outline-accent transition-all duration-500 hidden md:block">
+      <div className="bg-white w-2/5 outline-1 outline-gray-300 rounded-xl p-2 relative hover:outline-accent focus-within:outline-accent transition-all duration-500 hidden md:block">
         <FaSearch className="absolute top-3.5 text-sm text-gray-400" />
         <input
           type="text"

@@ -4,7 +4,7 @@ import useFetchMovies from "../hooks/useFetchMovies";
 import "react-loading-skeleton/dist/skeleton.css";
 import HomeMovieCard from "./HomeMovieCard";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
-import SectionState from "./SectionState";
+import SectionState from "../../../components/ui/SectionState";
 const HomeMovieSection = ({ title, endpoint }) => {
   const ref = useRef(null);
   const { movies, isLoading, isError, refetch } = useFetchMovies(

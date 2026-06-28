@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import MovieDetailsHeroSection from "./MovieDetailsHeroSection";
+import MovieDetailsHeroSection from "../components/MovieDetailsHeroSection";
 const MovieDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();

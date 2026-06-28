@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import ErrorToast from "./ErrorToast";
+import ErrorToast from "../../../components/ui/ErrorToast";
 import SearchResultMovieCard from "./SearchResultMovieCard";
 const SearchResults = () => {
   const [movies, setMovies] = useState([]);
@@ -97,7 +97,7 @@ const SearchResults = () => {
     return <div>No Movies Found</div>;
 
   return (
-    <div className="bg-gray-300 p-3 flex flex-wrap gap-2 justify-evenly">
+    <div className=" p-3 flex flex-wrap gap-2 justify-evenly">
       {filteredMovies.map((movie) => (
         <SearchResultMovieCard movie={movie} key={movie.id} />
       ))}
