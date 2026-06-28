@@ -3,23 +3,23 @@ import errorSign from "../assets/images/errorSign.png";
 import { IoReload } from "react-icons/io5";
 const SectionState = ({ type, message, description, onRetry }) => {
   return (
-    <div className="flex  flex-col items-center justify-center gap-3 px-4 text-center">
+    <div className="flex  flex-col items-center justify-center  gap-1.5 md:gap-3 md:px-4 text-center">
       <img
         src={type === "empty" ? emptySign : errorSign}
         alt={type}
-        className="h-30 w-1/5 min-w-30 object-contain"
+        className="h-30 md:w-1/5 w-full min-w-30 object-contain"
       />
 
-      <p className="font-poppins text-2xl font-bold text-primary md:text-3xl">
+      <p className="font-poppins text-md font-bold text-primary md:text-3xl">
         {message}
       </p>
 
-      <p className="max-w-md font-inter text-base text-secondary md:text-xl">
+      <p className="max-w-md font-inter text-sm text-secondary md:text-xl">
         {description}
       </p>
 
       <button
-        className="mt-2 cursor-pointer rounded-lg bg-accent px-6 py-1 font-inter text-base font-medium text-white transition-colors duration-300 hover:bg-[#B8860B] md:px-5 md:text-md flex items-center gap-2"
+        className=" cursor-pointer rounded-lg bg-accent px-3 py-1 font-inter text-xs font-medium text-white transition-colors duration-300 hover:bg-[#B8860B] md:px-5 md:text-md flex items-center gap-2"
         onClick={onRetry}
       >
         <IoReload fill="white" />
