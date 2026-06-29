@@ -3,12 +3,18 @@ import {
   FaStar,
   FaCalendarAlt,
   FaGlobe,
-  FaRegClock,
   FaRegBookmark,
+  FaRegHeart,
+  FaRegEye,
 } from "react-icons/fa";
 import { MdTrendingUp } from "react-icons/md";
-
+import MovieActionButton from "../../../components/ui/MovieActionButton";
 const MovieDetail = ({ movie }) => {
+  const iconMap = {
+    FaRegHeart,
+    FaRegBookmark,
+    FaRegEye,
+  };
   const releaseDate = movie.release_date
     ? new Date(movie.release_date).toLocaleDateString("en-US", {
         month: "short",
@@ -39,7 +45,7 @@ const MovieDetail = ({ movie }) => {
       <img
         src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
         alt={movie.title}
-        className=" h-50 rounded-xl "
+        className="w-37.5 h-50 rounded-xl "
       />
 
       <div className="flex flex-col justify-between w-full">
@@ -48,10 +54,14 @@ const MovieDetail = ({ movie }) => {
             {movie.title}
           </h1>
           <div className="flex items-center gap-1 text-accent font-bold text-xl">
-            <FaStar />
-            <span>
-              {movie.vote_average ? movie.vote_average.toFixed(2) : "N/A"}
-            </span>
+            {movie.vote_average ? (
+              <>
+                <FaStar />
+                {movie.vote_average.toFixed(2)}
+              </>
+            ) : (
+              "N/A"
+            )}
           </div>
           <span className="text-primary/40">|</span>
           <span className="text-primary/60">{votes}</span>
@@ -63,7 +73,9 @@ const MovieDetail = ({ movie }) => {
           <FaGlobe /> {language}
         </div>
 
-        <p className="text-primary/80  line-clamp-2 w-125 ">{movie.overview}</p>
+        <p className="text-primary/80  line-clamp-2 w-125 ">
+          {movie.overview ? movie.overview : "N/A"}
+        </p>
 
         <hr className=" border-gray-200" />
 
@@ -76,13 +88,21 @@ const MovieDetail = ({ movie }) => {
             </span>
           </div>
 
-          <div className="flex items-center gap-4">
-            <span className="text-accent font-medium cursor-pointer">
-              + Watchlist
-            </span>
-            <button className="w-10 h-10 flex items-center justify-center rounded-full border text-primary">
-              <FaRegBookmark />
-            </button>
+          <div className="flex items-center gap-3">
+            {[
+              { icon: "FaRegHeart", title: "Add to liked" },
+              { icon: "FaRegBookmark", title: "Add to Watchlist" },
+              { icon: "FaRegEye", title: "Mark as Watched" },
+            ].map((btn, index) => {
+              const Icon = iconMap[btn.icon];
+              return (
+                <MovieActionButton
+                  icon={<Icon />}
+                  title={btn.title}
+                  key={index}
+                />
+              );
+            })}
           </div>
         </div>
       </div>
