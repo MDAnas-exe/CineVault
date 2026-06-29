@@ -97,7 +97,14 @@ const SearchResults = () => {
     return <div>No Movies Found</div>;
 
   return (
-    <div className=" p-3 flex flex-wrap gap-2 justify-evenly">
+    <div className="flex flex-col gap-2 justify-evenly px-50 py-5 bg-gray-100">
+      <span className="text-2xl font-poppins font-bold">
+        Results for <span className="text-accent">"{name}"</span>
+      </span>
+      <span className="text-gray-500">
+        {filteredMovies.length}{" "}
+        {filteredMovies.length > 1 ? "results" : "result"} found
+      </span>
       {filteredMovies.map((movie) => (
         <SearchResultMovieCard movie={movie} key={movie.id} />
       ))}

@@ -39,7 +39,7 @@ const MovieDetail = ({ movie }) => {
 
   return (
     <div
-      className="flex w-4/5 gap-6 p-6 rounded-2xl bg-white  font-inter border border-gray-200/60
+      className="flex gap-6 p-6 rounded-2xl bg-white  font-inter border border-gray-200/60
       shadow-sm  hover:shadow-lg transition-all duration-300 cursor-pointer"
     >
       <img

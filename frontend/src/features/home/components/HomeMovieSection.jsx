@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import Skeleton from "react-loading-skeleton";
-import useFetchMovies from "../hooks/useFetchMovies";
+import useFetchMovies from "../../../hooks/useFetchMovies";
 import "react-loading-skeleton/dist/skeleton.css";
 import HomeMovieCard from "./HomeMovieCard";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
