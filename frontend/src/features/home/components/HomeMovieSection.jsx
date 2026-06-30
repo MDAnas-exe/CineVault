@@ -4,6 +4,8 @@ import useFetchMoviesByCategory from "../hooks/useFetchMoviesByCategory";
 import "react-loading-skeleton/dist/skeleton.css";
 import HomeMovieCard from "./HomeMovieCard";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
+import emptySign from "../../../assets/images/reel.png";
+import errorSign from "../../../assets/images/errorSign.png";
 import SectionState from "../../../components/ui/SectionState";
 const HomeMovieSection = ({ title, endpoint }) => {
   const ref = useRef(null);
@@ -36,7 +38,8 @@ const HomeMovieSection = ({ title, endpoint }) => {
           {title}
         </p>
         <SectionState
-          type="error"
+          imageSource={errorSign}
+          buttonText="Retry"
           message={`Couldn't load ${title} movies.`}
           description="Please check your connection and try again."
           onRetry={refetch}
@@ -51,7 +54,8 @@ const HomeMovieSection = ({ title, endpoint }) => {
           {title}
         </p>
         <SectionState
-          type="empty"
+          imageSource={emptySign}
+          buttonText="Refresh"
           message={`No ${title} movies available right now.`}
           description="Please check back later."
           onRetry={refetch}

@@ -1,15 +1,27 @@
-import React from "react";
-import { useSearchParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import useFetchSearchResults from "../features/search/hooks/useFetchSearchResults";
 import SearchResultMovieCard from "../features/search/components/SearchResultMovieCard";
 import ErrorSign from "../assets/images/SearchResultErrorSign.png";
+import EmptySign from "../assets/images/reel.png";
+import SectionState from "../components/ui/SectionState";
 const SearchResults = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { name, page = 1 } = Object.fromEntries(searchParams);
 
-  const { results, isLoading, isError } = useFetchSearchResults(name, page);
+  const { results, isLoading, isError, refetch } = useFetchSearchResults(
+    name,
+    page,
+  );
+
+  useEffect(() => {
+    if (!results && !isLoading) navigate("/");
+  }, [results, isLoading]);
+
+  if (!results) return null;
 
   if (isLoading) {
     return (
@@ -53,15 +65,31 @@ const SearchResults = () => {
     );
   }
 
-  if (true) return <div>Error</div>;
+  if (isError)
+    return (
+      <div className="my-15">
+        <SectionState
+          imageSource={ErrorSign}
+          buttonText="Retry"
+          message="Something went wrong"
+          description={`Couldn't load result for ${name} please try again later`}
+          onRetry={refetch}
+        />
+      </div>
+    );
 
   const { movies, total_results } = results;
-  console.log(results);
-  const filteredMovies = movies.filter(
-    (m) => m.id && (m.poster_path || m.backdrop_path),
-  );
+
   if (movies.length === 0)
-    return <div className="p-10 text-center">No Movies Found for "{name}"</div>;
+    return (
+      <div className="my-15">
+        <SectionState
+          imageSource={EmptySign}
+          message={`No results for "${name}"`}
+          description="Try checking your spelling or use less specific keywords."
+        />
+      </div>
+    );
 
   return (
     <div className="flex flex-col gap-2 justify-evenly px-40 py-5 bg-gray-100">
@@ -71,7 +99,7 @@ const SearchResults = () => {
       <span className="text-gray-500">
         {total_results} {total_results > 1 ? "results" : "result"} found
       </span>
-      {filteredMovies.map((movie) => (
+      {movies.map((movie) => (
         <SearchResultMovieCard movie={movie} key={movie.id} />
       ))}
     </div>

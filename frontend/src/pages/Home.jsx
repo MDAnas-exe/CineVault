@@ -37,7 +37,6 @@ const Home = () => {
       <HomeMovieSection title="Trending Movies" endpoint="trending" />
 
       <HomeMovieSection title="Top Rated Movies" endpoint="top_rated" />
-      <Footer />
     </>
   );
 };
