@@ -1,13 +1,13 @@
 import React, { useRef } from "react";
 import Skeleton from "react-loading-skeleton";
-import useFetchMovies from "../../../hooks/useFetchMovies";
+import useFetchMoviesByCategory from "../hooks/useFetchMoviesByCategory";
 import "react-loading-skeleton/dist/skeleton.css";
 import HomeMovieCard from "./HomeMovieCard";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import SectionState from "../../../components/ui/SectionState";
 const HomeMovieSection = ({ title, endpoint }) => {
   const ref = useRef(null);
-  const { movies, isLoading, isError, refetch } = useFetchMovies(
+  const { movies, isLoading, isError, refetch } = useFetchMoviesByCategory(
     endpoint,
     title,
   );

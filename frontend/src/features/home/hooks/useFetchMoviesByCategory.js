@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-export default function useFetchMovies(endpoint, title) {
+export default function useFetchMoviesByCategory(endpoint, title) {
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: [`${title}`],
     queryFn: async () => {
