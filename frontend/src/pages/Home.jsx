@@ -2,7 +2,7 @@ import React from "react";
 import HomeMovieSection from "../features/home/components/HomeMovieSection";
 
 import heroImg from "../assets/images/hero.png";
-import Footer from "../components/layout/Footer";
+
 const Home = () => {
   return (
     <>

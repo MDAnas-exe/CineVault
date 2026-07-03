@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -12,16 +12,33 @@ const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const { name, page = 1 } = Object.fromEntries(searchParams);
 
-  const { results, isLoading, isError, refetch } = useFetchSearchResults(
-    name,
-    page,
+  const {
+    results,
+    isLoading,
+    isError,
+    refetch,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isFetchNextPageError,
+  } = useFetchSearchResults(name, page);
+
+  const observerRef = useRef(null);
+  const sentinelRef = useCallback(
+    (node) => {
+      if (observerRef.current) observerRef.current.disconnect();
+      if (node) {
+        observerRef.current = new IntersectionObserver(
+          (entries) => {
+            if (entries[0].isIntersecting && hasNextPage) fetchNextPage();
+          },
+          { threshold: 1 },
+        );
+        observerRef.current.observe(node);
+      }
+    },
+    [hasNextPage],
   );
-
-  useEffect(() => {
-    if (!results && !isLoading) navigate("/");
-  }, [results, isLoading]);
-
-  if (!results) return null;
 
   if (isLoading) {
     return (
@@ -78,18 +95,26 @@ const SearchResults = () => {
       </div>
     );
 
-  const { movies, total_results } = results;
-
-  if (movies.length === 0)
-    return (
-      <div className="my-15">
-        <SectionState
-          imageSource={EmptySign}
-          message={`No results for "${name}"`}
-          description="Try checking your spelling or use less specific keywords."
-        />
-      </div>
-    );
+  let movies = results.pages.flatMap((page) => page.movies);
+  const { total_results } = results.pages[0];
+  const seen = {};
+  const filteredMovies = [];
+  movies.forEach((m) => {
+    if (!(m.id in seen)) {
+      seen[m.id] = m.id;
+      filteredMovies.push(m);
+    }
+  });
+  // if (Movies.length === 0)
+  //   return (
+  //     <div className="my-15">
+  //       <SectionState
+  //         imageSource={EmptySign}
+  //         message={`No results for "${name}"`}
+  //         description="Try checking your spelling or use less specific keywords."
+  //       />
+  //     </div>
+  //   );
 
   return (
     <div className="flex flex-col gap-2 justify-evenly px-40 py-5 bg-gray-100">
@@ -99,9 +124,14 @@ const SearchResults = () => {
       <span className="text-gray-500">
         {total_results} {total_results > 1 ? "results" : "result"} found
       </span>
-      {movies.map((movie) => (
-        <SearchResultMovieCard movie={movie} key={movie.id} />
+      {movies.map((movie, i) => (
+        <SearchResultMovieCard
+          movie={movie}
+          key={movie.id}
+          ref={i === movies.length - 3 ? sentinelRef : null}
+        />
       ))}
+      {isFetchingNextPage && <div>Loading.....</div>}
     </div>
   );
 };

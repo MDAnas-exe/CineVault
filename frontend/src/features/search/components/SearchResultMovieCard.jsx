@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   FaStar,
   FaCalendarAlt,
@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import { MdTrendingUp } from "react-icons/md";
 import MovieActionButton from "../../../components/ui/MovieActionButton";
-const MovieDetail = ({ movie }) => {
+const SearchResultMovieCard = ({ movie, ref }) => {
   const iconMap = {
     FaRegHeart,
     FaRegBookmark,
@@ -41,6 +41,7 @@ const MovieDetail = ({ movie }) => {
     <div
       className="flex gap-6 p-6 rounded-2xl bg-white  font-inter border border-gray-200/60
       shadow-sm  hover:shadow-lg transition-all duration-300 cursor-pointer"
+      ref={ref}
     >
       <img
         src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
@@ -110,4 +111,4 @@ const MovieDetail = ({ movie }) => {
   );
 };
 
-export default MovieDetail;
+export default SearchResultMovieCard;
