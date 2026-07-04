@@ -24,7 +24,7 @@ const SearchResults = () => {
     isFetchNextPageError,
   } = useFetchSearchResults(name, page);
   useEffect(() => {
-    if (!results) navigate("/");
+    if (!isLoading && !results) navigate("/");
   }, [results]);
   const observerRef = useRef(null);
   const sentinelRef = useCallback(
@@ -133,7 +133,7 @@ const SearchResults = () => {
         <SearchResultMovieCard
           movie={movie}
           key={movie.id}
-          ref={i === movies.length - 3 ? sentinelRef : null}
+          ref={i === filteredMovies.length - 3 ? sentinelRef : null}
         />
       ))}
       {isFetchingNextPage && (

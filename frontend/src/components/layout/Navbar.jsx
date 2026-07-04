@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useNavigate, NavLink, Link } from "react-router-dom";
 import { FaSearch, FaRegBookmark } from "react-icons/fa";
 import { PiFilmReelFill } from "react-icons/pi";
@@ -6,13 +6,14 @@ import { FaClockRotateLeft } from "react-icons/fa6";
 import { MdOutlinePersonOutline } from "react-icons/md";
 const Navbar = () => {
   const navigate = useNavigate();
+  const ref = useRef(null);
   const searchMovies = (e) => {
-    if (e.key === "Enter") {
-      if (!e.target.value.trim()) {
+    if (e.key === "Enter" || e.type === "click") {
+      if (!ref.current.value.trim()) {
         navigate("/");
         return;
       }
-      const encodedMovieName = encodeURIComponent(e.target.value.trim());
+      const encodedMovieName = encodeURIComponent(ref.current.value.trim());
       navigate(`/search?name=${encodedMovieName}`);
     }
   };
@@ -30,12 +31,17 @@ const Navbar = () => {
         </span>
       </Link>
       <div className="bg-white w-2/5 outline-1 outline-gray-300 rounded-xl p-2 relative hover:outline-accent focus-within:outline-accent transition-all duration-500 hidden md:block">
-        <FaSearch className="absolute top-3.5 text-sm text-gray-400" />
+        <FaSearch
+          className="absolute top-3.5 text-sm text-gray-400 cursor-pointer"
+          onClick={searchMovies}
+        />
         <input
           type="text"
           placeholder="Search Movies..."
+          enterkeyhint="search"
           className="w-full ml-5 placeholder:text-gray-400 placeholder:text-sm font-inter font-medium text-primary outline-0"
           onKeyDown={searchMovies}
+          ref={ref}
         />
       </div>
 
@@ -44,11 +50,12 @@ const Navbar = () => {
         Sign In
       </span>
       <div className="w-full flex outline-1 outline-gray-300 rounded-xl items-center mt-2 p-1 bg-gray-100 md:hidden">
-        <FaSearch className="text-gray-400 text-sm " />
+        <FaSearch className="text-gray-400 text-sm " onClick={searchMovies} />
         <input
           type="text"
           placeholder="Search movies..."
           className="w-full ml-1 outline-0 placeholder:text-xs  font-inter font-medium text-primary text-sm"
+          enterkeyhint="search"
         />
       </div>
     </nav>
