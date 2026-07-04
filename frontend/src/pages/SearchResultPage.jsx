@@ -7,6 +7,7 @@ import SearchResultMovieCard from "../features/search/components/SearchResultMov
 import ErrorSign from "../assets/images/SearchResultErrorSign.png";
 import EmptySign from "../assets/images/reel.png";
 import SectionState from "../components/ui/SectionState";
+import Reel from "../assets/images/reel.svg?react";
 const SearchResults = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -22,7 +23,9 @@ const SearchResults = () => {
     isFetchingNextPage,
     isFetchNextPageError,
   } = useFetchSearchResults(name, page);
-
+  useEffect(() => {
+    if (!results) navigate("/");
+  }, [results]);
   const observerRef = useRef(null);
   const sentinelRef = useCallback(
     (node) => {
@@ -95,6 +98,7 @@ const SearchResults = () => {
       </div>
     );
 
+  if (!results) return null;
   let movies = results.pages.flatMap((page) => page.movies);
   const { total_results } = results.pages[0];
   const seen = {};
@@ -105,16 +109,17 @@ const SearchResults = () => {
       filteredMovies.push(m);
     }
   });
-  // if (Movies.length === 0)
-  //   return (
-  //     <div className="my-15">
-  //       <SectionState
-  //         imageSource={EmptySign}
-  //         message={`No results for "${name}"`}
-  //         description="Try checking your spelling or use less specific keywords."
-  //       />
-  //     </div>
-  //   );
+
+  if (filteredMovies.length === 0)
+    return (
+      <div className="my-15">
+        <SectionState
+          imageSource={EmptySign}
+          message={`No results for "${name}"`}
+          description="Try checking your spelling or use less specific keywords."
+        />
+      </div>
+    );
 
   return (
     <div className="flex flex-col gap-2 justify-evenly px-40 py-5 bg-gray-100">
@@ -124,14 +129,16 @@ const SearchResults = () => {
       <span className="text-gray-500">
         {total_results} {total_results > 1 ? "results" : "result"} found
       </span>
-      {movies.map((movie, i) => (
+      {filteredMovies.map((movie, i) => (
         <SearchResultMovieCard
           movie={movie}
           key={movie.id}
           ref={i === movies.length - 3 ? sentinelRef : null}
         />
       ))}
-      {isFetchingNextPage && <div>Loading.....</div>}
+      {isFetchingNextPage && (
+        <Reel className="size-15 animate-spin  self-center" />
+      )}
     </div>
   );
 };
