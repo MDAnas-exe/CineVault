@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { useNavigate, NavLink, Link } from "react-router-dom";
+import React, { useRef, useEffect } from "react";
+import { useNavigate, NavLink, Link, useSearchParams } from "react-router-dom";
 import { FaSearch, FaRegBookmark } from "react-icons/fa";
 import { PiFilmReelFill } from "react-icons/pi";
 import { FaClockRotateLeft } from "react-icons/fa6";
@@ -7,10 +7,16 @@ import { MdOutlinePersonOutline } from "react-icons/md";
 const Navbar = () => {
   const navigate = useNavigate();
   const ref = useRef(null);
+  const [searchParams] = useSearchParams();
+  useEffect(() => {
+    if (searchParams.has("name")) ref.current.value = searchParams.get("name");
+    else ref.current.value = "";
+  }, [searchParams]);
   const searchMovies = (e) => {
     if (e.key === "Enter" || e.type === "click") {
       if (!ref.current.value.trim()) {
         navigate("/");
+        console.log("i was fired");
         return;
       }
       const encodedMovieName = encodeURIComponent(ref.current.value.trim());
@@ -38,7 +44,7 @@ const Navbar = () => {
         <input
           type="text"
           placeholder="Search Movies..."
-          enterkeyhint="search"
+          enterKeyHint="search"
           className="w-full ml-5 placeholder:text-gray-400 placeholder:text-sm font-inter font-medium text-primary outline-0"
           onKeyDown={searchMovies}
           ref={ref}
@@ -55,7 +61,7 @@ const Navbar = () => {
           type="text"
           placeholder="Search movies..."
           className="w-full ml-1 outline-0 placeholder:text-xs  font-inter font-medium text-primary text-sm"
-          enterkeyhint="search"
+          enterKeyHint="search"
         />
       </div>
     </nav>

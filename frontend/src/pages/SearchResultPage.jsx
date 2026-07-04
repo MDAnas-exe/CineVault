@@ -35,7 +35,7 @@ const SearchResults = () => {
           (entries) => {
             if (entries[0].isIntersecting && hasNextPage) fetchNextPage();
           },
-          { threshold: 1 },
+          { threshold: 1, rootMargin: "200px" },
         );
         observerRef.current.observe(node);
       }
@@ -85,7 +85,7 @@ const SearchResults = () => {
     );
   }
 
-  if (isError)
+  if (isError) {
     return (
       <div className="my-15">
         <SectionState
@@ -97,6 +97,7 @@ const SearchResults = () => {
         />
       </div>
     );
+  }
 
   if (!results) return null;
   let movies = results.pages.flatMap((page) => page.movies);
@@ -110,7 +111,7 @@ const SearchResults = () => {
     }
   });
 
-  if (filteredMovies.length === 0)
+  if (filteredMovies.length === 0) {
     return (
       <div className="my-15">
         <SectionState
@@ -120,6 +121,7 @@ const SearchResults = () => {
         />
       </div>
     );
+  }
 
   return (
     <div className="flex flex-col gap-2 justify-evenly px-40 py-5 bg-gray-100">
