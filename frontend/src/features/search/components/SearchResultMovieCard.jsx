@@ -7,9 +7,11 @@ import {
   FaRegHeart,
   FaRegEye,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { MdTrendingUp } from "react-icons/md";
 import MovieActionButton from "../../../components/ui/MovieActionButton";
 const SearchResultMovieCard = ({ movie, ref }) => {
+  const navigate = useNavigate();
   const iconMap = {
     FaRegHeart,
     FaRegBookmark,
@@ -41,6 +43,9 @@ const SearchResultMovieCard = ({ movie, ref }) => {
     <div
       className="flex gap-2 sm:gap-6 p-2 sm:p-4 lg:p-6 rounded-2xl bg-white  font-inter border border-gray-200/60 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer sm:flex-row  sm:w-full  "
       ref={ref}
+      // onClick={() => {
+      //   navigate(`/movie/${movie.id}`);
+      // }}
     >
       <img
         src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}

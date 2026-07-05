@@ -7,6 +7,7 @@ import { MdOutlinePersonOutline } from "react-icons/md";
 const Navbar = () => {
   const navigate = useNavigate();
   const ref = useRef(null);
+  const ref2 = useRef(null);
   const [searchParams] = useSearchParams();
   useEffect(() => {
     if (searchParams.has("name")) ref.current.value = searchParams.get("name");
@@ -14,12 +15,14 @@ const Navbar = () => {
   }, [searchParams]);
   const searchMovies = (e) => {
     if (e.key === "Enter" || e.type === "click") {
-      if (!ref.current.value.trim()) {
+      if (!ref.current.value.trim() && !ref2.current.value.trim()) {
         navigate("/");
-        console.log("i was fired");
+
         return;
       }
-      const encodedMovieName = encodeURIComponent(ref.current.value.trim());
+      const encodedMovieName = encodeURIComponent(
+        ref.current.value.trim() || ref2.current.value.trim(),
+      );
       navigate(`/search?name=${encodedMovieName}`);
     }
   };
@@ -62,7 +65,8 @@ const Navbar = () => {
           placeholder="Search movies..."
           className="w-full ml-1 outline-0 placeholder:text-xs  font-inter font-medium text-primary text-sm"
           enterKeyHint="search"
-          ref={ref}
+          ref={ref2}
+          onKeyDown={searchMovies}
         />
       </div>
     </nav>

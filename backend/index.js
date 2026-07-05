@@ -107,6 +107,6 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) =>
   res.status(err.status || 500).json({ message: err.message }),
 );
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`Backend server is running on http://localhost:${port}`);
 });
