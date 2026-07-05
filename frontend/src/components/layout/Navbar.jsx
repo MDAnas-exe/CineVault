@@ -62,6 +62,7 @@ const Navbar = () => {
           placeholder="Search movies..."
           className="w-full ml-1 outline-0 placeholder:text-xs  font-inter font-medium text-primary text-sm"
           enterKeyHint="search"
+          ref={ref}
         />
       </div>
     </nav>

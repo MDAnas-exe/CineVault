@@ -8,19 +8,25 @@ const SectionState = ({
 }) => {
   return (
     <div className="flex  flex-col items-center justify-center  gap-1.5 md:gap-3 md:px-4 text-center">
-      <img
-        src={imageSource}
-        alt={message}
-        className="h-30 md:w-1/5 w-full min-w-30 object-contain"
-      />
+      {imageSource && (
+        <img
+          src={imageSource}
+          alt={message}
+          className="h-30 md:w-1/5 w-full min-w-30 object-contain"
+        />
+      )}
 
-      <p className="font-poppins text-md font-bold text-primary md:text-3xl">
-        {message}
-      </p>
+      {message && (
+        <p className="font-poppins text-md font-bold text-primary md:text-3xl">
+          {message}
+        </p>
+      )}
 
-      <p className=" font-inter text-sm text-secondary md:text-xl">
-        {description}
-      </p>
+      {description && (
+        <p className=" font-inter text-sm text-secondary md:text-xl">
+          {description}
+        </p>
+      )}
 
       {buttonText && (
         <button
