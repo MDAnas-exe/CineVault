@@ -8,7 +8,7 @@ import ErrorSign from "../assets/images/SearchResultErrorSign.png";
 import EmptySign from "../assets/images/reel.png";
 import SectionState from "../components/ui/SectionState";
 import Reel from "../assets/images/reel.svg?react";
-import { IoReload } from "react-icons/io5";
+
 const SearchResults = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -27,7 +27,7 @@ const SearchResults = () => {
 
   useEffect(() => {
     if (!isLoading && !results) navigate("/");
-  }, [results]);
+  }, [results, isLoading, navigate]);
 
   const observerRef = useRef(null);
   const sentinelRef = useCallback(
@@ -36,46 +36,53 @@ const SearchResults = () => {
       if (node) {
         observerRef.current = new IntersectionObserver(
           (entries) => {
-            if (entries[0].isIntersecting && hasNextPage);
+            if (entries[0].isIntersecting && hasNextPage) fetchNextPage();
           },
-          { threshold: 1, rootMargin: "200px" },
+          { threshold: 0 },
         );
         observerRef.current.observe(node);
       }
     },
-    [hasNextPage],
+    [hasNextPage, fetchNextPage],
   );
 
   if (isLoading) {
     return (
-      <div className="flex flex-col gap-2 justify-evenly px-40 py-5 bg-gray-100">
+      <div className="flex flex-col gap-2 justify-evenly px-4 sm:px-20 lg:px-40 py-5 bg-gray-100">
         <Skeleton width="30%" height={30} />
         <Skeleton width="15%" height={20} />
         {Array.from({ length: 3 }).map((_, index) => (
           <div
-            className="flex gap-6 p-6 rounded-2xl bg-white border border-gray-200/60 shadow-sm"
+            className="flex gap-2 sm:gap-6 p-2 sm:p-4 lg:p-6 rounded-2xl bg-white border border-gray-200/60 shadow-sm"
             key={index}
           >
-            <div className="w-37.5 h-50">
+            <div className="h-40 w-25 sm:w-30 sm:h-40 lg:w-37.5 lg:h-50 shrink-0">
               <Skeleton height="100%" width="100%" borderRadius="0.75rem" />
             </div>
-            <div className="flex flex-col justify-between w-full">
-              <div className="flex items-center gap-4">
-                <Skeleton width={260} height={32} />
-                <Skeleton width={70} height={24} />
-                <Skeleton width={50} height={20} />
+            <div className="flex flex-col justify-between w-full gap-2 sm:gap-0">
+              <div className="flex items-center justify-between">
+                <div className="w-2/3 lg:w-2/5">
+                  <Skeleton height={28} />
+                </div>
+                <div className="flex flex-col sm:flex-row items-center sm:gap-2">
+                  <Skeleton width={50} height={20} />
+                  <div className="hidden sm:block">
+                    <Skeleton width={70} height={20} />
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Skeleton width={90} height={16} />
-                <Skeleton width={70} height={16} />
+              <div className="w-2/5 sm:w-1/3">
+                <Skeleton height={16} />
               </div>
-              <div className="w-125">
+              <div className="w-full lg:w-125">
                 <Skeleton count={2} />
               </div>
               <hr className="border-gray-200" />
               <div className="flex justify-between items-center">
-                <Skeleton width={140} height={22} />
-                <div className="flex items-center gap-3">
+                <div className="hidden sm:block w-1/3">
+                  <Skeleton height={22} />
+                </div>
+                <div className="flex items-center w-full sm:w-auto sm:gap-3 justify-around">
                   <Skeleton circle width={28} height={28} />
                   <Skeleton circle width={28} height={28} />
                   <Skeleton circle width={28} height={28} />
@@ -90,7 +97,7 @@ const SearchResults = () => {
 
   if (isError) {
     return (
-      <div className="my-15">
+      <div className="my-5 md:my-15">
         <SectionState
           imageSource={ErrorSign}
           buttonText="Retry"
