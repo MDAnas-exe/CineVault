@@ -193,9 +193,9 @@ const HeroSection = () => {
     <div className="relative w-full h-full min-h-[70vh] font-inter">
       <div className="absolute inset-0">
         <img
-          src={`https://image.tmdb.org/t/p/original${backdrop_path}`}
+          src={`https://image.tmdb.org/t/p/original${backdrop_path || poster_path}`}
           alt={title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-linear-to-r from-black/90 via-black/70 to-black/40" />
         <div className="absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-transparent" />
@@ -203,7 +203,7 @@ const HeroSection = () => {
 
       <div className="relative z-10 flex gap-10 p-10 items-start">
         <img
-          src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+          src={`https://image.tmdb.org/t/p/w500${poster_path || backdrop_path}`}
           alt={title}
           className="w-64 rounded-xl shadow-lg shrink-0"
         />
