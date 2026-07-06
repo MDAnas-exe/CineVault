@@ -97,7 +97,26 @@ app.get("/movie/:id", async (req, res, next) => {
     if (response.ok) cache.set(`movieDetails${id}`, result);
     res.status(response.status).json(result);
   } catch (error) {
-    next(new Error("Failed to fetch Movie Details Page"));
+    next(new Error("Failed to fetch Movie Details"));
+  }
+});
+
+app.get("/movie/:id/credits", async (req, res, next) => {
+  try {
+    let { language = "en-US" } = req.query;
+    let { id } = req.params;
+    const cached = cache.get(`movieDetailsCredits${id}`);
+    if (cached) return res.json(cached);
+
+    let response = await fetch(
+      `https://api.themoviedb.org/3/movie/${id}/credits`,
+      options,
+    );
+    let result = await response.json();
+    if (response.ok) cache.set(`movieDetailsCredits${id}`, result);
+    res.status(response.status).json(result);
+  } catch (error) {
+    next(new Error("Failed to fetch Movie Credits"));
   }
 });
 

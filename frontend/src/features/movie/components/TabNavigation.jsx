@@ -7,6 +7,7 @@ import {
 } from "react-icons/hi2";
 import { useState } from "react";
 import Overview from "./Overview";
+import Cast from "./Cast";
 export default function TabNavigation() {
   const tabs = [
     { key: "overview", label: "Overview", icon: HiOutlineDocumentText },
@@ -57,7 +58,7 @@ export default function TabNavigation() {
         ))}
       </nav>
       {active.overview && <Overview />}
-      {active.cast && <div>cast</div>}
+      {active.cast && <Cast />}
       {active.crew && <div>crew</div>}
       {active.reviews && <div>reviews</div>}
       {active.releaseinfo && <div>releaseinfo</div>}

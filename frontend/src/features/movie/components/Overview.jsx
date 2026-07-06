@@ -73,7 +73,7 @@ export default function Overview() {
     );
   }
 
-  if (true) {
+  if (isError) {
     return (
       <section className="mx-auto mt-6 rounded-xl border border-gray-200 bg-white py-30 shadow-sm">
         <SectionState
