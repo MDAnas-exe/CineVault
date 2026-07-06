@@ -90,7 +90,7 @@ app.get("/movie/:id", async (req, res, next) => {
     if (cached) return res.json(cached);
 
     let response = await fetch(
-      `https://api.themoviedb.org/3/movie/${id}?language=${language}&append_to_response=credits,videos,release_dates`,
+      `https://api.themoviedb.org/3/movie/${id}?append_to_response=videos`,
       options,
     );
     let result = await response.json();

@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./App.jsx";
 import Home from "./pages/Home.jsx";
 import SearchResults from "./pages/SearchResultPage.jsx";
-import MovieDetails from "./features/movie/pages/MovieDetails.jsx";
+import MovieDetails from "./pages/MovieDetailsPage.jsx";
 
 const queryClient = new QueryClient();
 

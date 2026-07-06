@@ -10,7 +10,7 @@ export default function useFetchSearchResults(name, page) {
     isFetchingNextPage,
     isFetchNextPageError,
   } = useInfiniteQuery({
-    queryKey: [name],
+    queryKey: ["search-movies", name],
     queryFn: async ({ pageParam }) => {
       const res = await fetch(
         `http://localhost:3000/movies/search?name=${name}&page=${pageParam}`,
@@ -26,6 +26,7 @@ export default function useFetchSearchResults(name, page) {
       return { movies: results, ...rest };
     },
     enabled: !!name,
+    staleTime: 15 * 60 * 1000,
     initialPageParam: page,
     getNextPageParam: (lastPage, allPages) =>
       lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,

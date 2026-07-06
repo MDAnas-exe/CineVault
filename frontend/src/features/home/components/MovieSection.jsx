@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import Skeleton from "react-loading-skeleton";
 import useFetchMoviesByCategory from "../hooks/useFetchMoviesByCategory";
 import "react-loading-skeleton/dist/skeleton.css";
-import HomeMovieCard from "./HomeMovieCard";
+import HomeMovieCard from "./MovieCard";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import emptySign from "../../../assets/images/reel.png";
 import errorSign from "../../../assets/images/errorSign.png";
