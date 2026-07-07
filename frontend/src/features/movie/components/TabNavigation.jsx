@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   HiOutlineDocumentText,
   HiOutlineUsers,
@@ -5,51 +7,56 @@ import {
   HiOutlineChatBubbleLeftRight,
   HiOutlineCalendarDays,
 } from "react-icons/hi2";
-import { useState } from "react";
+
 import Overview from "./Overview";
 import Cast from "./Cast";
-export default function TabNavigation() {
+import Crew from "./Crew";
+import Reviews from "./Reviews";
+import ReleaseInfo from "./ReleaseInfo";
+
+const MovieTabs = () => {
+  const { id } = useParams();
+  console.log(id);
   const tabs = [
     { key: "overview", label: "Overview", icon: HiOutlineDocumentText },
     { key: "cast", label: "Cast", icon: HiOutlineUsers },
     { key: "crew", label: "Crew", icon: HiOutlineBriefcase },
-    { key: "reviews", label: "Reviews", icon: HiOutlineChatBubbleLeftRight },
-    { key: "releaseinfo", label: "Release Info", icon: HiOutlineCalendarDays },
+    {
+      key: "reviews",
+      label: "Reviews",
+      icon: HiOutlineChatBubbleLeftRight,
+    },
+    {
+      key: "releaseinfo",
+      label: "Release Info",
+      icon: HiOutlineCalendarDays,
+    },
   ];
-  const [active, setActive] = useState({
-    overview: true,
-    cast: false,
-    crew: false,
-    reviews: false,
-    releaseinfo: false,
-  });
-  const setActiveTab = (key) => {
-    if (active[key] === true) return;
 
-    setActive((prev) => ({
-      overview: false,
-      cast: false,
-      crew: false,
-      reviews: false,
-      releaseinfo: false,
+  const [activeTab, setActiveTab] = useState("overview");
 
-      [key]: true,
-    }));
+  const tabContent = {
+    overview: <Overview />,
+    cast: <Cast />,
+    crew: <Crew />,
+    reviews: <Reviews />,
+    releaseinfo: <ReleaseInfo />,
   };
 
   return (
     <div>
-      <nav className="flex rounded-xl bg-white shadow-md px-2">
+      <nav className="flex rounded-xl bg-white px-2 shadow-md">
         {tabs.map(({ key, label, icon: Icon }) => (
           <button
             key={key}
             onClick={() => {
               setActiveTab(key);
+              window.history.replaceState(null, "", `/movie/${id}/${key}`);
             }}
-            className={`flex flex-1 items-center justify-center gap-2 py-4 text-sm font-medium transition-colors cursor-pointer duration-300 hover:text-accent border-b-2  ${
-              active[key]
-                ? " border-accent text-accent"
-                : "text-gray-700 border-white"
+            className={`flex flex-1 cursor-pointer items-center justify-center gap-2 border-b-2 py-4 text-sm font-medium transition-colors duration-300 hover:text-accent ${
+              activeTab === key
+                ? "border-accent text-accent"
+                : "border-white text-gray-700"
             }`}
           >
             <Icon className="text-lg" />
@@ -57,11 +64,10 @@ export default function TabNavigation() {
           </button>
         ))}
       </nav>
-      {active.overview && <Overview />}
-      {active.cast && <Cast />}
-      {active.crew && <div>crew</div>}
-      {active.reviews && <div>reviews</div>}
-      {active.releaseinfo && <div>releaseinfo</div>}
+
+      <div>{tabContent[activeTab]}</div>
     </div>
   );
-}
+};
+
+export default MovieTabs;
