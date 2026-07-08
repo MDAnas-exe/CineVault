@@ -59,7 +59,7 @@ const ReleaseInfoSection = ({ section }) => {
 
       <div
         className={`overflow-hidden transition-all duration-300 ${
-          isOpen ? "max-h-500 opacity-100" : "max-h-0 opacity-0"
+          isOpen ? "max-h-1000 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <table className="w-full ">

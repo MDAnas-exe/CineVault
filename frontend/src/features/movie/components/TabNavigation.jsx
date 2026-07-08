@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   HiOutlineDocumentText,
   HiOutlineUsers,
@@ -15,8 +14,8 @@ import Reviews from "./Reviews";
 import ReleaseInfo from "./ReleaseInfo";
 
 const MovieTabs = () => {
-  const { id } = useParams();
-
+  const { id, tab } = useParams();
+  const navigate = useNavigate();
   const tabs = [
     { key: "overview", label: "Overview", icon: HiOutlineDocumentText },
     { key: "cast", label: "Cast", icon: HiOutlineUsers },
@@ -33,7 +32,7 @@ const MovieTabs = () => {
     },
   ];
 
-  const [activeTab, setActiveTab] = useState("overview");
+  const activeTab = tab || "overview";
 
   const tabContent = {
     overview: <Overview />,
@@ -50,8 +49,7 @@ const MovieTabs = () => {
           <button
             key={key}
             onClick={() => {
-              setActiveTab(key);
-              window.history.replaceState(null, "", `/movie/${id}/${key}`);
+              navigate(`/movie/${id}/${key}`);
             }}
             className={`flex flex-1 cursor-pointer items-center justify-center gap-2 border-b-2 py-4 text-sm font-medium transition-colors duration-300 hover:text-accent ${
               activeTab === key
