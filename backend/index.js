@@ -120,6 +120,25 @@ app.get("/movie/:id/credits", async (req, res, next) => {
   }
 });
 
+app.get("/movie/:id/releaseinfo", async (req, res, next) => {
+  try {
+    let { language = "en-US" } = req.query;
+    let { id } = req.params;
+    const cached = cache.get(`movieRealeaseInfo${id}`);
+    if (cached) return res.json(cached);
+
+    let response = await fetch(
+      `https://api.themoviedb.org/3/movie/${id}/release_dates`,
+      options,
+    );
+    let result = await response.json();
+    if (response.ok) cache.set(`movieRealeaseInfo${id}`, result);
+    res.status(response.status).json(result);
+  } catch (error) {
+    next(new Error("Failed to fetch Movie Release Info"));
+  }
+});
+
 app.use((req, res, next) => {
   res.status(404).json({ message: "Route not found" });
 });

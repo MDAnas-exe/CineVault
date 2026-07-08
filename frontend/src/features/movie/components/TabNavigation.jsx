@@ -16,7 +16,7 @@ import ReleaseInfo from "./ReleaseInfo";
 
 const MovieTabs = () => {
   const { id } = useParams();
-  console.log(id);
+
   const tabs = [
     { key: "overview", label: "Overview", icon: HiOutlineDocumentText },
     { key: "cast", label: "Cast", icon: HiOutlineUsers },
