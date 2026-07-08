@@ -5,4 +5,5 @@
   --font-inter: "Inter", sans-serif;
   --color-primary: #111827;
   --color-accent: #d4a017;
+  --breakpoint-xs: 375px;
 }

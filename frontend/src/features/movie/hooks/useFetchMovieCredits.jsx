@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function useFetchMovieCredits(id, type) {
   const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: ["movie-credits", id],
+    queryKey: ["movie-credits", id, type],
 
     queryFn: async () => {
       const res = await fetch(`http://localhost:3000/movie/${id}/credits`);

@@ -6,7 +6,7 @@ const MovieDetailsPage = () => {
   return (
     <div>
       <HeroSection />
-      <div className="relative -top-4 w-[90%] mx-auto">
+      <div className="relative md:-top-4 top-2 md:w-[90%] w-[95%] mx-auto">
         <TabNavigation />
       </div>
     </div>

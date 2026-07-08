@@ -14,6 +14,34 @@ import { useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import SectionState from "../../../components/ui/SectionState";
+
+const InfoCard = ({
+  icon: Icon,
+  title,
+  children,
+  className = "",
+  horizontal = false,
+}) => (
+  <div
+    className={`rounded-xl border border-gray-200 bg-white md:p-5 p-1 shadow-sm ${className}`}
+  >
+    <div
+      className={`flex items-center gap-1 md:gap-3${horizontal ? "mb-4 " : "mb-3 "}`}
+    >
+      <Icon className="md:text-2xl text-accent" />
+      <h3 className="font-poppins font-semibold text-primary">{title}</h3>
+    </div>
+
+    <div
+      className={`font-inter text-secondary md:text-base text-sm ${
+        horizontal ? "flex flex-wrap items-center gap-4 md:gap-8" : ""
+      }`}
+    >
+      {children}
+    </div>
+  </div>
+);
+
 export default function Details() {
   const { id } = useParams();
 
@@ -65,7 +93,7 @@ export default function Details() {
 
   if (isError) {
     return (
-      <section className="mx-auto mt-6 rounded-xl border border-gray-200 bg-white py-30 shadow-sm">
+      <section className="mx-auto mt-6 rounded-xl border border-gray-200 bg-white py-15 md:py-30 shadow-sm">
         <SectionState
           message="Couldn't load overview"
           description="We couldn't retrieve the movie information. Please try again."
@@ -111,103 +139,59 @@ export default function Details() {
     production_countries?.map((c) => c.name).join(", ") || "N/A";
 
   return (
-    <section className=" mt-6 flex  gap-6">
+    <section className="mt-6 flex gap-6">
       <div className="grid flex-1 grid-cols-2 gap-4">
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <div className="mb-3 flex items-center gap-3">
-            <FaCalendarAlt className="text-2xl text-accent" />
-            <h3 className="font-poppins font-semibold text-primary">
-              Release Date
-            </h3>
-          </div>
+        <InfoCard icon={FaCalendarAlt} title="Release Date">
+          {formattedDate}
+        </InfoCard>
 
-          <p className="font-inter text-secondary">{formattedDate}</p>
-        </div>
+        <InfoCard icon={FaCoins} title="Budget">
+          {formattedBudget}
+        </InfoCard>
 
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <div className="mb-3 flex items-center gap-3">
-            <FaCoins className="text-2xl text-accent" />
-            <h3 className="font-poppins font-semibold text-primary">Budget</h3>
-          </div>
+        <InfoCard icon={FaGlobe} title="Original Language">
+          {language}
+        </InfoCard>
 
-          <p className="font-inter text-secondary">{formattedBudget}</p>
-        </div>
+        <InfoCard icon={FaChartLine} title="Revenue">
+          {formattedRevenue}
+        </InfoCard>
 
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <div className="mb-3 flex items-center gap-3">
-            <FaGlobe className="text-2xl text-accent" />
-            <h3 className="font-poppins font-semibold text-primary">
-              Original Language
-            </h3>
-          </div>
+        <InfoCard icon={FaInfoCircle} title="Status">
+          {status || "N/A"}
+        </InfoCard>
 
-          <p className="font-inter text-secondary">{language}</p>
-        </div>
+        <InfoCard icon={FaFlag} title="Production Countries">
+          {countries}
+        </InfoCard>
 
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <div className="mb-3 flex items-center gap-3">
-            <FaChartLine className="text-2xl text-accent" />
-            <h3 className="font-poppins font-semibold text-primary">Revenue</h3>
-          </div>
-
-          <p className="font-inter text-secondary">{formattedRevenue}</p>
-        </div>
-
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <div className="mb-3 flex items-center gap-3">
-            <FaInfoCircle className="text-2xl text-accent" />
-            <h3 className="font-poppins font-semibold text-primary">Status</h3>
-          </div>
-
-          <p className="font-inter text-secondary">{status || "N/A"}</p>
-        </div>
-
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <div className="mb-3 flex items-center gap-3">
-            <FaFlag className="text-2xl text-accent" />
-            <h3 className="font-poppins font-semibold text-primary">
-              Production Countries
-            </h3>
-          </div>
-
-          <p className="font-inter text-secondary">{countries}</p>
-        </div>
-
-        <div className="col-span-2 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <div className="mb-4 flex items-center gap-3">
-            <FaBuilding className="text-2xl text-accent" />
-            <h3 className="font-poppins font-semibold text-primary">
-              Production Companies
-            </h3>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-8">
-            {production_companies?.length ? (
-              production_companies.map((company) => (
-                <div
-                  key={company.id}
-                  className="flex flex-col items-center gap-2"
-                >
-                  {company.logo_path ? (
-                    <img
-                      src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
-                      alt={company.name}
-                      className="h-10 object-contain"
-                    />
-                  ) : (
-                    <p className="font-inter text-sm text-secondary">
-                      {company.name}
-                    </p>
-                  )}
-                </div>
-              ))
-            ) : (
-              <p className="font-inter text-secondary">
-                No production companies available.
-              </p>
-            )}
-          </div>
-        </div>
+        <InfoCard
+          icon={FaBuilding}
+          title="Production Companies"
+          className="col-span-2"
+          horizontal
+        >
+          {production_companies?.length ? (
+            production_companies.map((company) => (
+              <div
+                key={company.id}
+                className="flex flex-col items-center gap-2"
+              >
+                {company.logo_path ? (
+                  <img
+                    src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
+                    alt={company.name}
+                    className="h-10 object-contain"
+                  />
+                ) : (
+                  <p className="text-sm">{company.name}</p>
+                )}
+              </div>
+            ))
+          ) : (
+            <p>No production companies available.</p>
+          )}
+        </InfoCard>
 
         {(imdb_id || homepage) && (
           <div className="col-span-2 flex gap-4">
@@ -216,7 +200,7 @@ export default function Details() {
                 href={`https://www.imdb.com/title/${imdb_id}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white p-4 font-inter text-secondary shadow-sm hover:bg-gray-50"
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl p-2 border border-gray-200 bg-white md:p-4 font-inter text-secondary shadow-sm hover:bg-gray-50 md:text-base text-xs"
               >
                 <FaImdb className="text-2xl text-accent" />
                 View on IMDb
@@ -228,7 +212,7 @@ export default function Details() {
                 href={homepage}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white p-4 font-inter text-secondary shadow-sm hover:bg-gray-50"
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl p-2 border border-gray-200 bg-white md:p-4 font-inter text-secondary shadow-sm hover:bg-gray-50 md:text-base text-xs"
               >
                 <FaLink className="text-2xl text-accent" />
                 Official Site

@@ -12,7 +12,7 @@ import useFetchMovieCredits from "../hooks/useFetchMovieCredits";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import SectionState from "../../../components/ui/SectionState";
-
+import CrewDepartment from "./CrewDepartment";
 export default function Crew() {
   const { id } = useParams();
 
@@ -57,29 +57,43 @@ export default function Crew() {
   if (isLoading) {
     return (
       <section className="mt-8">
-        <Skeleton width={170} height={48} className="mb-10" />
+        <div className="w-30 h-8 mb-5 md:mb-10 md:h-12 md:w-44">
+          <Skeleton width="100%" height="100%" />
+        </div>
 
-        <div className="space-y-12">
+        <div className="md:space-y-12 space-y-6">
           {Array.from({ length: 5 }).map((_, sectionIndex) => (
             <div key={sectionIndex}>
               <div className="mb-5 flex items-center gap-3">
-                <Skeleton circle width={28} height={28} />
-                <Skeleton width={180} height={32} />
+                <div className="h-7 w-7">
+                  <Skeleton circle width="100%" height="100%" />
+                </div>
+
+                <div className="h-5 w-30 md:h-8 md:w-44">
+                  <Skeleton width="100%" height="100%" />
+                </div>
               </div>
 
               <Skeleton height={1} className="mb-6" />
 
-              <div className="grid grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {Array.from({ length: 3 }).map((_, cardIndex) => (
                   <div
                     key={cardIndex}
                     className="flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
                   >
-                    <Skeleton circle width={48} height={48} />
+                    <div className="md:size-12 size-6 self-start">
+                      <Skeleton circle width="100%" height="100%" />
+                    </div>
 
                     <div className="flex-1">
-                      <Skeleton width="70%" height={22} />
-                      <Skeleton width="50%" height={16} className="mt-2" />
+                      <div className="h-5.5 w-[70%]">
+                        <Skeleton width="100%" height="100%" />
+                      </div>
+
+                      <div className="mt-2 h-4 w-1/2">
+                        <Skeleton width="100%" height="100%" />
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -123,58 +137,20 @@ export default function Crew() {
   }
 
   return (
-    <section className="mt-8">
-      <h2 className="mb-10 font-poppins text-5xl font-bold text-primary">
+    <section className="md:mt-8 mt-4">
+      <h2 className="mb-5 md:mb-10 font-poppins md:text-5xl text-3xl font-bold text-primary">
         Crew
       </h2>
 
-      <div className="space-y-12">
-        {groupedCrew.map((department) => {
-          const Icon = department.icon;
-
-          return (
-            <div key={department.name}>
-              <div className="mb-5 flex items-center gap-3">
-                <Icon className="text-2xl text-accent" />
-
-                <h3 className="font-poppins text-3xl font-semibold text-primary">
-                  {department.name}
-                </h3>
-              </div>
-
-              <div className="mb-6 h-px bg-gray-200" />
-
-              <div className="grid grid-cols-3 gap-6">
-                {department.members.map((member) => (
-                  <div
-                    key={member.credit_id}
-                    className="flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
-                  >
-                    {member.profile_path ? (
-                      <img
-                        src={`https://image.tmdb.org/t/p/w185${member.profile_path}`}
-                        alt={member.name}
-                        className="h-12 w-12 rounded-full object-cover"
-                      />
-                    ) : (
-                      <FaUserCircle className="h-12 w-12 text-gray-300" />
-                    )}
-
-                    <div className="min-w-0">
-                      <h4 className="truncate font-poppins text-lg font-semibold text-primary">
-                        {member.name}
-                      </h4>
-
-                      <p className="truncate font-inter text-sm text-secondary">
-                        {member.job}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          );
-        })}
+      <div className="space-y-6 md:space-y-12">
+        {groupedCrew.map((department) => (
+          <CrewDepartment
+            key={department.name}
+            title={department.name}
+            icon={department.icon}
+            members={department.members}
+          />
+        ))}
       </div>
     </section>
   );

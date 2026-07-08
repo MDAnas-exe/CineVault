@@ -11,7 +11,7 @@ import {
   FaGlobe,
 } from "react-icons/fa";
 import useFetchMovieDetails from "../hooks/useFetchMovieDetails";
-import Skeleton from "react-loading-skeleton";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import SectionState from "../../../components/ui/SectionState";
 import errorBg from "../../../assets/images/heroError.png";
@@ -22,129 +22,88 @@ const HeroSection = () => {
 
   if (isLoading) {
     return (
-      <div className="relative min-h-[70vh] overflow-hidden bg-neutral-900 font-inter">
-        <div className="absolute inset-0 animate-pulse bg-neutral-800" />
-        <div className="absolute inset-0 bg-linear-to-r from-black/50 via-black/30 to-black/20" />
-        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
+      <SkeletonTheme baseColor="#52525b" highlightColor="#6b7280">
+        <div className="relative min-h-[70vh] w-full font-inter">
+          <div className="absolute inset-0">
+            <div className="h-full w-full animate-pulse bg-neutral-800" />
+            <div className="absolute inset-0 bg-linear-to-r from-black/90 via-black/70 to-black/40" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-transparent" />
+          </div>
 
-        <div className="relative z-10 flex items-start gap-10 p-10">
-          <Skeleton
-            width={256}
-            height={384}
-            className="shrink-0 rounded-xl"
-            baseColor="#52525b"
-            highlightColor="#6b7280"
-          />
-
-          <div className="flex w-full max-w-2xl flex-col gap-5 pt-4">
-            <Skeleton
-              width={420}
-              height={52}
-              baseColor="#52525b"
-              highlightColor="#6b7280"
-            />
-
-            <Skeleton
-              width={260}
-              height={24}
-              baseColor="#52525b"
-              highlightColor="#6b7280"
-            />
-
-            <div className="flex items-center gap-5">
-              <Skeleton
-                width={65}
-                height={28}
-                baseColor="#52525b"
-                highlightColor="#6b7280"
-              />
-              <Skeleton
-                width={90}
-                height={20}
-                baseColor="#52525b"
-                highlightColor="#6b7280"
-              />
-              <Skeleton
-                width={80}
-                height={20}
-                baseColor="#52525b"
-                highlightColor="#6b7280"
-              />
-              <Skeleton
-                width={90}
-                height={20}
-                baseColor="#52525b"
-                highlightColor="#6b7280"
-              />
+          <div className="relative z-10 flex md:flex-row flex-col items-start gap-10 p-10">
+            <div className="w-50 shrink-0 overflow-hidden rounded-xl lg:w-64 self-center">
+              <Skeleton className="aspect-2/3 h-full" />
             </div>
 
-            <div className="flex gap-2">
-              <Skeleton
-                width={80}
-                height={30}
-                borderRadius={999}
-                baseColor="#52525b"
-                highlightColor="#6b7280"
-              />
-              <Skeleton
-                width={95}
-                height={30}
-                borderRadius={999}
-                baseColor="#52525b"
-                highlightColor="#6b7280"
-              />
-              <Skeleton
-                width={75}
-                height={30}
-                borderRadius={999}
-                baseColor="#52525b"
-                highlightColor="#6b7280"
-              />
+            <div className="flex flex-col gap-2 text-white lg:gap-4 lg:pt-4 w-full md:w-7/12 lg:w-11/12">
+              <Skeleton className="h-12 w-full max-w-105" />
+
+              <Skeleton className="h-6 w-64" />
+
+              <div className="flex items-center gap-2 lg:gap-4">
+                <div className="w-16">
+                  <Skeleton className="h-7" />
+                </div>
+
+                <div className="w-24">
+                  <Skeleton className="h-5" />
+                </div>
+
+                <div className="w-20">
+                  <Skeleton className="h-5" />
+                </div>
+
+                <div className="w-24">
+                  <Skeleton className="h-5" />
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                <div className="w-20">
+                  <Skeleton className="h-8 rounded-full" />
+                </div>
+
+                <div className="w-24">
+                  <Skeleton className="h-8 rounded-full" />
+                </div>
+
+                <div className="w-20">
+                  <Skeleton className="h-8 rounded-full" />
+                </div>
+              </div>
+
+              <Skeleton count={2} />
+
+              <div className="mt-2 flex gap-3 text-xs lg:text-base">
+                <div className="w-44">
+                  <Skeleton className="h-11.5 rounded-lg" />
+                </div>
+
+                <div className="w-44">
+                  <Skeleton className="h-11.5 rounded-lg" />
+                </div>
+
+                <div className="w-28">
+                  <Skeleton className="h-11.5 rounded-lg" />
+                </div>
+              </div>
+
+              <div className="mt-1 flex gap-3 text-xs lg:text-base">
+                <div className="w-44">
+                  <Skeleton className="h-11.5 rounded-lg" />
+                </div>
+              </div>
             </div>
-
-            <Skeleton count={4} baseColor="#52525b" highlightColor="#6b7280" />
-
-            <div className="mt-3 flex gap-3">
-              <Skeleton
-                width={180}
-                height={46}
-                borderRadius={10}
-                baseColor="#52525b"
-                highlightColor="#6b7280"
-              />
-              <Skeleton
-                width={180}
-                height={46}
-                borderRadius={10}
-                baseColor="#52525b"
-                highlightColor="#6b7280"
-              />
-              <Skeleton
-                width={110}
-                height={46}
-                borderRadius={10}
-                baseColor="#52525b"
-                highlightColor="#6b7280"
-              />
-            </div>
-
-            <Skeleton
-              width={170}
-              height={46}
-              borderRadius={10}
-              baseColor="#52525b"
-              highlightColor="#6b7280"
-            />
           </div>
         </div>
-      </div>
+      </SkeletonTheme>
     );
   }
 
   if (isError) {
     return (
       <div
-        className="flex min-h-[70vh] items-center justify-center bg-center  bg-no-repeat"
+        className="flex h-100 lg:h-120 items-center justify-center bg-center md:bg-auto bg-cover bg-no-repeat"
         style={{ backgroundImage: `url(${errorBg})` }}
       >
         <SectionState
@@ -202,11 +161,11 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-transparent" />
       </div>
 
-      <div className="relative z-10 flex gap-10 p-10 items-start">
+      <div className="relative z-10 flex gap-5 md:gap-10 p-2 md:p-10 items-start md:flex-row flex-col">
         <img
           src={`https://image.tmdb.org/t/p/w500${poster_path || backdrop_path}`}
           alt={title}
-          className="w-50 lg:w-64 rounded-xl shadow-lg shrink-0 lg:self-auto self-end"
+          className="w-50 lg:w-64 rounded-xl shadow-lg shrink-0 lg:self-auto md:self-end self-center"
         />
 
         <div className="flex flex-col gap-2 lg:gap-4 text-white lg:pt-4">
@@ -228,7 +187,7 @@ const HeroSection = () => {
             <span className="text-white/40">•</span>
             <span>{formattedVoteCount}</span>
             <span className="text-white/40">|</span>
-            <div className="flex items-center gap-2">
+            <div className="hidden xs:flex items-center gap-2 ">
               <FaCalendarAlt />
               {releaseYear}
             </div>
@@ -237,8 +196,8 @@ const HeroSection = () => {
               <FaClock />
               {formattedRuntime}
             </div>
-            <span className="text-white/40">•</span>
-            <div className="flex items-center gap-2">
+            <span className="hidden xs:block text-white/40">•</span>
+            <div className="hidden xs:flex items-center gap-2">
               <FaGlobe />
               {language}
             </div>
@@ -260,11 +219,11 @@ const HeroSection = () => {
           </p>
 
           <div className="flex gap-3 mt-2 lg:text-base text-xs">
-            <button className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-primary font-semibold hover:brightness-110 transition-all duration-300 cursor-pointer">
+            <button className="flex items-center gap-2 px-1 md:px-5 md:py-2.5 rounded-lg bg-accent text-primary font-semibold hover:brightness-110 transition-all duration-300 cursor-pointer">
               <FaRegBookmark />
               Add to Watchlist
             </button>
-            <button className="flex items-center gap-2 px-5 py-2.5 rounded-lg border border-white/40 text-white font-medium hover:bg-white/10 transition-all duration-300 cursor-pointer">
+            <button className="flex items-center gap-2 px-1 md:px-5 md:py-2.5 rounded-lg border border-white/40 text-white font-medium hover:bg-white/10 transition-all duration-300 cursor-pointer">
               <FaCheck />
               Mark as Watched
             </button>
