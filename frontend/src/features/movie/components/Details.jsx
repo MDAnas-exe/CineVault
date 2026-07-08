@@ -4,60 +4,45 @@ import {
   FaChartLine,
   FaGlobe,
   FaBuilding,
+  FaInfoCircle,
+  FaFlag,
+  FaImdb,
+  FaLink,
 } from "react-icons/fa";
 import useFetchMovieDetails from "../hooks/useFetchMovieDetails";
 import { useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import SectionState from "../../../components/ui/SectionState";
-export default function Overview() {
+export default function Details() {
   const { id } = useParams();
 
   const { movie, isLoading, isError, refetch } = useFetchMovieDetails(id);
 
   if (isLoading) {
     return (
-      <section className=" mt-6 flex  items-start gap-6">
-        <div className="flex-1 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-          <Skeleton width={180} height={40} />
-
-          <div className="mt-8 space-y-4">
-            <Skeleton height={24} />
-            <Skeleton height={24} />
-            <Skeleton height={24} />
-            <Skeleton width="75%" height={24} />
-          </div>
-        </div>
-
-        <div className="flex-1">
-          <div className="grid grid-cols-2 gap-4">
-            {[...Array(4)].map((_, index) => (
-              <div
-                key={index}
-                className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
-              >
-                <div className="flex items-center gap-3">
-                  <Skeleton circle width={32} height={32} />
-
-                  <div className="flex-1">
-                    <Skeleton width="70%" height={22} />
-                  </div>
-                </div>
-
-                <div className="mt-5">
-                  <Skeleton width="60%" height={24} />
-                </div>
+      <section className="mt-6 flex gap-6">
+        <div className="grid flex-1 grid-cols-2 gap-4">
+          {[...Array(6)].map((_, index) => (
+            <div
+              key={index}
+              className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+            >
+              <div className="mb-3 flex items-center gap-3">
+                <Skeleton circle width={32} height={32} />
+                <Skeleton width="70%" height={22} />
               </div>
-            ))}
-          </div>
+              <Skeleton width="60%" height={24} />
+            </div>
+          ))}
 
-          <div className="mt-4 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <div className="flex items-center gap-3">
+          <div className="col-span-2 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <div className="mb-4 flex items-center gap-3">
               <Skeleton circle width={32} height={32} />
               <Skeleton width={220} height={24} />
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-8">
+            <div className="flex flex-wrap gap-8">
               {[...Array(4)].map((_, index) => (
                 <Skeleton
                   key={index}
@@ -67,6 +52,11 @@ export default function Overview() {
                 />
               ))}
             </div>
+          </div>
+
+          <div className="col-span-2 flex gap-4">
+            <Skeleton height={56} className="flex-1" borderRadius={12} />
+            <Skeleton height={56} className="flex-1" borderRadius={12} />
           </div>
         </div>
       </section>
@@ -94,6 +84,10 @@ export default function Overview() {
     spoken_languages,
     original_language,
     production_companies,
+    production_countries,
+    status,
+    imdb_id,
+    homepage,
   } = movie;
 
   const formattedDate = release_date
@@ -113,16 +107,11 @@ export default function Overview() {
   const language =
     spoken_languages?.[0]?.english_name || original_language || "N/A";
 
+  const countries =
+    production_countries?.map((c) => c.name).join(", ") || "N/A";
+
   return (
     <section className=" mt-6 flex  gap-6">
-      <div className="flex-1 h-fit rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-        <h2 className="mb-4 font-poppins text-2xl font-semibold text-primary">
-          Overview
-        </h2>
-
-        <p className="font-inter leading-8 text-secondary">{overview}</p>
-      </div>
-
       <div className="grid flex-1 grid-cols-2 gap-4">
         <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
           <div className="mb-3 flex items-center gap-3">
@@ -164,6 +153,26 @@ export default function Overview() {
           <p className="font-inter text-secondary">{formattedRevenue}</p>
         </div>
 
+        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+          <div className="mb-3 flex items-center gap-3">
+            <FaInfoCircle className="text-2xl text-accent" />
+            <h3 className="font-poppins font-semibold text-primary">Status</h3>
+          </div>
+
+          <p className="font-inter text-secondary">{status || "N/A"}</p>
+        </div>
+
+        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+          <div className="mb-3 flex items-center gap-3">
+            <FaFlag className="text-2xl text-accent" />
+            <h3 className="font-poppins font-semibold text-primary">
+              Production Countries
+            </h3>
+          </div>
+
+          <p className="font-inter text-secondary">{countries}</p>
+        </div>
+
         <div className="col-span-2 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
           <div className="mb-4 flex items-center gap-3">
             <FaBuilding className="text-2xl text-accent" />
@@ -199,6 +208,34 @@ export default function Overview() {
             )}
           </div>
         </div>
+
+        {(imdb_id || homepage) && (
+          <div className="col-span-2 flex gap-4">
+            {imdb_id && (
+              <a
+                href={`https://www.imdb.com/title/${imdb_id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white p-4 font-inter text-secondary shadow-sm hover:bg-gray-50"
+              >
+                <FaImdb className="text-2xl text-accent" />
+                View on IMDb
+              </a>
+            )}
+
+            {homepage && (
+              <a
+                href={homepage}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white p-4 font-inter text-secondary shadow-sm hover:bg-gray-50"
+              >
+                <FaLink className="text-2xl text-accent" />
+                Official Site
+              </a>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );

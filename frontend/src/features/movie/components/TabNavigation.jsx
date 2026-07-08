@@ -7,7 +7,7 @@ import {
   HiOutlineCalendarDays,
 } from "react-icons/hi2";
 
-import Overview from "./Overview";
+import Details from "./Details";
 import Cast from "./Cast";
 import Crew from "./Crew";
 import Reviews from "./Reviews";
@@ -17,7 +17,7 @@ const MovieTabs = () => {
   const { id, tab } = useParams();
   const navigate = useNavigate();
   const tabs = [
-    { key: "overview", label: "Overview", icon: HiOutlineDocumentText },
+    { key: "details", label: "Details", icon: HiOutlineDocumentText },
     { key: "cast", label: "Cast", icon: HiOutlineUsers },
     { key: "crew", label: "Crew", icon: HiOutlineBriefcase },
     {
@@ -35,7 +35,7 @@ const MovieTabs = () => {
   const activeTab = tab || "overview";
 
   const tabContent = {
-    overview: <Overview />,
+    details: <Details />,
     cast: <Cast />,
     crew: <Crew />,
     reviews: <Reviews />,

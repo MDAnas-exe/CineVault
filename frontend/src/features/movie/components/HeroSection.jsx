@@ -15,6 +15,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import SectionState from "../../../components/ui/SectionState";
 import errorBg from "../../../assets/images/heroError.png";
+
 const HeroSection = () => {
   const { id } = useParams();
   const { movie, isLoading, isError, refetch } = useFetchMovieDetails(id);
@@ -205,16 +206,22 @@ const HeroSection = () => {
         <img
           src={`https://image.tmdb.org/t/p/w500${poster_path || backdrop_path}`}
           alt={title}
-          className="w-64 rounded-xl shadow-lg shrink-0"
+          className="w-50 lg:w-64 rounded-xl shadow-lg shrink-0 lg:self-auto self-end"
         />
 
-        <div className="flex flex-col gap-4 text-white pt-4">
-          <h1 className="font-poppins font-bold text-5xl">{title}</h1>
+        <div className="flex flex-col gap-2 lg:gap-4 text-white lg:pt-4">
+          <h1 className="font-poppins font-bold text-4xl lg:text-5xl">
+            {title}
+          </h1>
 
-          {tagline && <p className="italic text-white/70 text-lg">{tagline}</p>}
+          {tagline && (
+            <p className="italic text-white/70 text-base lg:text-lg">
+              {tagline}
+            </p>
+          )}
 
-          <div className="flex items-center gap-4 text-white/80">
-            <div className="flex items-center gap-1 text-accent font-bold text-xl">
+          <div className="flex items-center gap-2 lg:gap-4 text-white/80">
+            <div className="flex items-center gap-1 text-accent font-bold text-base lg:text-xl">
               <FaStar />
               {vote_average ? vote_average.toFixed(1) : "N/A"}
             </div>
@@ -248,9 +255,11 @@ const HeroSection = () => {
             ))}
           </div>
 
-          <p className="text-white/80 line-clamp-4 max-w-2xl">{overview}</p>
+          <p className="text-white/80 line-clamp-4 text-sm max-w-2xl">
+            {overview}
+          </p>
 
-          <div className="flex gap-3 mt-2">
+          <div className="flex gap-3 mt-2 lg:text-base text-xs">
             <button className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-primary font-semibold hover:brightness-110 transition-all duration-300 cursor-pointer">
               <FaRegBookmark />
               Add to Watchlist
@@ -266,7 +275,7 @@ const HeroSection = () => {
           </div>
 
           {trailer && (
-            <div className="flex gap-3 mt-1">
+            <div className="flex gap-3 mt-1 lg:text-base text-xs">
               <a
                 href={`https://www.youtube.com/watch?v=${trailer.key}`}
                 target="_blank"
