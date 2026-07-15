@@ -70,7 +70,7 @@ export default function ReleaseInfo() {
                   <Skeleton
                     width={120}
                     height={24}
-                    className="md:w-[180px] md:h-8"
+                    className="md:w-45 md:h-8"
                   />
                   <Skeleton width={36} height={28} borderRadius={9999} />
                 </div>

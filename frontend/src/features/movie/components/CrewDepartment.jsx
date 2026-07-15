@@ -29,7 +29,7 @@ export default function CrewDepartment({ title, icon: Icon, members }) {
 
       <div
         className={`overflow-hidden transition-all duration-300 ${
-          expanded ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
+          expanded ? "max-h-500 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <div className="grid grid-cols-1 gap-6 pb-1 md:grid-cols-3">
