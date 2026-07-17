@@ -4,7 +4,7 @@ export default function useFetchMovieDetails(id) {
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["movie-details", id],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:3000/movie/${id}`);
+      const res = await fetch(`http://localhost:3000/movies/${id}`);
 
       if (!res.ok) throw new Error("Couldn't load movie details.");
 

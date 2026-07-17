@@ -5,7 +5,7 @@ export default function useFetchMovieCredits(id, type) {
     queryKey: ["movie-credits", id, type],
 
     queryFn: async () => {
-      const res = await fetch(`http://localhost:3000/movie/${id}/credits`);
+      const res = await fetch(`http://localhost:3000/movies/${id}/credits`);
 
       if (!res.ok) throw new Error("Couldn't load movie credits.");
 

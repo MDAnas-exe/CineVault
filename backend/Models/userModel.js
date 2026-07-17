@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema(
     password: { type: String, required: [true, "Please add password"] },
     email: { type: String, required: [true, "Please add email"], unique: true },
   },
-  { timestamp: true },
+  { timestamps: true },
 );
 
 export default mongoose.model("user", userSchema);
