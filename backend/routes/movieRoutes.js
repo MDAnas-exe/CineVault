@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import getMovies from "../Controllers/movieController.js";
+import getMovies from "../controllers/movieController.js";
 const router = express.Router();
 
 router.get("/trending", getMovies(`trending/movie/week`));

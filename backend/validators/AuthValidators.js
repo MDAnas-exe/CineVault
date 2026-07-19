@@ -14,7 +14,7 @@ const registerValidator = [
     .isLength({ max: 128, min: 8 })
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/),
   body("email").isEmail().normalizeEmail(),
-  body("name").trim().notEmpty().isLength({ max: 50 }),
+  body("name").trim().notEmpty().isLength({ max: 50 }).escape(),
 ];
 
 export { loginValidator, registerValidator };

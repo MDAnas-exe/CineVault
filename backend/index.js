@@ -3,10 +3,10 @@ import cors from "cors";
 import "dotenv/config";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
-import movieRouter from "../backend/Routes/moviesRoute.js";
-import usersRouter from "../backend/Routes/usersRouter.js";
-import connectDB from "./Config/db.js";
-import errorHandler from "./Middlewares/errorMiddleware.js";
+import movieRouter from "./routes/movieRoutes.js";
+import authRouter from "./routes/authRoutes.js";
+import connectDB from "./config/db.js";
+import errorHandler from "./middlewares/errorMiddleware.js";
 
 connectDB();
 const app = express();
@@ -28,7 +28,7 @@ app.get("/", (req, res, next) => {
   res.json({ message: "API endpoint is connected and working!" });
 });
 
-app.use(`/users`, usersRouter);
+app.use(`/auth`, authRouter);
 app.use(`/movies`, movieRouter);
 
 app.use((req, res, next) => {

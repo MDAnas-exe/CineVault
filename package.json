@@ -6,6 +6,7 @@
     "dev": "concurrently -n FE,BE -c blue,green \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\""
   },
   "dependencies": {
-    "express-validator": "^7.3.2"
+    "express-validator": "^7.3.2",
+    "nodemailer": "^9.0.3"
   }
 }
