@@ -16,7 +16,7 @@ const getMovies = (endpoint) => {
     const { page = 1, name, append_to_response = "" } = req.query || {};
     const url = typeof endpoint === "function" ? endpoint(req) : endpoint;
 
-    const cacheKey = req.originalUrl + page;
+    const cacheKey = req.originalUrl;
     const cached = cache.get(cacheKey);
     if (cached) return res.status(200).json(cached);
 

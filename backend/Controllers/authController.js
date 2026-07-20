@@ -24,14 +24,19 @@ const registerController = expressAsyncHandler(async (req, res) => {
   }
 
   const verificationToken = generateToken(user._id, "1d");
-  await sendMail(
-    email,
-    "Verify your CineVault Account",
-    `<h2>Welcome to CineVault</h2>
+  try {
+    await sendMail(
+      email,
+      "Verify your CineVault Account",
+      `<h2>Welcome to CineVault</h2>
      <p>Click the link below to verify your email address:</p>
      <a href="${process.env.CLIENT_URL}/verify-email?token=${verificationToken}">Verify Email</a>
      <p>This link expires in 24 hours.</p>`,
-  );
+    );
+  } catch {
+    res.status(500);
+    throw new Error("Failed to send verification email, please try again");
+  }
 
   res
     .status(201)
@@ -61,14 +66,19 @@ const loginController = expressAsyncHandler(async (req, res) => {
     });
   } else {
     const verificationToken = generateToken(user._id, "1d");
-    await sendMail(
-      email,
-      "Verify your CineVault Account",
-      `<h2>Welcome to CineVault</h2>
+    try {
+      await sendMail(
+        email,
+        "Verify your CineVault Account",
+        `<h2>Welcome to CineVault</h2>
      <p>Click the link below to verify your email address:</p>
      <a href="${process.env.CLIENT_URL}/verify-email?token=${verificationToken}">Verify Email</a>
      <p>This link expires in 24 hours.</p>`,
-    );
+      );
+    } catch {
+      res.status(500);
+      throw new Error("Failed to send verification email, please try again");
+    }
 
     res.status(401).json({ message: "Please verify your account to login" });
   }
@@ -82,7 +92,16 @@ const verifyEmail = expressAsyncHandler(async (req, res) => {
     throw new Error("No Token! Token required");
   }
 
-  const { id } = jwt.verify(token, process.env.JWT_SECRET);
+  let id;
+  try {
+    ({ id } = jwt.verify(token, process.env.JWT_SECRET));
+  } catch (err) {
+    res.status(400);
+    if (err.name === "TokenExpiredError") {
+      throw new Error("Verification link has expired, please sign up again");
+    }
+    throw new Error("Invalid verification link");
+  }
 
   const user = await users.findById(id);
   if (!user) {
