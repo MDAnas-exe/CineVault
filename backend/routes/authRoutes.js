@@ -7,7 +7,7 @@ import {
 import {
   loginValidator,
   registerValidator,
-} from "../validators/AuthValidators.js";
+} from "../validators/authValidators.js";
 import validate from "../middlewares/validationMiddleware.js";
 
 const router = express.Router();

@@ -11,7 +11,7 @@ const userMovieSchema = new mongoose.Schema(
     movieInfo: {
       title: { type: String, required: true },
       posterPath: String,
-      releaseDate: String,
+      releaseDate: Date,
       genres: [String],
       popularity: Number,
     },
