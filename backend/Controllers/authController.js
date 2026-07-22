@@ -23,20 +23,7 @@ const registerController = expressAsyncHandler(async (req, res) => {
     user = await users.create({ name, email, password: hashedPassword });
   }
 
-  const verificationToken = generateToken(user._id, "1d");
-  try {
-    await sendMail(
-      email,
-      "Verify your CineVault Account",
-      `<h2>Welcome to CineVault</h2>
-     <p>Click the link below to verify your email address:</p>
-     <a href="${process.env.CLIENT_URL}/verify-email?token=${verificationToken}">Verify Email</a>
-     <p>This link expires in 24 hours.</p>`,
-    );
-  } catch {
-    res.status(500);
-    throw new Error("Failed to send verification email, please try again");
-  }
+  await sendVerificationEmail(user, res);
 
   res
     .status(201)
@@ -65,20 +52,7 @@ const loginController = expressAsyncHandler(async (req, res) => {
       id: user._id,
     });
   } else {
-    const verificationToken = generateToken(user._id, "1d");
-    try {
-      await sendMail(
-        email,
-        "Verify your CineVault Account",
-        `<h2>Welcome to CineVault</h2>
-     <p>Click the link below to verify your email address:</p>
-     <a href="${process.env.CLIENT_URL}/verify-email?token=${verificationToken}">Verify Email</a>
-     <p>This link expires in 24 hours.</p>`,
-      );
-    } catch {
-      res.status(500);
-      throw new Error("Failed to send verification email, please try again");
-    }
+    await sendVerificationEmail(user, res);
 
     res.status(401).json({ message: "Please verify your account to login" });
   }
@@ -119,6 +93,23 @@ const verifyEmail = expressAsyncHandler(async (req, res) => {
 
 const generateToken = (id, expiresIn = "30d") => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: expiresIn });
+};
+
+const sendVerificationEmail = async (user, res) => {
+  const verificationToken = generateToken(user._id, "1d");
+  try {
+    await sendMail(
+      user.email,
+      "Verify your CineVault Account",
+      `<h2>Welcome to CineVault</h2>
+     <p>Click the link below to verify your email address:</p>
+     <a href="${process.env.CLIENT_URL}/verify-email?token=${verificationToken}">Verify Email</a>
+     <p>This link expires in 24 hours.</p>`,
+    );
+  } catch {
+    res.status(500);
+    throw new Error("Failed to send verification email, please try again");
+  }
 };
 
 export { registerController, loginController, verifyEmail };

@@ -1,103 +1,59 @@
 import expressAsyncHandler from "express-async-handler";
 import userMovieModel from "../models/userMovieModel.js";
 
-const manageLikes = expressAsyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const { movieInfo = {} } = req.body || {};
+const FIELD_MESSAGES = {
+  liked: { onTrue: "Liked Movie", onFalse: "Unliked Movie" },
+  watched: { onTrue: "Marked as Watched", onFalse: "Marked as Unwatched" },
+  inWatchlist: { onTrue: "Added to Watchlist", onFalse: "Removed from Watchlist" },
+};
 
-  if (!id) {
-    res.status(400);
-    throw new Error("Incomplete Information!");
-  }
+const manageMovieState = (field) =>
+  expressAsyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { movieInfo = {} } = req.body || {};
 
-  const { liked: initialLiked } = await userMovieModel.findOneAndUpdate(
-    { userId: req.user._id, movieId: id },
-    {
-      $setOnInsert: {
-        userId: req.user._id,
-        movieId: id,
-        movieInfo: { ...movieInfo },
-      },
-    },
-    { upsert: true, returnDocument: "after" },
-  );
+    if (!id) {
+      res.status(400);
+      throw new Error("Incomplete Information!");
+    }
 
-  const { liked: finalLiked } = await userMovieModel.findOneAndUpdate(
-    { userId: req.user.id, movieId: id },
-    { $set: { liked: !initialLiked } },
-    { returnDocument: "after" },
-  );
+    const existingDoc = await userMovieModel.findOne({ userId: req.user._id, movieId: id });
 
-  res.status(200).json({
-    liked: finalLiked,
-    message: finalLiked ? "Liked Movie" : "Unliked Movie",
+    let finalValue;
+
+    if (existingDoc) {
+      const updated = await userMovieModel.findOneAndUpdate(
+        { userId: req.user._id, movieId: id },
+        { $set: { [field]: !existingDoc[field] } },
+        { returnDocument: "after" },
+      );
+      finalValue = updated[field];
+    } else {
+      if (!movieInfo?.title) {
+        res.status(400);
+        throw new Error("Movie title is required");
+      }
+      const created = await userMovieModel.findOneAndUpdate(
+        { userId: req.user._id, movieId: id },
+        {
+          $setOnInsert: { userId: req.user._id, movieId: id, movieInfo: { ...movieInfo } },
+          $set: { [field]: true },
+        },
+        { upsert: true, returnDocument: "after" },
+      );
+      finalValue = created[field];
+    }
+
+    const { onTrue, onFalse } = FIELD_MESSAGES[field];
+
+    res.status(200).json({
+      [field]: finalValue,
+      message: finalValue ? onTrue : onFalse,
+    });
   });
-});
 
-const manageWatched = expressAsyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const { movieInfo = {} } = req.body || {};
-
-  if (!id) {
-    res.status(400);
-    throw new Error("Incomplete Information!");
-  }
-
-  const { watched: initialWatched } = await userMovieModel.findOneAndUpdate(
-    { userId: req.user._id, movieId: id },
-    {
-      $setOnInsert: {
-        userId: req.user._id,
-        movieId: id,
-        movieInfo: { ...movieInfo },
-      },
-    },
-    { upsert: true, returnDocument: "after" },
-  );
-
-  const { watched: finalWatched } = await userMovieModel.findOneAndUpdate(
-    { userId: req.user._id, movieId: id },
-    { $set: { watched: !initialWatched } },
-    { returnDocument: "after" },
-  );
-
-  res.status(200).json({
-    watched: finalWatched,
-    message: finalWatched ? "Marked as Watched" : "Marked as Unwatched",
-  });
-});
-
-const manageWatchlist = expressAsyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const { movieInfo = {} } = req.body || {};
-
-  if (!id) {
-    res.status(400);
-    throw new Error("Incomplete Information!");
-  }
-
-  const { inWatchlist: initialInWatchlist } = await userMovieModel.findOneAndUpdate(
-    { userId: req.user._id, movieId: id },
-    {
-      $setOnInsert: {
-        userId: req.user._id,
-        movieId: id,
-        movieInfo: { ...movieInfo },
-      },
-    },
-    { upsert: true, returnDocument: "after" },
-  );
-
-  const { inWatchlist: finalInWatchlist } = await userMovieModel.findOneAndUpdate(
-    { userId: req.user._id, movieId: id },
-    { $set: { inWatchlist: !initialInWatchlist } },
-    { returnDocument: "after" },
-  );
-
-  res.status(200).json({
-    inWatchlist: finalInWatchlist,
-    message: finalInWatchlist ? "Added to Watchlist" : "Removed from Watchlist",
-  });
-});
+const manageLikes = manageMovieState("liked");
+const manageWatched = manageMovieState("watched");
+const manageWatchlist = manageMovieState("inWatchlist");
 
 export { manageLikes, manageWatched, manageWatchlist };
