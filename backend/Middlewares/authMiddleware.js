@@ -14,13 +14,22 @@ const protect = expressAsyncHandler(async (req, res, next) => {
     const { id } = jwt.verify(token, process.env.JWT_SECRET);
 
     req.user = await user.findById(id).select("_id name email isVerified");
+
+    if (!req.user.isVerified)
+      throw new Error(
+        "Please complete email verification to perform this action",
+      );
+
     next();
   } catch (err) {
     res.status(400);
+
     if (err.name === "TokenExpiredError")
       throw new Error("Session expired please Login again");
+
     if (err.name === "JsonWebTokenError")
       throw new Error("Invalid Token please login with a valid token");
+
     throw new Error(err.message);
   }
 });

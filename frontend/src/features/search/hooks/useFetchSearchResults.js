@@ -18,9 +18,7 @@ export default function useFetchSearchResults(name, page) {
       if (!res.ok) throw new Error(`Couldn't load results for ${name}`);
       let data = await res.json();
 
-      data.results = data.results.filter(
-        (m) => m.id && (m.poster_path || m.backdrop_path),
-      );
+      data.results = data.results.filter((m) => m.id && m.title);
 
       const { results, ...rest } = data;
       return { movies: results, ...rest };

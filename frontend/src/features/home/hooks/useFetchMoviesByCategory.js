@@ -7,7 +7,7 @@ export default function useFetchMoviesByCategory(endpoint, title) {
       if (!res.ok) throw new Error(`Couldn't load ${title} movies`);
       let data = await res.json();
       let movies = data.results;
-      movies = movies.filter((m) => m.id && (m.poster_path || m.backdrop_path));
+      movies = movies.filter((m) => m.id && m.title);
       return movies;
     },
     staleTime: 30 * 60 * 1000,

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const reviewSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    movie: { type: Number, required: true }, // TMDB id
+    movie: { type: Number, required: true },
     review: { type: String, required: true },
   },
   { timestamps: true },
