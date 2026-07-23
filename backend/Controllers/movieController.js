@@ -1,15 +1,8 @@
 import asyncHandler from "express-async-handler";
 import NodeCache from "node-cache";
+import { fetchFromTMDB } from "../services/tmdbService.js";
 
 const cache = new NodeCache({ stdTTL: 3600 });
-
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: process.env.TMDBtoken,
-  },
-};
 
 const getMovies = (endpoint) => {
   return asyncHandler(async (req, res) => {
@@ -20,22 +13,14 @@ const getMovies = (endpoint) => {
     const cached = cache.get(cacheKey);
     if (cached) return res.status(200).json(cached);
 
-    if (req.path === "/search" && !name) throw new Error("Invalid query");
-
-    const query = new URLSearchParams({
-      ...(name && { query: name }),
+    const { ok, status, result } = await fetchFromTMDB(url, {
       page,
-      ...(append_to_response && { append_to_response }),
-    }).toString();
+      query: name,
+      append_to_response,
+    });
 
-    const response = await fetch(
-      `https://api.themoviedb.org/3/${url}?${query}`,
-      options,
-    );
-    const result = await response.json();
-
-    if (response.ok) cache.set(cacheKey, result);
-    res.status(response.status).json(result);
+    if (ok) cache.set(cacheKey, result);
+    res.status(status).json(result);
   });
 };
 
