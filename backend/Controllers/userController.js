@@ -129,7 +129,7 @@ const getUserMovies = (field, buildExtraFilter = () => ({})) =>
     const movies = results.map((result) => ({
       title: result.movieInfo.title,
       movieId: result.movieId,
-      ["liked"]: result.liked,
+      liked: result.liked,
       watched: result.watched,
       watchlist: result.inWatchlist,
     }));
