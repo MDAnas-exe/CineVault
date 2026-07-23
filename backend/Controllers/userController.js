@@ -16,15 +16,9 @@ const manageMovieState = (field) =>
     const { id } = req.params;
     const { movieInfo = {} } = req.body || {};
 
-    if (!id) {
-      res.status(400);
-      throw new Error("Incomplete Information!");
-    }
-
-    const existingDoc = await userMovieModel.findOne({
-      userId: req.user._id,
-      movieId: id,
-    });
+    const existingDoc = await userMovieModel
+      .findOne({ userId: req.user._id, movieId: id })
+      .select("liked watched inWatchlist");
 
     let finalValue;
 
@@ -118,6 +112,7 @@ const getUserMovies = (field, buildExtraFilter = () => ({})) =>
     const [results, totalResults] = await Promise.all([
       userMovieModel
         .find(filter)
+        .select("movieId movieInfo.title liked watched inWatchlist -_id")
         .limit(limit)
         .skip((page - 1) * limit)
         .sort({ [sortBy]: order === "asc" ? 1 : -1 }),

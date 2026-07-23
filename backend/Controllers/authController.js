@@ -7,7 +7,7 @@ import sendMail from "../utils/sendEmail.js";
 const registerController = expressAsyncHandler(async (req, res) => {
   const { email, password, name } = req.body || {};
 
-  let user = await users.findOne({ email });
+  let user = await users.findOne({ email }).select("_id email isVerified");
 
   if (user?.isVerified) {
     res.status(400);
@@ -77,7 +77,7 @@ const verifyEmail = expressAsyncHandler(async (req, res) => {
     throw new Error("Invalid verification link");
   }
 
-  const user = await users.findById(id);
+  const user = await users.findById(id).select("name email -_id");
   if (!user) {
     res.status(400);
     throw new Error("User doesnt exist");
