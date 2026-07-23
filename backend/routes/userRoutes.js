@@ -8,7 +8,10 @@ import {
   getWatchlist,
   getWatched,
 } from "../controllers/userController.js";
-import { movieInfoValidator } from "../validators/UserMovieValidators.js";
+import {
+  movieInfoValidator,
+  queryValidators,
+} from "../validators/UserMovieValidators.js";
 import validate from "../middlewares/validationMiddleware.js";
 
 const router = express.Router();
@@ -29,7 +32,8 @@ router.patch(
   manageWatchlist,
 );
 
-router.get("/liked", protect, getLiked);
-router.get("/watched", protect, getWatched);
-router.get("/watchlist", protect, getWatchlist);
+router.get("/liked", protect, queryValidators, validate, getLiked);
+router.get("/watched", protect, queryValidators, validate, getWatched);
+router.get("/watchlist", protect, queryValidators, validate, getWatchlist);
+
 export default router;

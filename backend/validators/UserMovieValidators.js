@@ -1,11 +1,15 @@
-import { body, param } from "express-validator";
+import { body, param, query } from "express-validator";
+import { GENRES } from "../constants/genres.js";
 
 const movieInfoValidator = [
   param("id")
     .isInt({ min: 1 })
     .withMessage("Movie id must be a positive integer"),
 
-  body("movieInfo").optional().isObject().withMessage("movieInfo must be an object"),
+  body("movieInfo")
+    .optional()
+    .isObject()
+    .withMessage("movieInfo must be an object"),
 
   body("movieInfo.title")
     .optional()
@@ -34,6 +38,7 @@ const movieInfoValidator = [
     .withMessage("genres must be an array"),
 
   body("movieInfo.genres.*")
+    .optional()
     .isInt({ min: 1 })
     .withMessage("each genre must be a valid genre id"),
 
@@ -43,4 +48,31 @@ const movieInfoValidator = [
     .withMessage("popularity must be a non-negative number"),
 ];
 
-export { movieInfoValidator };
+const queryValidators = [
+  query(["fromYear", "toYear"])
+    .optional()
+    .toInt()
+    .isInt({ min: 1900, max: 2100 })
+    .withMessage("Year must be between 1900 and 2100"),
+
+  query("toYear")
+    .optional()
+    .custom((value, { req }) => {
+      const min = Number(req.query.fromYear);
+      const max = Number(value);
+      if (max < min) throw new Error("Invalid Year Range");
+      else return true;
+    }),
+
+  query("sortBy")
+    .optional()
+    .toLowerCase()
+    .isIn(["title", "releaseDate", "popularity", "dateAdded"])
+    .withMessage("Invalid sort field"),
+
+  query("order").optional().toLowerCase().isIn(["desc", "asc"]),
+
+  query("page").optional().toInt().isInt({ min: 1 }),
+];
+
+export { movieInfoValidator, queryValidators };

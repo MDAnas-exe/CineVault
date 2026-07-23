@@ -96,7 +96,11 @@ const getUserMovies = (field, buildExtraFilter = () => ({})) =>
 
     if (genres) {
       genres = genres.split(",");
-      genres = genres.map((genre) => GENRES[genre]);
+      genres = genres
+        .map((genre, i) => {
+          if (i < 3) return GENRES[genre];
+        })
+        .filter((genre) => genre);
       filter["movieInfo.genres"] = { $all: genres };
     }
 
