@@ -7,13 +7,20 @@ import {
 import {
   loginValidator,
   registerValidator,
-} from "../validators/authValidators.js";
+} from "../utils/validators/authValidators.js";
 import validate from "../middlewares/validationMiddleware.js";
+import { authLimiter } from "../middlewares/rateLimitMiddleware.js";
 
 const router = express.Router();
 
-router.post(`/signup`, registerValidator, validate, registerController);
-router.post(`/login`, loginValidator, validate, loginController);
-router.post("/verify-email", verifyEmail);
+router.post(
+  `/signup`,
+  authLimiter,
+  registerValidator,
+  validate,
+  registerController,
+);
+router.post(`/login`, authLimiter, loginValidator, validate, loginController);
+router.post("/verify-email", authLimiter, verifyEmail);
 
 export default router;

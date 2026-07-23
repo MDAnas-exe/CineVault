@@ -1,5 +1,5 @@
 import { body, param, query } from "express-validator";
-import { GENRES } from "../constants/genres.js";
+import { GENRES } from "../../constants/genres.js";
 
 const movieInfoValidator = [
   param("id")
