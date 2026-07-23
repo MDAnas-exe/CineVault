@@ -7,7 +7,10 @@ import sendMail from "../utils/sendEmail.js";
 const registerController = expressAsyncHandler(async (req, res) => {
   const { email, password, name } = req.body || {};
 
-  let user = await users.findOne({ email }).select("_id email isVerified");
+  let user = await users
+    .findOne({ email })
+    .select("_id email isVerified")
+    .lean();
 
   if (user?.isVerified) {
     res.status(400);
@@ -33,7 +36,7 @@ const registerController = expressAsyncHandler(async (req, res) => {
 const loginController = expressAsyncHandler(async (req, res) => {
   const { email, password } = req.body || {};
 
-  const user = await users.findOne({ email });
+  const user = await users.findOne({ email }).lean();
   if (!user || !(await bcrypt.compare(password, user.password))) {
     res.status(400);
     throw new Error("Invalid credentials");
@@ -77,7 +80,7 @@ const verifyEmail = expressAsyncHandler(async (req, res) => {
     throw new Error("Invalid verification link");
   }
 
-  const user = await users.findById(id).select("name email -_id");
+  const user = await users.findById(id).select("name email -_id").lean();
   if (!user) {
     res.status(400);
     throw new Error("User doesnt exist");

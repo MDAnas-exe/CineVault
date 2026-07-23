@@ -75,4 +75,11 @@ const queryValidators = [
   query("page").optional().toInt().isInt({ min: 1 }),
 ];
 
-export { movieInfoValidator, queryValidators };
+const movieStatusValidator = [
+  query("ids")
+    .customSanitizer((v) => v.split(","))
+    .isArray({ max: 20 })
+    .custom((arr) => arr.every((a) => Number(a) > 0)),
+];
+
+export { movieInfoValidator, queryValidators, movieStatusValidator };

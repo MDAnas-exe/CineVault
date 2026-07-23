@@ -13,7 +13,10 @@ const protect = expressAsyncHandler(async (req, res, next) => {
   try {
     const { id } = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = await user.findById(id).select("_id name email isVerified");
+    req.user = await user
+      .findById(id)
+      .select("_id name email isVerified")
+      .lean();
 
     if (!req.user.isVerified)
       throw new Error(

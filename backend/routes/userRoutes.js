@@ -7,11 +7,13 @@ import {
   getLiked,
   getWatchlist,
   getWatched,
+  getUserMovieStatus,
 } from "../controllers/userController.js";
 import {
   movieInfoValidator,
   queryValidators,
-} from "../utils/validators/UserMovieValidators.js";
+  movieStatusValidator,
+} from "../utils/validators/userMovieValidators.js";
 import validate from "../middlewares/validationMiddleware.js";
 import {
   userWriteLimiter,
@@ -68,6 +70,15 @@ router.get(
   queryValidators,
   validate,
   getWatchlist,
+);
+
+router.get(
+  "/movie-status",
+  protect,
+  userReadLimiter,
+  movieStatusValidator,
+  validate,
+  getUserMovieStatus,
 );
 
 export default router;

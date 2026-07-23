@@ -1,7 +1,11 @@
 import expressAsyncHandler from "express-async-handler";
 import userMovieModel from "../models/userMovieModel.js";
 import { GENRES } from "../constants/genres.js";
-import { getCached, setCached, invalidateUserCache } from "../utils/mongoCache.js";
+import {
+  getCached,
+  setCached,
+  invalidateUserCache,
+} from "../utils/mongoCache.js";
 
 const FIELD_MESSAGES = {
   liked: { onTrue: "Liked Movie", onFalse: "Unliked Movie" },
@@ -19,7 +23,8 @@ const manageMovieState = (field) =>
 
     const existingDoc = await userMovieModel
       .findOne({ userId: req.user._id, movieId: id })
-      .select("liked watched inWatchlist");
+      .select("liked watched inWatchlist")
+      .lean();
 
     let finalValue;
 
@@ -122,7 +127,8 @@ const getUserMovies = (field, buildExtraFilter = () => ({})) =>
         .select("movieId movieInfo.title liked watched inWatchlist -_id")
         .limit(limit)
         .skip((page - 1) * limit)
-        .sort({ [sortBy]: order === "asc" ? 1 : -1 }),
+        .sort({ [sortBy]: order === "asc" ? 1 : -1 })
+        .lean(),
       userMovieModel.countDocuments(filter),
     ]);
 
@@ -150,3 +156,29 @@ const getWatched = getUserMovies("watched", ({ liked }) => {
 const getWatchlist = getUserMovies("inWatchlist");
 
 export { getLiked, getWatched, getWatchlist };
+
+const getUserMovieStatus = expressAsyncHandler(async (req, res) => {
+  let { ids } = req.query;
+  ids = ids.split(",").map((id) => Number(id));
+
+  let results = await userMovieModel
+    .find({ userId: req.user._id, movieId: { $in: ids } })
+    .select("inWatchlist watched liked movieId -_id")
+    .lean();
+
+  let map = new Map(results.map((result) => [result.movieId, result]));
+
+  results = ids.map(
+    (id) =>
+      map.get(id) || {
+        movieId: id,
+        liked: false,
+        watched: false,
+        inWatchlist: false,
+      },
+  );
+
+  res.json(results);
+});
+
+export { getUserMovieStatus };
