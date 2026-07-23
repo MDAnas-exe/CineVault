@@ -40,13 +40,18 @@ const manageMovieState = (field) =>
         res.status(400);
         throw new Error("Movie title is required");
       }
+
+      const resolvedGenres = (movieInfo.genres ?? [])
+        .map((id) => GENRES[id])
+        .filter(Boolean);
+
       const created = await userMovieModel.findOneAndUpdate(
         { userId: req.user._id, movieId: id },
         {
           $setOnInsert: {
             userId: req.user._id,
             movieId: id,
-            movieInfo: { ...movieInfo },
+            movieInfo: { ...movieInfo, genres: resolvedGenres },
           },
           $set: { [field]: true },
         },
@@ -69,63 +74,71 @@ const manageWatchlist = manageMovieState("inWatchlist");
 
 export { manageLikes, manageWatched, manageWatchlist };
 
-const getLiked = expressAsyncHandler(async (req, res) => {
-  let {
-    genres = "",
-    fromYear = "",
-    toYear = "",
-    sortBy = "title",
-    order = "asc",
-    page = 1,
-  } = req.query;
+const getUserMovies = (field, buildExtraFilter = () => ({})) =>
+  expressAsyncHandler(async (req, res) => {
+    let {
+      genres = "",
+      fromYear = "",
+      toYear = "",
+      sortBy = "title",
+      order = "asc",
+      page = 1,
+    } = req.query;
 
-  const filter = { userId: req.user._id, liked: true };
+    page = parseInt(page);
+    const limit = 20;
 
-  if (genres) {
-    genres = genres.split(",");
-    genres = genres.map((genre) => GENRES[genre]);
-    filter["movieInfo.genres"] = { $all: genres };
-  }
-
-  if (toYear)
-    filter["movieInfo.releaseDate"] = { $lte: new Date(`${toYear}-12-31`) };
-
-  if (fromYear)
-    filter["movieInfo.releaseDate"] = {
-      ...filter["movieInfo.releaseDate"],
-      $gte: new Date(fromYear),
+    const filter = {
+      userId: req.user._id,
+      [field]: true,
+      ...buildExtraFilter(req.query),
     };
 
-  sortBy = sortBy === "dateAdded" ? "createdAt" : `movieInfo.${sortBy}`;
+    if (genres) {
+      genres = genres.split(",");
+      genres = genres.map((genre) => GENRES[genre]);
+      filter["movieInfo.genres"] = { $all: genres };
+    }
 
-  let results = await userMovieModel
-    .find(filter)
-    .sort({ [sortBy]: order === "asc" ? 1 : -1 });
+    if (toYear)
+      filter["movieInfo.releaseDate"] = { $lte: new Date(`${toYear}-12-31`) };
 
-  let movies = results.map((result) => ({
-    title: result.movieInfo.title,
-    movieId: result.movieId,
-  }));
+    if (fromYear)
+      filter["movieInfo.releaseDate"] = {
+        ...filter["movieInfo.releaseDate"],
+        $gte: new Date(fromYear),
+      };
 
-  res.json({ movies });
+    sortBy = sortBy === "dateAdded" ? "createdAt" : `movieInfo.${sortBy}`;
+
+    const [results, totalResults] = await Promise.all([
+      userMovieModel
+        .find(filter)
+        .limit(limit)
+        .skip((page - 1) * limit)
+        .sort({ [sortBy]: order === "asc" ? 1 : -1 }),
+      userMovieModel.countDocuments(filter),
+    ]);
+
+    const totalPages = Math.ceil(totalResults / limit);
+
+    const movies = results.map((result) => ({
+      title: result.movieInfo.title,
+      movieId: result.movieId,
+      ["liked"]: result.liked,
+      watched: result.watched,
+      watchlist: result.inWatchlist,
+    }));
+
+    res.json({ movies, page, totalPages, totalResults });
+  });
+
+const getLiked = getUserMovies("liked");
+const getWatched = getUserMovies("watched", ({ liked }) => {
+  if (liked === "true") return { liked: true };
+  if (liked === "false") return { liked: false };
+  return {};
 });
-
-const getWatched = expressAsyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const { genres, year, fromYear, toYear, sortBy, order } = req.body;
-
-  const filter = { userId: req.user.id, liked: true };
-
-  res.json({ message: "ok" });
-});
-
-const getWatchlist = expressAsyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const { genre, year, fromYear, toYear, sortBy, order } = req.query;
-
-  const filter = { userId: req.user.id, liked: true };
-
-  res.json({ message: "ok" });
-});
+const getWatchlist = getUserMovies("inWatchlist");
 
 export { getLiked, getWatched, getWatchlist };

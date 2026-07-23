@@ -34,8 +34,8 @@ const movieInfoValidator = [
     .withMessage("genres must be an array"),
 
   body("movieInfo.genres.*")
-    .isString()
-    .withMessage("each genre must be a string"),
+    .isInt({ min: 1 })
+    .withMessage("each genre must be a valid genre id"),
 
   body("movieInfo.popularity")
     .optional()

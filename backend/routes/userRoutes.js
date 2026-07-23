@@ -30,4 +30,6 @@ router.patch(
 );
 
 router.get("/liked", protect, getLiked);
+router.get("/watched", protect, getWatched);
+router.get("/watchlist", protect, getWatchlist);
 export default router;
