@@ -1,11 +1,6 @@
 import expressAsyncHandler from "express-async-handler";
 import userMovieModel from "../models/userMovieModel.js";
 import { GENRES } from "../constants/genres.js";
-import {
-  getCached,
-  setCached,
-  invalidateUserCache,
-} from "../utils/mongoCache.js";
 
 const FIELD_MESSAGES = {
   liked: { onTrue: "Liked Movie", onFalse: "Unliked Movie" },
@@ -60,8 +55,6 @@ const manageMovieState = (field) =>
       finalValue = created[field];
     }
 
-    invalidateUserCache(req.user._id);
-
     const { onTrue, onFalse } = FIELD_MESSAGES[field];
 
     res.status(200).json({
@@ -78,10 +71,6 @@ export { manageLikes, manageWatched, manageWatchlist };
 
 const getUserMovies = (field, buildExtraFilter = () => ({})) =>
   expressAsyncHandler(async (req, res) => {
-    const cacheKey = `user:${req.user._id}:${field}:${req.originalUrl}`;
-    const cached = getCached(cacheKey);
-    if (cached) return res.json(cached);
-
     let {
       genres = "",
       fromYear = "",
@@ -143,7 +132,6 @@ const getUserMovies = (field, buildExtraFilter = () => ({})) =>
     }));
 
     const responseData = { movies, page, totalPages, totalResults };
-    setCached(cacheKey, responseData);
     res.json(responseData);
   });
 

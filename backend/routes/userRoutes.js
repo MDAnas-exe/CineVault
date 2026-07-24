@@ -81,4 +81,5 @@ router.get(
   getUserMovieStatus,
 );
 
+router.get("/reviews", protect, userReadLimiter);
 export default router;
