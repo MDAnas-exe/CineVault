@@ -1,6 +1,4 @@
-import React from "react";
 import HomeMovieSection from "../features/home/components/MovieSection";
-
 import heroImg from "../assets/images/hero.png";
 
 const Home = () => {

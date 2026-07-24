@@ -1,4 +1,3 @@
-import { HiOutlineSearch } from "react-icons/hi";
 import { FaUserCircle } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import useFetchMovieCredits from "../hooks/useFetchMovieCredits";

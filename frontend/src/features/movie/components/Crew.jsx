@@ -1,4 +1,3 @@
-import { FaUserCircle } from "react-icons/fa";
 import {
   HiFilm,
   HiPencil,

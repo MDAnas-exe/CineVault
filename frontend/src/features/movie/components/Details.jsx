@@ -105,7 +105,6 @@ export default function Details() {
   }
 
   const {
-    overview,
     release_date,
     budget,
     revenue,

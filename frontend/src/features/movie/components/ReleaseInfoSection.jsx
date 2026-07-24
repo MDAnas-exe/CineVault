@@ -1,6 +1,4 @@
 import { useState } from "react";
-
-import SectionState from "../../../components/ui/SectionState";
 import { FaChevronUp } from "react-icons/fa";
 const formatDate = (dateString) => {
   if (!dateString) return "N/A";
@@ -18,7 +16,7 @@ const getCountryName = (isoCode) => {
   try {
     const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
     return regionNames.of(isoCode.toUpperCase());
-  } catch (error) {
+  } catch {
     return "Unknown Country";
   }
 };

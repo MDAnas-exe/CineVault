@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const ErrorToast = ({ message }) => {
-  const [visible, setVisible] = useState(false);
+  const [prevMessage, setPrevMessage] = useState(message);
+  const [visible, setVisible] = useState(Boolean(message));
+
+  if (message !== prevMessage) {
+    setPrevMessage(message);
+    setVisible(Boolean(message));
+  }
 
   useEffect(() => {
-    if (message) {
-      setVisible(true);
-      const timer = setTimeout(() => setVisible(false), 3000);
-      return () => clearTimeout(timer);
-    }
+    if (!message) return;
+
+    const timer = setTimeout(() => setVisible(false), 3000);
+    return () => clearTimeout(timer);
   }, [message]);
 
   return (

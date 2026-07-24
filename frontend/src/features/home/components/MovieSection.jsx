@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import Skeleton from "react-loading-skeleton";
 import useFetchMoviesByCategory from "../hooks/useFetchMoviesByCategory";
 import "react-loading-skeleton/dist/skeleton.css";

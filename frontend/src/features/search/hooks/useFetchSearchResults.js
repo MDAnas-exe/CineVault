@@ -26,7 +26,7 @@ export default function useFetchSearchResults(name, page) {
     enabled: !!name,
     staleTime: 15 * 60 * 1000,
     initialPageParam: page,
-    getNextPageParam: (lastPage, allPages) =>
+    getNextPageParam: (lastPage) =>
       lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
   });
 

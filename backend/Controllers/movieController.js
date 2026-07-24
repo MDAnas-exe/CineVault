@@ -6,8 +6,11 @@ const cache = new NodeCache({ stdTTL: 3600 });
 
 const getMovies = (endpoint) => {
   return asyncHandler(async (req, res) => {
-    const { page = 1, name, append_to_response = "" } = req.query || {};
+    const { page = 1, name, append_to_response } = req.query || {};
     const url = typeof endpoint === "function" ? endpoint(req) : endpoint;
+
+    const defaultAppend = typeof url === "string" && /^movie\/\d+$/.test(url) ? "videos" : "";
+    const appendToResponse = append_to_response || defaultAppend;
 
     const cacheKey = req.originalUrl;
     const cached = cache.get(cacheKey);
@@ -16,7 +19,7 @@ const getMovies = (endpoint) => {
     const query = new URLSearchParams({
       ...(name && { query: name }),
       page,
-      ...(append_to_response && { append_to_response }),
+      ...(appendToResponse && { append_to_response: appendToResponse }),
     }).toString();
 
     const token = process.env.TMDBtoken || "";

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import useFetchReleaseInfo from "../hooks/useFetchReleaseInfo";
 import ReleaseInfoSection from "./ReleaseInfoSection";
@@ -175,7 +175,7 @@ export default function ReleaseInfo() {
 
       <div className="md:space-y-8 space-y-4">
         {groupedReleaseInfo.map((section) => (
-          <ReleaseInfoSection section={section} />
+          <ReleaseInfoSection key={section.type} section={section} />
         ))}
       </div>
     </section>

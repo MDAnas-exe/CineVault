@@ -5,7 +5,7 @@ export default function useFetchReleaseInfo(id) {
     queryKey: ["movie-release-info", id],
 
     queryFn: async () => {
-      const res = await fetch(`http://localhost:3000/movie/${id}/releaseinfo`);
+      const res = await fetch(`http://localhost:3000/movies/${id}/releaseinfo`);
 
       if (!res.ok) throw new Error("Couldn't load release information.");
 

@@ -1,8 +1,7 @@
-import React, { useRef, useEffect } from "react";
-import { useNavigate, NavLink, Link, useSearchParams } from "react-router-dom";
-import { FaSearch, FaRegBookmark } from "react-icons/fa";
+import { useRef, useEffect } from "react";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
+import { FaSearch } from "react-icons/fa";
 import { PiFilmReelFill } from "react-icons/pi";
-import { FaClockRotateLeft } from "react-icons/fa6";
 import { MdOutlinePersonOutline } from "react-icons/md";
 const Navbar = () => {
   const navigate = useNavigate();

@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import HeroSection from "../features/movie/components/HeroSection";
 import TabNavigation from "../features/movie/components/TabNavigation";
 const MovieDetailsPage = () => {

@@ -45,15 +45,7 @@ router.get(
 );
 
 router.get(
-  "/:id",
-  movieLimiter,
-  movieIdParamValidator,
-  validate,
-  getMovies((req) => `movie/${req.params.id}`),
-);
-
-router.get(
-  "/credits/:id",
+  "/:id/credits",
   movieLimiter,
   movieIdParamValidator,
   validate,
@@ -61,11 +53,19 @@ router.get(
 );
 
 router.get(
-  "/releaseinfo/:id",
+  "/:id/releaseinfo",
   movieLimiter,
   movieIdParamValidator,
   validate,
   getMovies((req) => `movie/${req.params.id}/release_dates`),
+);
+
+router.get(
+  "/:id",
+  movieLimiter,
+  movieIdParamValidator,
+  validate,
+  getMovies((req) => `movie/${req.params.id}`),
 );
 
 export default router;
