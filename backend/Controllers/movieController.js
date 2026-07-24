@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import NodeCache from "node-cache";
+import reviewModel from "../models/reviewModel.js";
 
 const cache = new NodeCache({ stdTTL: 3600 });
 
@@ -39,4 +40,32 @@ const getMovies = (endpoint) => {
   });
 };
 
+const getMovieReviews = asyncHandler(async (req, res) => {
+  const movieId = Number(req.params.id);
+  const { page = 1 } = req.query;
+  const pageNum = parseInt(page);
+  const limit = 10;
+
+  const [reviews, totalResults] = await Promise.all([
+    reviewModel
+      .find({ movie: movieId })
+      .select("username review createdAt -_id")
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .skip((pageNum - 1) * limit)
+      .lean(),
+    reviewModel.countDocuments({ movie: movieId }),
+  ]);
+
+  const totalPages = Math.ceil(totalResults / limit);
+
+  res.status(200).json({
+    reviews,
+    page: pageNum,
+    totalPages,
+    totalResults,
+  });
+});
+
+export { getMovieReviews };
 export default getMovies;

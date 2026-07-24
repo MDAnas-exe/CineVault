@@ -8,12 +8,21 @@ import {
   getWatchlist,
   getWatched,
   getUserMovieStatus,
+  getUserProfile,
+  manageReview,
+  deleteReview,
+  getUserReviews,
 } from "../controllers/userController.js";
 import {
   movieInfoValidator,
   queryValidators,
   movieStatusValidator,
 } from "../utils/validators/userMovieValidators.js";
+import {
+  upsertReviewValidator,
+  deleteReviewValidator,
+  getReviewsQueryValidator,
+} from "../utils/validators/reviewValidators.js";
 import validate from "../middlewares/validationMiddleware.js";
 import {
   userWriteLimiter,
@@ -21,6 +30,8 @@ import {
 } from "../middlewares/rateLimitMiddleware.js";
 
 const router = express.Router();
+
+router.get("/me", protect, userReadLimiter, getUserProfile);
 
 router.patch(
   "/likes/:id",
@@ -81,5 +92,31 @@ router.get(
   getUserMovieStatus,
 );
 
-router.get("/reviews", protect, userReadLimiter);
+router.put(
+  "/reviews/:movieId",
+  protect,
+  userWriteLimiter,
+  upsertReviewValidator,
+  validate,
+  manageReview,
+);
+
+router.delete(
+  "/reviews/:movieId",
+  protect,
+  userWriteLimiter,
+  deleteReviewValidator,
+  validate,
+  deleteReview,
+);
+
+router.get(
+  "/reviews",
+  protect,
+  userReadLimiter,
+  getReviewsQueryValidator,
+  validate,
+  getUserReviews,
+);
+
 export default router;

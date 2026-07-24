@@ -3,6 +3,7 @@ import { GENRES } from "../../constants/genres.js";
 
 const movieInfoValidator = [
   param("id")
+    .toInt()
     .isInt({ min: 1 })
     .withMessage("Movie id must be a positive integer"),
 
@@ -18,7 +19,8 @@ const movieInfoValidator = [
     .notEmpty()
     .withMessage("title must not be empty")
     .isLength({ max: 200 })
-    .withMessage("title must be 200 characters or fewer"),
+    .withMessage("title must be 200 characters or fewer")
+    .escape(),
 
   body("movieInfo.posterPath")
     .optional()
@@ -39,11 +41,13 @@ const movieInfoValidator = [
 
   body("movieInfo.genres.*")
     .optional()
+    .toInt()
     .isInt({ min: 1 })
     .withMessage("each genre must be a valid genre id"),
 
   body("movieInfo.popularity")
     .optional()
+    .toFloat()
     .isFloat({ min: 0 })
     .withMessage("popularity must be a non-negative number"),
 ];

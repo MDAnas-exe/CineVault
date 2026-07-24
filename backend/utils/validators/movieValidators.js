@@ -2,6 +2,7 @@ import { param, query } from "express-validator";
 
 export const movieIdParamValidator = [
   param("id")
+    .toInt()
     .isInt({ min: 1 })
     .withMessage("Movie ID must be a positive integer"),
 ];
@@ -11,7 +12,8 @@ export const searchQueryValidator = [
     .isString()
     .trim()
     .notEmpty()
-    .withMessage("Search query 'name' is required"),
+    .withMessage("Search query 'name' is required")
+    .escape(),
   query("page")
     .optional()
     .toInt()

@@ -1,5 +1,6 @@
 import expressAsyncHandler from "express-async-handler";
 import userMovieModel from "../models/userMovieModel.js";
+import reviewModel from "../models/reviewModel.js";
 import { GENRES } from "../constants/genres.js";
 
 const FIELD_MESSAGES = {
@@ -170,3 +171,150 @@ const getUserMovieStatus = expressAsyncHandler(async (req, res) => {
 });
 
 export { getUserMovieStatus };
+
+const getUserProfile = expressAsyncHandler(async (req, res) => {
+  const userId = req.user._id;
+
+  const [
+    likedCount,
+    watchedCount,
+    watchlistCount,
+    reviewCount,
+    recentLiked,
+    recentWatched,
+    recentWatchlist,
+    recentReviews,
+  ] = await Promise.all([
+    userMovieModel.countDocuments({ userId, liked: true }),
+    userMovieModel.countDocuments({ userId, watched: true }),
+    userMovieModel.countDocuments({ userId, inWatchlist: true }),
+    reviewModel.countDocuments({ user: userId }),
+    userMovieModel
+      .find({ userId, liked: true })
+      .select("movieId movieInfo.title -_id")
+      .sort({ updatedAt: -1 })
+      .limit(10)
+      .lean(),
+    userMovieModel
+      .find({ userId, watched: true })
+      .select("movieId movieInfo.title -_id")
+      .sort({ updatedAt: -1 })
+      .limit(10)
+      .lean(),
+    userMovieModel
+      .find({ userId, inWatchlist: true })
+      .select("movieId movieInfo.title -_id")
+      .sort({ updatedAt: -1 })
+      .limit(10)
+      .lean(),
+    reviewModel
+      .find({ user: userId })
+      .select("movie review createdAt -_id")
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .lean(),
+  ]);
+
+  res.status(200).json({
+    user: {
+      _id: req.user._id,
+      name: req.user.name,
+      email: req.user.email,
+      isVerified: req.user.isVerified,
+      createdAt: req.user.createdAt,
+    },
+    stats: {
+      likedCount,
+      watchedCount,
+      watchlistCount,
+      reviewCount,
+    },
+    recent: {
+      liked: recentLiked.map((item) => ({
+        movieId: item.movieId,
+        title: item.movieInfo?.title,
+      })),
+      watched: recentWatched.map((item) => ({
+        movieId: item.movieId,
+        title: item.movieInfo?.title,
+      })),
+      watchlist: recentWatchlist.map((item) => ({
+        movieId: item.movieId,
+        title: item.movieInfo?.title,
+      })),
+      reviews: recentReviews.map((item) => ({
+        movieId: item.movie,
+        review: item.review,
+        createdAt: item.createdAt,
+      })),
+    },
+  });
+});
+
+const manageReview = expressAsyncHandler(async (req, res) => {
+  const { movieId } = req.params;
+  const { review } = req.body;
+
+  const updatedReview = await reviewModel
+    .findOneAndUpdate(
+      { user: req.user._id, movie: Number(movieId) },
+      {
+        user: req.user._id,
+        username: req.user.name,
+        movie: Number(movieId),
+        review,
+      },
+      { upsert: true, returnDocument: "after" },
+    )
+    .select("movie review username createdAt updatedAt -_id")
+    .lean();
+
+  res.status(200).json({
+    review: updatedReview,
+    message: "Review saved successfully",
+  });
+});
+
+const deleteReview = expressAsyncHandler(async (req, res) => {
+  const { movieId } = req.params;
+
+  const deleted = await reviewModel.findOneAndDelete({
+    user: req.user._id,
+    movie: Number(movieId),
+  });
+
+  if (!deleted) {
+    res.status(404);
+    throw new Error("Review not found");
+  }
+
+  res.status(200).json({ message: "Review deleted successfully" });
+});
+
+const getUserReviews = expressAsyncHandler(async (req, res) => {
+  const { page = 1 } = req.query;
+  const pageNum = parseInt(page);
+  const limit = 10;
+
+  const [reviews, totalResults] = await Promise.all([
+    reviewModel
+      .find({ user: req.user._id })
+      .select("movie review username createdAt updatedAt -_id")
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .skip((pageNum - 1) * limit)
+      .lean(),
+    reviewModel.countDocuments({ user: req.user._id }),
+  ]);
+
+  const totalPages = Math.ceil(totalResults / limit);
+
+  res.status(200).json({
+    reviews,
+    page: pageNum,
+    totalPages,
+    totalResults,
+  });
+});
+
+export { getUserProfile, manageReview, deleteReview, getUserReviews };

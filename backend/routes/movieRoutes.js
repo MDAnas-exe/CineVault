@@ -1,5 +1,5 @@
 import express from "express";
-import getMovies from "../controllers/movieController.js";
+import getMovies, { getMovieReviews } from "../controllers/movieController.js";
 import { movieLimiter } from "../middlewares/rateLimitMiddleware.js";
 import validate from "../middlewares/validationMiddleware.js";
 import {
@@ -7,6 +7,7 @@ import {
   searchQueryValidator,
   paginationQueryValidator,
 } from "../utils/validators/movieValidators.js";
+import { getReviewsQueryValidator } from "../utils/validators/reviewValidators.js";
 
 const router = express.Router();
 
@@ -32,6 +33,15 @@ router.get(
   searchQueryValidator,
   validate,
   getMovies(`search/movie`),
+);
+
+router.get(
+  "/:id/reviews",
+  movieLimiter,
+  movieIdParamValidator,
+  getReviewsQueryValidator,
+  validate,
+  getMovieReviews,
 );
 
 router.get(
