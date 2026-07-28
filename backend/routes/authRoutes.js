@@ -3,6 +3,7 @@ import {
   registerController,
   loginController,
   verifyEmail,
+  logoutController,
 } from "../controllers/authController.js";
 import {
   loginValidator,
@@ -22,5 +23,6 @@ router.post(
 );
 router.post(`/login`, authLimiter, loginValidator, validate, loginController);
 router.post("/verify-email", authLimiter, verifyEmail);
+router.post("/logout", authLimiter, logoutController);
 
 export default router;

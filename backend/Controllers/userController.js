@@ -170,7 +170,16 @@ const getUserMovieStatus = expressAsyncHandler(async (req, res) => {
   res.json(results);
 });
 
-export { getUserMovieStatus };
+const getUserMe = expressAsyncHandler(async (req, res) => {
+  res.status(200).json({
+    _id: req.user._id,
+    name: req.user.name,
+    email: req.user.email,
+    isVerified: req.user.isVerified,
+  });
+});
+
+export { getUserMovieStatus, getUserMe };
 
 const getUserProfile = expressAsyncHandler(async (req, res) => {
   const userId = req.user._id;

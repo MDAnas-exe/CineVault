@@ -8,6 +8,7 @@ import {
   getWatchlist,
   getWatched,
   getUserMovieStatus,
+  getUserMe,
   getUserProfile,
   manageReview,
   deleteReview,
@@ -31,7 +32,8 @@ import {
 
 const router = express.Router();
 
-router.get("/me", protect, userReadLimiter, getUserProfile);
+router.get("/me", protect, userReadLimiter, getUserMe);
+router.get("/profile", protect, userReadLimiter, getUserProfile);
 
 router.patch(
   "/likes/:id",

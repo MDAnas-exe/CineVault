@@ -94,6 +94,18 @@ const verifyEmail = expressAsyncHandler(async (req, res) => {
   });
 });
 
+const logoutController = expressAsyncHandler(async (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  });
+
+  res.sendStatus(204);
+});
+
+export { registerController, loginController, verifyEmail, logoutController };
+
 const generateToken = (id, expiresIn = "30d") => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: expiresIn });
 };
@@ -105,14 +117,12 @@ const sendVerificationEmail = async (user, res) => {
       user.email,
       "Verify your CineVault Account",
       `<h2>Welcome to CineVault</h2>
-     <p>Click the link below to verify your email address:</p>
-     <a href="${process.env.CLIENT_URL}/verify-email?token=${verificationToken}">Verify Email</a>
-     <p>This link expires in 24 hours.</p>`,
+       <p>Click the link below to verify your email address:</p>
+       <a href="${process.env.CLIENT_URL}/verify-email?token=${verificationToken}">Verify Email</a>
+       <p>This link expires in 24 hours.</p>`,
     );
   } catch {
     res.status(500);
     throw new Error("Failed to send verification email, please try again");
   }
 };
-
-export { registerController, loginController, verifyEmail };
