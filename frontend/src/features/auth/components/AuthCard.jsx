@@ -9,20 +9,22 @@ const AuthCard = ({ type }) => {
   const isSignup = type === "signup";
 
   return (
-    <div className="w-full max-w-[450px] rounded-2xl border border-[#E5E7EB] bg-white px-5 py-7 shadow-[0_18px_50px_rgba(17,24,39,0.12)] sm:px-8 sm:py-8 lg:py-9">
-      <div className="mb-6 flex flex-col items-center text-center sm:mb-7">
+    <div
+      className={`flex h-full w-full max-w-112.5 flex-col justify-center  rounded-2xl border border-[#E5E7EB] bg-white p-5 shadow-[0_18px_50px_rgba(17,24,39,0.12)] sm:px-8 sm:py-8 lg:py-5 ${isSignup ? "gap-2" : "gap-6"}`}
+    >
+      <div className="flex flex-col items-center gap-2 text-center sm:gap-1.5">
         <Logo />
-        <h1 className="mt-6 font-poppins text-2xl font-bold text-primary sm:mt-7 sm:text-3xl">
+        <h1 className="font-poppins text-2xl font-bold text-primary sm:text-3xl">
           {isSignup ? "Create your account" : "Welcome back"}
         </h1>
-        <p className="mt-2 font-inter text-sm text-[#6B7280] sm:text-base">
+        <p className="font-inter text-sm text-[#6B7280] sm:text-base">
           {isSignup
             ? "Start building your movie collection."
             : "Sign in to continue your movie journey."}
         </p>
       </div>
 
-      <div className="space-y-4 sm:space-y-5">
+      <div className="space-y-1 sm:space-y-2">
         {isSignup && (
           <Input
             label="Full Name"
@@ -42,11 +44,9 @@ const AuthCard = ({ type }) => {
         />
       </div>
 
-      <Button type="submit" className="mt-6 sm:mt-7">
-        {isSignup ? "Create Account" : "Sign In"}
-      </Button>
+      <Button type="submit">{isSignup ? "Create Account" : "Sign In"}</Button>
 
-      <p className="mt-6 text-center font-inter text-sm text-primary sm:text-base">
+      <p className="text-center font-inter text-sm text-primary sm:text-base">
         {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
         <Link
           to={isSignup ? "/login" : "/signup"}

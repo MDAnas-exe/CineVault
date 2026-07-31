@@ -6,10 +6,9 @@ const Login = () => {
   return (
     <main className="min-h-screen bg-white lg:grid lg:grid-cols-2">
       <section
-        className="relative hidden min-h-screen overflow-hidden bg-cover bg-center lg:block"
+        className=" hidden min-h-screen overflow-hidden bg-cover bg-center lg:block"
         style={{ backgroundImage: `url(${authBg})` }}
       >
-        <div className="absolute inset-0 bg-black/65" />
         <div className="relative flex min-h-screen flex-col justify-between p-12 xl:p-16">
           <div className="[&_.text-primary]:text-white">
             <Logo />
