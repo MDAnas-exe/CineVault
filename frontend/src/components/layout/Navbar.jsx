@@ -3,6 +3,7 @@ import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { PiFilmReelFill } from "react-icons/pi";
 import { MdOutlinePersonOutline } from "react-icons/md";
+import Logo from "../ui/Logo";
 const Navbar = () => {
   const navigate = useNavigate();
   const ref = useRef(null);
@@ -28,16 +29,7 @@ const Navbar = () => {
 
   return (
     <nav className=" flex justify-between items-center p-2 md:px-5 md:py-2.5 flex-wrap border-b border-gray-200 sticky top-0 bg-white z-50">
-      <Link
-        to="/"
-        className="logo flex items-center gap-0.5 lg:text-3xl md:text-2xl cursor-pointer"
-      >
-        <PiFilmReelFill fill="#d4a017" />
-        <span className="font-bold font-poppins ">
-          <span className=" text-primary">Cine</span>
-          <span className="text-accent">Vault</span>
-        </span>
-      </Link>
+      <Logo />
       <div className="bg-white w-2/5 outline-1 outline-gray-300 rounded-xl p-2 relative hover:outline-accent focus-within:outline-accent transition-all duration-500 hidden md:block">
         <FaSearch
           className="absolute top-3.5 text-sm text-gray-400 cursor-pointer"
