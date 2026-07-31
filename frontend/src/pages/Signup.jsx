@@ -6,10 +6,9 @@ const Signup = () => {
   return (
     <main className="min-h-screen bg-white lg:grid lg:grid-cols-2">
       <section
-        className="relative hidden min-h-screen overflow-hidden bg-cover bg-center lg:block"
+        className=" hidden min-h-screen overflow-hidden bg-cover bg-center lg:block"
         style={{ backgroundImage: `url(${authBg})` }}
       >
-        <div className="absolute inset-0 bg-black/65" />
         <div className="relative flex min-h-screen flex-col justify-between p-12 xl:p-16">
           <div className="[&_.text-primary]:text-white">
             <Logo />
@@ -29,7 +28,7 @@ const Signup = () => {
         </div>
       </section>
 
-      <section className="flex min-h-screen items-center justify-center px-5 py-6 sm:px-8 lg:px-12">
+      <section className="flex min-h-screen items-center justify-center px-5 py-3 sm:px-8 lg:px-12">
         <AuthCard type="signup" />
       </section>
     </main>

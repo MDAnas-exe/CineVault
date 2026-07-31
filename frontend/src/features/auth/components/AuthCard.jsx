@@ -4,13 +4,25 @@ import Logo from "../../../components/ui/Logo";
 import Button from "./Button";
 import Input from "./Input";
 import PasswordInput from "./PasswordInput";
+import { useForm } from "react-hook-form";
 
 const AuthCard = ({ type }) => {
   const isSignup = type === "signup";
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  async function onSubmit(data) {
+    console.log(data);
+  }
+
   return (
-    <div
-      className={`flex h-full w-full max-w-112.5 flex-col justify-center  rounded-2xl border border-[#E5E7EB] bg-white p-5 shadow-[0_18px_50px_rgba(17,24,39,0.12)] sm:px-8 sm:py-8 lg:py-5 ${isSignup ? "gap-2" : "gap-6"}`}
+    <form
+      className={`flex h-full w-full max-w-112.5 flex-col justify-center  rounded-2xl border border-[#E5E7EB] bg-white p-5 shadow-[0_18px_50px_rgba(17,24,39,0.12)] sm:px-8 sm:py-8  ${isSignup ? "gap-2 lg:py-3" : "gap-6 lg:py-5"}`}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <div className="flex flex-col items-center gap-2 text-center sm:gap-1.5">
         <Logo />
@@ -24,24 +36,89 @@ const AuthCard = ({ type }) => {
         </p>
       </div>
 
-      <div className="space-y-1 sm:space-y-2">
+      <div>
         {isSignup && (
-          <Input
-            label="Full Name"
-            placeholder="Enter your full name"
-            icon={FaUser}
-          />
+          <>
+            <Input
+              label="Full Name"
+              placeholder="Enter your full name"
+              icon={FaUser}
+              register={{
+                ...register("username", {
+                  required: "name cannot be empty",
+                  maxLength: {
+                    value: 50,
+                    message: "Maximum length is 50 characters",
+                  },
+                  setValueAs: (v) => v.trim(),
+                }),
+              }}
+            />
+            <p className="min-h-5 text-sm text-red-500">
+              {errors.username?.message}
+            </p>
+          </>
         )}
+
         <Input
           label="Email Address"
           placeholder="Enter your email address"
           icon={FaEnvelope}
+          type="email"
+          register={{
+            ...register("email", {
+              required: "Email required",
+              setValueAs: (v) => v.trim(),
+              pattern: {
+                value: /^[^@]+@[^@]+\.[^@]+$/,
+                message: "invalid email format",
+              },
+            }),
+          }}
         />
+
+        <p className="min-h-5 text-sm text-red-500">{errors.email?.message}</p>
+
         <PasswordInput
           label="Password"
           placeholder="Enter your password"
           icon={FaLock}
+          register={
+            isSignup
+              ? {
+                  ...register("password", {
+                    required: "password required",
+                    maxLength: {
+                      value: 128,
+                      message: "Maximum length for password is 128 characters",
+                    },
+                    minLength: {
+                      value: 8,
+                      message: "minimum length for password is 8 characters",
+                    },
+                    setValueAs: (v) => v.trim(),
+                    validate: (v) => {
+                      if (!/[a-z]/.test(v)) return "Lowercase letter required";
+                      if (!/[A-Z]/.test(v)) return "Uppercase letter required";
+                      if (!/\d/.test(v)) return "Number required";
+                      if (!/[!@#$%^&*(),.?":{}|<>]/.test(v))
+                        return "Special character required";
+                      return true;
+                    },
+                  }),
+                }
+              : {
+                  ...register("password", {
+                    required: "password required",
+                    setValueAs: (v) => v.trim(),
+                  }),
+                }
+          }
         />
+
+        <p className="min-h-5 text-sm text-red-500">
+          {errors.password?.message}
+        </p>
       </div>
 
       <Button type="submit">{isSignup ? "Create Account" : "Sign In"}</Button>
@@ -55,7 +132,7 @@ const AuthCard = ({ type }) => {
           {isSignup ? "Sign In" : "Sign Up"}
         </Link>
       </p>
-    </div>
+    </form>
   );
 };
 export default AuthCard;
