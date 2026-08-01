@@ -5,8 +5,10 @@ import Button from "./Button";
 import Input from "./Input";
 import PasswordInput from "./PasswordInput";
 import { useForm } from "react-hook-form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const AuthCard = ({ type }) => {
+  const queryClient = useQueryClient();
   const isSignup = type === "signup";
 
   const {
@@ -15,8 +17,37 @@ const AuthCard = ({ type }) => {
     formState: { errors },
   } = useForm();
 
+  async function authMutationFunction({ data, endpoint, method = "POST" }) {
+    let response = await fetch(`http://localhost:3000/${endpoint}`, {
+      method: "POST",
+      headers: { "content-Type": "application/json" },
+      body: JSON.stringify(data),
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      const err = await response.json();
+      const e = new Error(err.message);
+      e.status = response.status;
+      throw e;
+    }
+    const result = response.json();
+    return result;
+  }
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: authMutationFunction,
+    onSuccess: (data) => {
+      console.log(data);
+      queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
   async function onSubmit(data) {
-    console.log(data);
+    mutateAsync({ data, endpoint: `auth/${isSignup ? "signup" : "login"}` });
   }
 
   return (
@@ -44,7 +75,7 @@ const AuthCard = ({ type }) => {
               placeholder="Enter your full name"
               icon={FaUser}
               register={{
-                ...register("username", {
+                ...register("name", {
                   required: "name cannot be empty",
                   maxLength: {
                     value: 50,
@@ -55,7 +86,7 @@ const AuthCard = ({ type }) => {
               }}
             />
             <p className="min-h-5 text-sm text-red-500">
-              {errors.username?.message}
+              {errors.name?.message}
             </p>
           </>
         )}
@@ -121,7 +152,9 @@ const AuthCard = ({ type }) => {
         </p>
       </div>
 
-      <Button type="submit">{isSignup ? "Create Account" : "Sign In"}</Button>
+      <Button type="submit" isPending={isPending}>
+        {isSignup ? "Create Account" : "Sign In"}
+      </Button>
 
       <p className="text-center font-inter text-sm text-primary sm:text-base">
         {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
