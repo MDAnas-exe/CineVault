@@ -1,9 +1,21 @@
 import { useState } from "react";
 import { AuthContext } from "./context/AuthContext";
-import fetchCurrentUser from "./hooks/useFetchCurrentUser";
+
+import { useQuery } from "@tanstack/react-query";
 
 export const AuthProvider = ({ children }) => {
-  const { data, isLoading, isError, error } = fetchCurrentUser();
-  console.log(data, error);
-  return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
+  const { data: user, isLoading } = useQuery({
+    queryKey: ["auth", "me"],
+    queryFn: async () => {
+      const response = await fetch("http://localhost:3000/users/me", {
+        credentials: "include",
+      });
+
+      return await response.json();
+    },
+    retry: false,
+  });
+
+  const value = { user, isLoggedIn: !!user, isLoading };
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

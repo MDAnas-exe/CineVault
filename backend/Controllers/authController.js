@@ -21,7 +21,10 @@ const registerController = expressAsyncHandler(async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, salt);
 
   if (user) {
-    await users.updateOne({ email }, { $set: { password: hashedPassword } });
+    await users.updateOne(
+      { email },
+      { $set: { name, password: hashedPassword } },
+    );
   } else {
     user = await users.create({ name, email, password: hashedPassword });
   }
@@ -50,9 +53,7 @@ const loginController = expressAsyncHandler(async (req, res) => {
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
     res.status(200).json({
-      name: user.name,
-      email,
-      id: user._id,
+      message: "Loggin Successful!",
     });
   } else {
     await sendVerificationEmail(user, res);
