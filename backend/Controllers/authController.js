@@ -53,7 +53,7 @@ const loginController = expressAsyncHandler(async (req, res) => {
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
     res.status(200).json({
-      message: "Loggin Successful!",
+      message: "Login Successful!",
     });
   } else {
     await sendVerificationEmail(user, res);
@@ -90,8 +90,7 @@ const verifyEmail = expressAsyncHandler(async (req, res) => {
   await users.updateOne({ _id: id }, { $set: { isVerified: true } });
 
   res.json({
-    name: user.name,
-    email: user.email,
+    message: "Email verified!",
   });
 });
 
@@ -99,7 +98,7 @@ const logoutController = expressAsyncHandler(async (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: "strict",
   });
 
   res.sendStatus(204);

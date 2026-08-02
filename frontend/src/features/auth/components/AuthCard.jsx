@@ -4,6 +4,7 @@ import Logo from "../../../components/ui/Logo";
 import Button from "./Button";
 import Input from "./Input";
 import PasswordInput from "./PasswordInput";
+import apiRequest from "../../../utils/apiRequest.js";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -19,34 +20,20 @@ const AuthCard = ({ type }) => {
     formState: { errors },
   } = useForm();
 
-  async function authMutationFunction({ data, endpoint, method = "POST" }) {
-    let response = await fetch(`http://localhost:3000/${endpoint}`, {
-      method: "POST",
-      headers: { "content-Type": "application/json" },
-      body: JSON.stringify(data),
-      credentials: "include",
-    });
-
-    if (!response.ok) {
-      const err = await response.json();
-      if (response.status >= 500)
-        throw new Error("Something went wrong.Please try again later");
-      throw new Error(err.message);
-    }
-    const result = response.json();
-    return result;
-  }
-
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: authMutationFunction,
+    mutationFn: apiRequest,
     onSuccess: (data) => {
-      toast.success(data.message);
+      toast.success(data.message, {
+        className: "left-1/4 relative",
+      });
       setTimeout(() => {
         if (!isSignup) navigate("/");
       }, 2000);
     },
     onError: (err) => {
-      toast.error(err.message);
+      toast.error(err.message, {
+        className: "left-1/4 relative",
+      });
     },
   });
 
