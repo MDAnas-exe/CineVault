@@ -58,7 +58,12 @@ const loginController = expressAsyncHandler(async (req, res) => {
   } else {
     await sendVerificationEmail(user, res);
 
-    res.status(401).json({ message: "Please verify your account to login" });
+    res
+      .status(401)
+      .json({
+        message:
+          "Account not verified.Please check your email to verify your account",
+      });
   }
 });
 

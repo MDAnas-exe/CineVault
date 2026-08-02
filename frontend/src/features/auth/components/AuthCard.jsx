@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
 import { PiFilmReelFill } from "react-icons/pi";
+
 const AuthCard = ({ type }) => {
   const queryClient = useQueryClient();
   const isSignup = type === "signup";

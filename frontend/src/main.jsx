@@ -9,6 +9,7 @@ import SearchResultsPage from "./pages/SearchResultPage.jsx";
 import MovieDetailsPage from "./pages/MovieDetailsPage.jsx";
 import Signup from "./pages/Signup.jsx";
 import Login from "./pages/Login.jsx";
+import EmailVerification from "./pages/EmailVerification.jsx";
 import { AuthProvider } from "./features/auth/AuthProvider.jsx";
 const queryClient = new QueryClient();
 
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />,
+      },
+      {
+        path: "/verify-email",
+        element: <EmailVerification />,
       },
     ],
   },

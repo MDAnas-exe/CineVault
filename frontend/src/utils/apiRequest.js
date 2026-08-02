@@ -9,9 +9,12 @@ export default async function apiRequest({ data, endpoint, method = "POST" }) {
 
   if (!response.ok) {
     const err = await response.json();
-    if (response.status >= 500)
+    if (response.status >= 500) {
       throw new Error("Something went wrong. Please try again later");
-    throw new Error(err.message);
+    }
+    const e = new Error(err.message);
+    e.status = response.status;
+    throw e;
   }
 
   return await response.json();
