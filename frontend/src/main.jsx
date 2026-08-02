@@ -4,13 +4,14 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AuthLayout from "./components/layout/AuthLayout.jsx";
 import RootLayout from "./components/layout/RootLayout.jsx";
+import UserLayout from "./components/layout/UserLayout.jsx";
 import Home from "./pages/Home.jsx";
 import SearchResultsPage from "./pages/SearchResultPage.jsx";
 import MovieDetailsPage from "./pages/MovieDetailsPage.jsx";
 import Signup from "./pages/Signup.jsx";
 import Login from "./pages/Login.jsx";
 import EmailVerification from "./pages/EmailVerification.jsx";
-import { AuthProvider } from "./features/auth/AuthProvider.jsx";
+import { AuthProvider } from "./context/AuthProvider.jsx";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       },
       {
         path: "/movies/:id",
+        element: <MovieDetailsPage />,
+      },
+      {
+        path: "/movies/:id/:tab",
         element: <MovieDetailsPage />,
       },
       {
@@ -46,6 +51,15 @@ const router = createBrowserRouter([
         path: "/verify-email",
         element: <EmailVerification />,
       },
+    ],
+  },
+  {
+    element: <UserLayout />,
+    children: [
+      { path: "/user/profile", element: <div>user profile</div> },
+      { path: "/user/watchlist", element: <div>user watchlist</div> },
+      { path: "/user/liked", element: <div>user liked</div> },
+      { path: "/user/watched", element: <div>user watched</div> },
     ],
   },
 ]);

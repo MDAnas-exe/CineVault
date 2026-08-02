@@ -17,7 +17,7 @@ const HomeMovieCard = ({ movie, index }) => {
           backgroundImage: `url(https://image.tmdb.org/t/p/w500${movie.poster_path || movie.backdrop_path})`,
         }}
         onClick={() => {
-          navigate(`/movie/${movie.id}`);
+          navigate(`/movies/${movie.id}`);
         }}
         className="w-24 h-40 lg:w-30 lg:h-50 bg-cover bg-center rounded-xl cursor-pointer shrink-0 hover:scale-110 hover:ml-3 transition-all duration-500"
       />

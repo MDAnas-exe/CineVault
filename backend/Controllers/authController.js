@@ -58,12 +58,10 @@ const loginController = expressAsyncHandler(async (req, res) => {
   } else {
     await sendVerificationEmail(user, res);
 
-    res
-      .status(401)
-      .json({
-        message:
-          "Account not verified.Please check your email to verify your account",
-      });
+    res.status(401).json({
+      message:
+        "Account not verified.Please check your email to verify your account",
+    });
   }
 });
 
@@ -121,10 +119,12 @@ const sendVerificationEmail = async (user, res) => {
     await sendMail(
       user.email,
       "Verify your CineVault Account",
-      `<h2>Welcome to CineVault</h2>
-       <p>Click the link below to verify your email address:</p>
-       <a href="${process.env.CLIENT_URL}/verify-email?token=${verificationToken}">Verify Email</a>
-       <p>This link expires in 24 hours.</p>`,
+      `<div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto; padding: 32px 24px; text-align: center;">
+  <h2 style="color: #111827; font-size: 22px; margin-bottom: 12px;">Welcome to CineVault</h2>
+  <p style="color: #6B7280; font-size: 14px; line-height: 22px; margin-bottom: 24px;">Click the link below to verify your email address:</p>
+  <a href="${process.env.CLIENT_URL}/verify-email?token=${verificationToken}" style="display: inline-block; background-color: #d4a017; color: #111827; font-weight: 600; text-decoration: none; padding: 12px 32px; border-radius: 10px; font-size: 14px;">Verify Email</a>
+  <p style="color: #9CA3AF; font-size: 12px; margin-top: 24px;">This link expires in 24 hours.</p>
+</div>`,
     );
   } catch {
     res.status(500);

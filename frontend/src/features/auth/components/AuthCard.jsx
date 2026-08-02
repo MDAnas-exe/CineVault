@@ -27,6 +27,8 @@ const AuthCard = ({ type }) => {
       toast.success(data.message, {
         className: "left-1/4 relative",
       });
+      if (!isSignup)
+        queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
       setTimeout(() => {
         if (!isSignup) navigate("/");
       }, 2000);

@@ -43,7 +43,7 @@ const SearchResultMovieCard = ({ movie, ref }) => {
       className="flex gap-2 sm:gap-6 p-2 sm:p-4 lg:p-6 rounded-2xl bg-white  font-inter border border-gray-200/60 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer sm:flex-row  sm:w-full  "
       ref={ref}
       onClick={() => {
-        navigate(`/movie/${movie.id}`);
+        navigate(`/movies/${movie.id}`);
       }}
     >
       <img
