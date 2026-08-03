@@ -56,10 +56,10 @@ const router = createBrowserRouter([
   {
     element: <UserLayout />,
     children: [
-      { path: "/user/profile", element: <div>user profile</div> },
-      { path: "/user/watchlist", element: <div>user watchlist</div> },
-      { path: "/user/liked", element: <div>user liked</div> },
-      { path: "/user/watched", element: <div>user watched</div> },
+      { path: "/users/profile", element: <div>user profile</div> },
+      { path: "/users/watchlist", element: <div>user watchlist</div> },
+      { path: "/users/liked", element: <div>user liked</div> },
+      { path: "/users/watched", element: <div>user watched</div> },
     ],
   },
 ]);

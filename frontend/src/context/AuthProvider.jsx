@@ -1,18 +1,12 @@
 import { useState } from "react";
 import { AuthContext } from "./AuthContext";
-
+import apiRequest from "../utils/apiRequest";
 import { useQuery } from "@tanstack/react-query";
 
 export const AuthProvider = ({ children }) => {
   const { data: user, isLoading } = useQuery({
     queryKey: ["auth", "me"],
-    queryFn: async () => {
-      const response = await fetch("http://localhost:3000/users/me", {
-        credentials: "include",
-      });
-
-      return await response.json();
-    },
+    queryFn: async () => apiRequest({ method: "GET", endpoint: "users/me" }),
     retry: false,
   });
 

@@ -49,7 +49,7 @@ function EmailVerification() {
           subHeading="Please wait while we securely verify your CineVault account."
           loaderMessage="Verifying your account..."
           footerMessage="This usually takes only a few seconds."
-          className={true ? "opacity-100" : ""}
+          className={isPending ? "opacity-100" : ""}
         />
 
         <EmailVerificationCard

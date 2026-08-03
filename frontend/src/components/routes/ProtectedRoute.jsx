@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoggedIn) navigate("/login", { replace: true });
+    if (!isLoggedIn && !isLoading) navigate("/login", { replace: true });
   }, [isLoggedIn, isLoading, navigate]);
 
   if (isLoading || !isLoggedIn) return null;
