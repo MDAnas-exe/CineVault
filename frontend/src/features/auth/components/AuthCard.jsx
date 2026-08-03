@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa6";
 import Logo from "../../../components/ui/Logo";
-import Button from "./Button";
+import Button from "../../../components/ui/Button.jsx";
 import Input from "./Input";
 import PasswordInput from "./PasswordInput";
 import apiRequest from "../../../utils/apiRequest.js";

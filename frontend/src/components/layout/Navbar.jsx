@@ -1,17 +1,22 @@
 import { useRef, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { MdOutlinePersonOutline } from "react-icons/md";
 import Logo from "../ui/Logo";
-import AppLink from "../ui/AppLink.jsx";
 import useAuth from "../../hooks/useAuth.js";
+import Skeleton from "react-loading-skeleton";
+import Button from "../ui/Button.jsx";
+import { FaChevronDown } from "react-icons/fa";
+import { twMerge } from "tailwind-merge";
 
 const Navbar = () => {
   const navigate = useNavigate();
 
-  const { isLoading, user, isLoggedIn } = useAuth();
+  const { isLoading, isLoggedIn, user } = useAuth();
 
-  console.log(isLoading, user, isLoggedIn);
+  if (isLoggedIn) {
+    const { name } = user;
+  }
 
   const ref = useRef(null);
   const ref2 = useRef(null);
@@ -37,11 +42,11 @@ const Navbar = () => {
 
   return (
     <nav className=" flex justify-between items-center p-2 md:px-5 md:py-2.5 flex-wrap border-b border-gray-200 sticky top-0 bg-white z-50">
-      <AppLink to="/">
+      <Link to="/">
         <Logo />
-      </AppLink>
+      </Link>
 
-      <div className="bg-white w-2/5 outline-1 outline-gray-300 rounded-xl p-2 relative hover:outline-accent focus-within:outline-accent transition-all duration-500 hidden md:block">
+      <div className="bg-white mx-auto w-2/5 outline-1 outline-gray-300 rounded-xl p-2 relative hover:outline-accent focus-within:outline-accent transition-all duration-500 hidden md:block">
         <FaSearch
           className="absolute top-3.5 text-sm text-gray-400 cursor-pointer"
           onClick={(e) => searchMovies(e, ref)}
@@ -56,14 +61,58 @@ const Navbar = () => {
         />
       </div>
 
-      <AppLink
-        to="/signup"
-        className="flex items-center gap-2 px-2 md:px-6 py-1 border border-accent rounded-xl text-xs md:text-sm text-accent font-inter font-medium cursor-pointer transition-all duration-500 hover:bg-accent hover:text-white"
-      >
-        <MdOutlinePersonOutline className=" md:text-2xl" />
-        Sign Up
-      </AppLink>
+      {!isLoggedIn && !isLoading && (
+        <Link
+          to="/signup"
+          className="flex items-center gap-2 px-2 md:px-6 py-1 border border-accent rounded-xl text-xs md:text-sm text-accent font-inter font-medium cursor-pointer transition-all duration-500 hover:bg-accent hover:text-white"
+        >
+          <MdOutlinePersonOutline className=" md:text-2xl" />
+          Sign Up
+        </Link>
+      )}
 
+      {isLoading && (
+        <div className="hidden md:flex items-center gap-10">
+          <Skeleton width={72} height={24} />
+          <Skeleton width={72} height={24} />
+          <Skeleton width={72} height={24} />
+        </div>
+      )}
+
+      {isLoggedIn && (
+        <div className="hidden md:flex gap-15 items-center">
+          {[
+            { to: "/users/watched", label: "Watched" },
+            { to: "/users/watchlist", label: "Watchlist" },
+          ].map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              className={({ isActive }) =>
+                twMerge(
+                  "rounded-lg px-3 py-2 font-inter font-medium text-gray-700 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2",
+                  isActive &&
+                    "text-accent relative after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:rounded-full after:bg-accent",
+                )
+              }
+            >
+              {link.label}
+            </NavLink>
+          ))}
+          <Button
+            type="button"
+            className="hidden md:flex h-auto w-auto items-center gap-1.5 rounded-lg bg-transparent px-3 py-2 font-medium text-primary shadow-none hover:bg-gray-100 hover:text-primary focus:ring-accent/40 active:scale-100"
+          >
+            <span>{name.split(" ")[name.split(" ").length - 1]}</span>
+
+            <FaChevronDown
+              size={18}
+              strokeWidth={2.2}
+              className="text-gray-700"
+            />
+          </Button>
+        </div>
+      )}
       <div className="w-full flex outline-1 outline-gray-300 rounded-xl items-center mt-2 p-1 bg-gray-100 md:hidden">
         <FaSearch
           className="text-gray-400 text-sm "
