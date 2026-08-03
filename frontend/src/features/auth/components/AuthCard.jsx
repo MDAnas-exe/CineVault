@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
-import { PiFilmReelFill } from "react-icons/pi";
+import Reel from "../../../assets/images/reel.svg?react";
 
 const AuthCard = ({ type }) => {
   const queryClient = useQueryClient();
@@ -156,14 +156,11 @@ const AuthCard = ({ type }) => {
         <Button
           type="submit"
           isPending={isPending}
-          className={isPending ? "flex gap-2 items-center justify-center" : ""}
+          className={true ? "flex gap-2 items-center justify-center" : ""}
         >
-          {isPending ? (
+          {true ? (
             <>
-              <PiFilmReelFill
-                fill="#000000"
-                className="animate-spin self-center"
-              />
+              <Reel className=" size-7 animate-spin" fill="currentColor" />
               {isSignup ? "Signing Up...." : "Logging In...."}
             </>
           ) : isSignup ? (
@@ -177,7 +174,7 @@ const AuthCard = ({ type }) => {
           {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
           <Link
             to={isSignup ? "/login" : "/signup"}
-            className="font-semibold text-accent transition-colors duration-200 hover:text-[#b9870d]"
+            className="font-semibold text-accent transition-colors duration-200 hover:text-[#000000]"
           >
             {isSignup ? "Sign In" : "Sign Up"}
           </Link>

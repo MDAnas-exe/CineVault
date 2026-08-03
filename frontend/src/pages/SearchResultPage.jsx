@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import useFetchSearchResults from "../features/search/hooks/useFetchSearchResults";
-import SearchResultMovieCard from "../features/search/components/MovieCard";
+import SearchResultMovieCard from "../features/search/components/SearchResultMovieCard";
 import ErrorSign from "../assets/images/SearchResultErrorSign.png";
 import EmptySign from "../assets/images/reel.png";
 import SectionState from "../components/ui/SectionState";
@@ -155,7 +155,7 @@ const SearchResults = () => {
         ))}
       </div>
       {isFetchingNextPage && (
-        <Reel className=" size-8  lg:size-15 animate-spin  self-center" />
+        <Reel className="size-8  lg:size-15 animate-spin  self-center text-accent" />
       )}
       {isFetchNextPageError && (
         <SectionState
