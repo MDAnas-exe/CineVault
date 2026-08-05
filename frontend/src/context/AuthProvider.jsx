@@ -8,6 +8,10 @@ export const AuthProvider = ({ children }) => {
     queryKey: ["auth", "me"],
     queryFn: async () => apiRequest({ method: "GET", endpoint: "users/me" }),
     retry: false,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   });
 
   const value = { user, isLoggedIn: !!user, isLoading };
