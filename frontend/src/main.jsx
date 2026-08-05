@@ -60,6 +60,7 @@ const router = createBrowserRouter([
       { path: "/users/watchlist", element: <div>user watchlist</div> },
       { path: "/users/liked", element: <div>user liked</div> },
       { path: "/users/watched", element: <div>user watched</div> },
+      { path: "/users/reviews", element: <div>user reviews</div> },
     ],
   },
 ]);

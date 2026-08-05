@@ -156,9 +156,9 @@ const AuthCard = ({ type }) => {
         <Button
           type="submit"
           isPending={isPending}
-          className={true ? "flex gap-2 items-center justify-center" : ""}
+          className={isPending ? "flex gap-2 items-center justify-center" : ""}
         >
-          {true ? (
+          {isPending ? (
             <>
               <Reel className=" size-7 animate-spin" fill="currentColor" />
               {isSignup ? "Signing Up...." : "Logging In...."}
