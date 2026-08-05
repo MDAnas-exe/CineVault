@@ -49,7 +49,7 @@ const DesktopNavbar = () => {
       <Link to="/" className="hidden md:block">
         <Logo />
       </Link>
-      <SearchBar />
+      <SearchBar className="hidden md:flex" />
       {isLoading && (
         <div className="hidden lg:flex items-center gap-10 ">
           <Skeleton width={72} height={24} />
