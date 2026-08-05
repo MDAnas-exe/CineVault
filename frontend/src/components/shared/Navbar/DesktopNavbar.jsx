@@ -11,6 +11,8 @@ import { FaChevronDown } from "react-icons/fa6";
 import { twMerge } from "tailwind-merge";
 import { IoExitOutline } from "react-icons/io5";
 import Skeleton from "react-loading-skeleton";
+import { MdOutlinePersonOutline } from "react-icons/md";
+
 const DesktopNavbar = () => {
   const userMenuLinks = [
     {
@@ -50,6 +52,17 @@ const DesktopNavbar = () => {
         <Logo />
       </Link>
       <SearchBar className="hidden md:flex" />
+
+      {!isLoading && !isLoggedIn && (
+        <Link
+          to="/signup"
+          className="hidden md:flex items-center gap-2 px-2 md:px-6 py-1 border border-accent rounded-xl text-xs md:text-sm text-accent font-inter font-medium cursor-pointer transition-all duration-500 hover:bg-accent hover:text-white"
+        >
+          <MdOutlinePersonOutline className=" md:text-2xl" />
+          Sign Up
+        </Link>
+      )}
+
       {isLoading && (
         <div className="hidden lg:flex items-center gap-10 ">
           <Skeleton width={72} height={24} />
@@ -63,6 +76,7 @@ const DesktopNavbar = () => {
           <Skeleton width="100%" height={24} />
         </div>
       )}
+
       {isLoggedIn && (
         <div className="hidden md:flex gap-5 items-center">
           {[
