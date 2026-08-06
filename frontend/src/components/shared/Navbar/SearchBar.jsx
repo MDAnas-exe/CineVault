@@ -1,12 +1,20 @@
 import Skeleton from "react-loading-skeleton";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
+import { useSearchParams } from "react-router-dom";
 
 const SearchBar = ({ className = "" }) => {
   const ref = useRef(null);
+
+  const [searchParams] = useSearchParams();
+
   const navigate = useNavigate();
+  useEffect(() => {
+    if (searchParams.has("name")) ref.current.value = searchParams.get("name");
+    else ref.current.value = "";
+  }, [searchParams]);
 
   const searchMovies = (e) => {
     if (e.key === "Enter" || e.type === "click") {

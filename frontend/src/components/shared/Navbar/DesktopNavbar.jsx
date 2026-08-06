@@ -94,7 +94,7 @@ const DesktopNavbar = () => {
                 )
               }
             >
-              {label}
+              <UserMenuLinks label={label} />
             </NavLink>
           ))}
           <Button
@@ -122,12 +122,19 @@ const DesktopNavbar = () => {
 
             <div>
               {userMenuLinks.map(({ to, label, className }) => (
-                <UserMenuLinks
-                  to={to}
-                  label={label}
+                <NavLink
                   key={to}
-                  className={className}
-                />
+                  to={to}
+                  className={({ isActive }) =>
+                    twMerge(
+                      "block px-4 py-3 font-inter text-primary transition-colors duration-200 hover:bg-gray-100 text-left",
+                      isActive && "text-accent bg-amber-50",
+                      className,
+                    )
+                  }
+                >
+                  <UserMenuLinks label={label} />
+                </NavLink>
               ))}
             </div>
 

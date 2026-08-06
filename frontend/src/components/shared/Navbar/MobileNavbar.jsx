@@ -4,7 +4,8 @@ import SearchBar from "./SearchBar";
 import { MdOutlinePersonOutline } from "react-icons/md";
 import useAuth from "../../../hooks/useAuth";
 import Skeleton from "react-loading-skeleton";
-
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoClose } from "react-icons/io5";
 const MobileNavbar = () => {
   const { isLoading, isLoggedIn, user } = useAuth();
 
@@ -30,6 +31,15 @@ const MobileNavbar = () => {
       {isLoading && (
         <div className="w-8 lg:hidden  ">
           <Skeleton width="100%" height={24} />
+        </div>
+      )}
+
+      {isLoggedIn && (
+        <div className="md:hidden">
+          <GiHamburgerMenu />
+          <div className="absolute z-50 h-screen w-80 right-0 top-0 flex flex-col pr-2 pt-2.5 bg-white">
+            <IoClose className="self-end" />
+          </div>
         </div>
       )}
 
