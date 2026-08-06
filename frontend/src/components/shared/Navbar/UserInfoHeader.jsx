@@ -1,6 +1,10 @@
-const UserInfoHeader = ({ name, email }) => {
+import { twMerge } from "tailwind-merge";
+
+const UserInfoHeader = ({ name, email, className = "" }) => {
   return (
-    <div className="border-b border-gray-200 text-left p-4">
+    <div
+      className={twMerge("border-b border-gray-200 text-left p-4", className)}
+    >
       <h3 className="font-poppins text-lg font-semibold text-primary">
         {name}
       </h3>
