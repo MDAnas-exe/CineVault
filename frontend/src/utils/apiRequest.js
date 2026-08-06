@@ -16,6 +16,8 @@ export default async function apiRequest({ data, endpoint, method = "POST" }) {
     e.status = response.status;
     throw e;
   }
+
+  if (response.status === 204) return null;
   const result = await response.json();
   return result;
 }

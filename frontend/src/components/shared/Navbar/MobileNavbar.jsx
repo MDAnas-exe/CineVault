@@ -12,7 +12,7 @@ import { NavLink } from "react-router-dom";
 import UserMenuLinks from "./UserMenuLinks";
 import { twMerge } from "tailwind-merge";
 import Button from "../../ui/Button";
-
+import LogoutButton from "./LogoutButton";
 const MobileNavbar = () => {
   const userMenuLinks = [
     {
@@ -112,6 +112,7 @@ const MobileNavbar = () => {
                 <UserMenuLinks label={label} />
               </NavLink>
             ))}
+            <LogoutButton className="rounded-none shadow-white" />
           </div>
         </div>
       )}

@@ -9,10 +9,10 @@ import { NavLink } from "react-router-dom";
 import Button from "../../ui/Button";
 import { FaChevronDown } from "react-icons/fa6";
 import { twMerge } from "tailwind-merge";
-import { IoExitOutline } from "react-icons/io5";
+
 import Skeleton from "react-loading-skeleton";
 import { MdOutlinePersonOutline } from "react-icons/md";
-
+import LogoutButton from "./LogoutButton";
 const DesktopNavbar = () => {
   const userMenuLinks = [
     {
@@ -139,13 +139,7 @@ const DesktopNavbar = () => {
             </div>
 
             <div className="border-t border-gray-200 ">
-              <button
-                type="button"
-                className="w-full cursor-pointer rounded-b-2xl px-4 py-3 text-left font-inter text-red-600 transition-colors duration-200 hover:bg-red-50 flex gap-2 items-center"
-              >
-                <IoExitOutline />
-                Logout
-              </button>
+              <LogoutButton />
             </div>
           </div>
         </div>

@@ -8,7 +8,7 @@ import apiRequest from "../../../utils/apiRequest.js";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import Reel from "../../../assets/images/reel.svg?react";
 
 const AuthCard = ({ type }) => {
@@ -24,9 +24,7 @@ const AuthCard = ({ type }) => {
   const { mutateAsync, isPending } = useMutation({
     mutationFn: apiRequest,
     onSuccess: (data) => {
-      toast.success(data.message, {
-        className: "left-1/4 relative",
-      });
+      toast.success(data.message);
       if (!isSignup)
         queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
       setTimeout(() => {
@@ -46,7 +44,6 @@ const AuthCard = ({ type }) => {
 
   return (
     <>
-      <Toaster />
       <form
         className={`flex h-full w-full max-w-112.5 flex-col justify-center  rounded-2xl border border-[#E5E7EB] bg-white p-5 shadow-[0_18px_50px_rgba(17,24,39,0.12)] sm:px-8 sm:py-8  ${isSignup ? "gap-2 lg:py-3" : "gap-6 lg:py-5"}`}
         onSubmit={handleSubmit(onSubmit)}
