@@ -100,7 +100,7 @@ const DesktopNavbar = () => {
           <Button
             onClick={() => setIsOpen((prev) => !prev)}
             type="button"
-            className="hidden md:flex relative h-auto w-auto items-center gap-1.5 rounded-lg bg-transparent px-3 py-2 font-medium text-primary shadow-none hover:bg-gray-100 hover:text-primary focus:ring-accent/40 active:scale-100"
+            className={`hidden md:flex relative h-auto w-auto items-center gap-1.5 rounded-lg bg-transparent px-3 py-2 font-medium text-primary shadow-none hover:bg-gray-100 hover:text-primary ${isOpen && "ring-2 ring-accent/40"}  active:scale-100 z-50`}
           >
             <span>{name.split(" ")[name.split(" ").length - 1]}</span>
 
@@ -110,6 +110,13 @@ const DesktopNavbar = () => {
               className="text-gray-700"
             />
           </Button>
+          <div
+            className={twMerge(
+              "absolute size-0 inset-0 bg-transparent",
+              isOpen && "h-screen w-full",
+            )}
+            onClick={() => setIsOpen(false)}
+          ></div>
           <div
             className={twMerge(
               "  absolute right-4 top-full mt-3 w-60 rounded-2xl before:absolute before:-top-2 before:right-8 before:h-4 before:w-4 before:rotate-45 before:border-l before:border-t before:border-gray-200 before:bg-white before:content-[''] origin-top-right border border-gray-200 bg-white shadow-xl transition-all duration-200 ease-out",
