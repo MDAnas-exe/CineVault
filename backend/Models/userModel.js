@@ -13,7 +13,7 @@ const userSchema = mongoose.Schema(
 userSchema.index(
   { createdAt: 1 },
   {
-    expiresAfterSeconds: 86400,
+    expireAfterSeconds: 86400,
     partialFilterExpression: { isVerified: false },
   },
 );
