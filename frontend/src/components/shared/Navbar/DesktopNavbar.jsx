@@ -2,17 +2,17 @@ import SearchBar from "./SearchBar";
 import useAuth from "../../../hooks/useAuth";
 import UserMenuLinks from "./UserMenuLinks";
 import UserInfoHeader from "./UserInfoHeader";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../ui/Logo";
 import { NavLink } from "react-router-dom";
 import Button from "../../ui/Button";
 import { FaChevronDown } from "react-icons/fa6";
 import { twMerge } from "tailwind-merge";
-
 import Skeleton from "react-loading-skeleton";
 import { MdOutlinePersonOutline } from "react-icons/md";
 import LogoutButton from "./LogoutButton";
+
 const DesktopNavbar = () => {
   const userMenuLinks = [
     {
@@ -45,6 +45,13 @@ const DesktopNavbar = () => {
   const email = user?.email;
 
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const closeDropdown = () => setIsOpen(false);
+    window.addEventListener("scroll", closeDropdown);
+    return () => window.removeEventListener("scroll", closeDropdown);
+  }, [isOpen]);
 
   return (
     <>
