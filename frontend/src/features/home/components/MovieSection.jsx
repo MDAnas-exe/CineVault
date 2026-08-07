@@ -79,7 +79,7 @@ const HomeMovieSection = ({ title, endpoint }) => {
         </div>
         <div
           className="flex items-center gap-4 h-48 lg:h-60 overflow-x-scroll md:px-3"
-          style={{ scrollbarWidth: "none", scrollBehavior: "smooth" }}
+          style={{ scrollbarWidth: "none" }}
           ref={ref}
         >
           {movies.map((movie, index) => (

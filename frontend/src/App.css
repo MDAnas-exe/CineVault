@@ -7,3 +7,7 @@
   --color-accent: #d4a017;
   --breakpoint-xs: 375px;
 }
+
+* {
+  scroll-behavior: smooth;
+}

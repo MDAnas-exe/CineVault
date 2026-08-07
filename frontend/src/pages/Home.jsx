@@ -1,7 +1,13 @@
 import HomeMovieSection from "../features/home/components/MovieSection";
 import heroImg from "../assets/images/hero.png";
+import useAuth from "../hooks/useAuth.js";
+import Skeleton from "react-loading-skeleton";
+import { Link } from "react-router-dom";
 
 const Home = () => {
+  const { isLoading, isLoggedIn } = useAuth();
+  console.log(isLoading, isLoggedIn);
+
   return (
     <>
       <div
@@ -20,9 +26,25 @@ const Home = () => {
             <p>Discover movies, save what you want to watch,</p>
             <p>keep track of everything you've seen</p>
           </div>
-          <button className="bg-accent text-xs md:text-base p-2 md:px-12 md:py-2 rounded-xl self-start cursor-pointer transition-all duration-300 hover:bg-[#B8860B]">
-            Get Started
-          </button>
+          {!isLoggedIn && !isLoading && (
+            <Link
+              to="/signup"
+              className="bg-accent text-xs md:text-base p-2 md:px-12 md:py-2 rounded-xl self-start cursor-pointer transition-all duration-300 hover:bg-[#B8860B]"
+            >
+              Get Started
+            </Link>
+          )}
+
+          {isLoading && <Skeleton width={120} height={40} baseColor="black" />}
+
+          {isLoggedIn && (
+            <a
+              href="#movie-sections"
+              className="bg-accent text-xs md:text-base p-2 md:px-12 md:py-2 rounded-xl self-start cursor-pointer transition-all duration-300 hover:bg-[#B8860B]"
+            >
+              Browse Movies
+            </a>
+          )}
         </div>
 
         <div
@@ -32,9 +54,10 @@ const Home = () => {
           }}
         ></div>
       </div>
-      <HomeMovieSection title="Trending Movies" endpoint="trending" />
-
-      <HomeMovieSection title="Top Rated Movies" endpoint="top_rated" />
+      <div id="movie-sections">
+        <HomeMovieSection title="Trending Movies" endpoint="trending" />
+        <HomeMovieSection title="Top Rated Movies" endpoint="top_rated" />
+      </div>
     </>
   );
 };
