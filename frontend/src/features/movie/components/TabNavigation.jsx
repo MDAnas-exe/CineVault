@@ -49,7 +49,7 @@ const MovieTabs = () => {
           <button
             key={key}
             onClick={() => {
-              navigate(`/movies/${id}/${key}`);
+              navigate(`/movies/${id}/${key}`, { replace: true });
             }}
             className={`px-2 md:px-0 flex md:flex-1 md:flex-row flex-col cursor-pointer items-center justify-center md:gap-2 border-b-2 py-2 md:py-4 text-sm font-medium transition-colors duration-300 hover:text-accent ${
               activeTab === key
