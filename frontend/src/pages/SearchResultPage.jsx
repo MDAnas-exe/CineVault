@@ -164,7 +164,7 @@ const SearchResults = () => {
           <SearchResultMovieCard
             movie={movie}
             key={movie.id}
-            ref={i === filteredMovies.length - 3 ? sentinelRef : null}
+            ref={i === filteredMovies.length - 1 ? sentinelRef : null}
           />
         ))}
       </div>
