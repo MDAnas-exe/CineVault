@@ -2,24 +2,24 @@ import { useEffect, useRef, useCallback } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import useFetchSearchResults from "../features/search/hooks/useFetchSearchResults";
+
 import SearchResultMovieCard from "../features/search/components/SearchResultMovieCard";
 import ErrorSign from "../assets/images/SearchResultErrorSign.png";
 import EmptySign from "../assets/images/reel.png";
 import SectionState from "../components/ui/SectionState";
 import Reel from "../assets/images/reel.svg?react";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import apiRequest from "../utils/apiRequest.js";
 
 const SearchResults = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { name } = Object.fromEntries(searchParams);
-  const endpoint = new URLSearchParams();
-  endpoint.append("name", name);
-  endpoint.append("page", 1);
-  console.log(endpoint.toString());
+
+  const queryParams = new URLSearchParams({ name: searchParams.get("name") });
+  const name = searchParams.get("name");
+
   const {
-    results,
+    data,
     isLoading,
     isError,
     refetch,
@@ -27,11 +27,26 @@ const SearchResults = () => {
     hasNextPage,
     isFetchingNextPage,
     isFetchNextPageError,
-  } = useFetchSearchResults(name);
+  } = useInfiniteQuery({
+    queryKey: ["search-movies", queryParams.toString()],
+    queryFn: ({ pageParam }) =>
+      apiRequest({
+        endpoint: "movies/search?" + queryParams + "&page=" + pageParam,
+        method: "GET",
+      }),
+    staleTime: 15 * 60 * 1000,
 
-  useEffect(() => {
-    if (!isLoading && !results) navigate("/");
-  }, [results, isLoading, navigate]);
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
+    select: (data) => ({
+      total_results: data.pages[0].total_results,
+      movies: data.pages.flatMap((page) => page.results),
+    }),
+  });
+
+  const total_results = data?.total_results;
+  const movies = data?.movies;
 
   const observerRef = useRef(null);
   const sentinelRef = useCallback(
@@ -50,7 +65,7 @@ const SearchResults = () => {
     [hasNextPage, fetchNextPage],
   );
 
-  if (true) {
+  if (isLoading) {
     return (
       <div className="flex flex-col gap-2 justify-evenly px-4 sm:px-20 lg:px-40 py-5 bg-gray-100">
         <Skeleton width="30%" height={30} />
@@ -99,77 +114,72 @@ const SearchResults = () => {
     );
   }
 
-  // if (isError) {
-  //     return (
-  //       <div className="my-5 md:my-15">
-  //         <SectionState
-  //           imageSource={ErrorSign}
-  //           buttonText="Retry"
-  //           message="Something went wrong"
-  //           description={`Couldn't load result for ${name} please try again later`}
-  //           onRetry={refetch}
-  //         />
-  //       </div>
-  //     );
-  //   }
+  if (isError) {
+    return (
+      <div className="my-5 md:my-15">
+        <SectionState
+          imageSource={ErrorSign}
+          buttonText="Retry"
+          message="Something went wrong"
+          description={`Couldn't load result for ${name} please try again later`}
+          onRetry={refetch}
+        />
+      </div>
+    );
+  }
 
-  //   if (!results) return null;
+  const seen = {};
+  const filteredMovies = [];
+  movies.forEach((m) => {
+    if (!(m.id in seen)) {
+      seen[m.id] = m.id;
+      filteredMovies.push(m);
+    }
+  });
 
-  //   let movies = results.pages.flatMap((page) => page.movies);
-  //   const { total_results } = results.pages[0];
+  if (filteredMovies.length === 0) {
+    return (
+      <div className="my-15">
+        <SectionState
+          imageSource={EmptySign}
+          message={`No results for "${name}"`}
+          description="Try checking your spelling or use less specific keywords."
+        />
+      </div>
+    );
+  }
 
-  //   const seen = {};
-  //   const filteredMovies = [];
-  //   movies.forEach((m) => {
-  //     if (!(m.id in seen)) {
-  //       seen[m.id] = m.id;
-  //       filteredMovies.push(m);
-  //     }
-  //   });
-
-  //   if (filteredMovies.length === 0) {
-  //     return (
-  //       <div className="my-15">
-  //         <SectionState
-  //           imageSource={EmptySign}
-  //           message={`No results for "${name}"`}
-  //           description="Try checking your spelling or use less specific keywords."
-  //         />
-  //       </div>
-  //     );
-  //   }
-
-  //   return (
-  //     <div className="flex flex-col gap-2 justify-evenly px-2 sm:px-15 lg:px-30 py-2 sm:py-5 bg-gray-100">
-  //       <div className="flex flex-col">
-  //         <span className="text-xl lg:text-2xl font-poppins font-bold">
-  //           Results for <span className="text-accent">"{name}"</span>
-  //         </span>
-  //         <span className="text-gray-500 lg:text-base text-sm">
-  //           {total_results} {total_results > 1 ? "results" : "result"} found
-  //         </span>
-  //       </div>
-  //       <div className="flex flex-wrap gap-1 sm:gap-2">
-  //         {filteredMovies.map((movie, i) => (
-  //           <SearchResultMovieCard
-  //             movie={movie}
-  //             key={movie.id}
-  //             ref={i === filteredMovies.length - 3 ? sentinelRef : null}
-  //           />
-  //         ))}
-  //       </div>
-  //       {isFetchingNextPage && (
-  //         <Reel className="size-8  lg:size-15 animate-spin  self-center text-accent" />
-  //       )}
-  //       {isFetchNextPageError && (
-  //         <SectionState
-  //           message="Failed to load more movies."
-  //           buttonText={"Retry"}
-  //           onRetry={fetchNextPage}
-  //         />
-  //       )}
-  //     </div>
-  //   );
+  return (
+    <div className="flex flex-col gap-2 justify-evenly px-2 sm:px-15 lg:px-30 py-2 sm:py-5 bg-gray-100">
+      <div className="flex flex-col">
+        <span className="text-xl lg:text-2xl font-poppins font-bold">
+          Results for <span className="text-accent">"{name}"</span>
+        </span>
+        <span className="text-gray-500 lg:text-base text-sm">
+          {total_results} {total_results > 1 ? "results" : "result"} found
+        </span>
+      </div>
+      <div className="flex flex-wrap gap-1 sm:gap-2">
+        {filteredMovies.map((movie, i) => (
+          <SearchResultMovieCard
+            movie={movie}
+            key={movie.id}
+            ref={i === filteredMovies.length - 3 ? sentinelRef : null}
+          />
+        ))}
+      </div>
+      {isFetchingNextPage && (
+        <Reel className="size-8  lg:size-15 animate-spin  self-center text-accent" />
+      )}
+      {isFetchNextPageError && (
+        <SectionState
+          message="Failed to load more movies."
+          buttonText={"Retry"}
+          onRetry={fetchNextPage}
+        />
+      )}
+    </div>
+  );
 };
 
 export default SearchResults;
