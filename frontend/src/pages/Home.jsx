@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   const { isLoading, isLoggedIn } = useAuth();
-  console.log(isLoading, isLoggedIn);
 
   return (
     <>

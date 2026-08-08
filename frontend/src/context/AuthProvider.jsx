@@ -18,8 +18,8 @@ export const AuthProvider = ({ children }) => {
     refetchOnMount: false,
     refetchOnReconnect: false,
   });
-  console.log(error?.message);
+
   const value = { user, isLoggedIn: !!user, isLoading };
-  console.log(user);
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

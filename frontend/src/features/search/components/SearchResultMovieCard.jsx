@@ -9,13 +9,16 @@ import {
 import { useNavigate } from "react-router-dom";
 import { MdTrendingUp } from "react-icons/md";
 import MovieActionButton from "../../../components/ui/MovieActionButton";
+
 const SearchResultMovieCard = ({ movie, ref }) => {
   const navigate = useNavigate();
+
   const iconMap = {
     FaRegHeart,
     FaRegBookmark,
     FaRegEye,
   };
+
   const releaseDate = movie.release_date
     ? new Date(movie.release_date).toLocaleDateString("en-US", {
         month: "short",

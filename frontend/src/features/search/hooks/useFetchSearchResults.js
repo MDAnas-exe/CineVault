@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-export default function useFetchSearchResults(name, page) {
+export default function useFetchSearchResults(name, page = 1) {
   const {
     data,
     isLoading,
