@@ -58,7 +58,7 @@ const SearchResultMovieCard = ({ movie, ref }) => {
       <div className="flex flex-col justify-between w-full gap-2 sm:gap-0">
         <div className="flex items-center justify-between  ">
           <h1 className="font-poppins font-bold text-lg lg:text-3xl text-primary  line-clamp-1 sm:line-clamp-2 ">
-            {movie.title}
+            {movie.title || movie.orginal_title}
           </h1>
           <div className="flex flex-col sm:flex-row items-center sm:gap-2">
             <div className="flex items-center gap-1 text-accent font-bold text-lg">
