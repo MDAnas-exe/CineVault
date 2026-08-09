@@ -2,21 +2,27 @@ import { useEffect, useRef, useCallback } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-
+import useAuth from "../hooks/useAuth.js";
 import SearchResultMovieCard from "../features/search/components/SearchResultMovieCard";
 import ErrorSign from "../assets/images/SearchResultErrorSign.png";
 import EmptySign from "../assets/images/reel.png";
 import SectionState from "../components/ui/SectionState";
 import Reel from "../assets/images/reel.svg?react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import apiRequest from "../utils/apiRequest.js";
 
-const SearchResults = () => {
+const SearchResultsPage = () => {
+  const { user, isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   const queryParams = new URLSearchParams({ name: searchParams.get("name") });
   const name = searchParams.get("name");
+
+  const seenIds = new Set();
+  const filteredMovies = [];
+
+  const toBeFetchedIds = [];
 
   const {
     data,
@@ -35,7 +41,6 @@ const SearchResults = () => {
         method: "GET",
       }),
     staleTime: 15 * 60 * 1000,
-
     initialPageParam: 1,
     getNextPageParam: (lastPage) =>
       lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
@@ -45,8 +50,50 @@ const SearchResults = () => {
     }),
   });
 
+  useEffect(() => {
+    if (filteredMovies.length === 0 && hasNextPage) fetchNextPage();
+  }, [filteredMovies, hasNextPage, fetchNextPage]);
+
   const total_results = data?.total_results;
-  const movies = data?.movies;
+  const movies = data?.movies ?? [];
+
+  movies.forEach((m) => {
+    if (m.id && (m.title || m.original_title) && !seenIds.has(m.id)) {
+      seenIds.add(m.id);
+      filteredMovies.push(m);
+    }
+  });
+
+  const fetchedIds = useRef(new Set());
+
+  filteredMovies.forEach((m) => {
+    if (!fetchedIds.current.has(m.id)) toBeFetchedIds.push(m.id);
+  });
+
+  const {
+    data: userMovieStatus,
+    isLoading: isUserMovieStatusLoading,
+    isError: isUserMovieStatusError,
+  } = useQuery({
+    queryKey: ["movie-status", user?._id, toBeFetchedIds.sort().join(",")],
+    queryFn: () =>
+      apiRequest({
+        endpoint: `users/movie-status?ids=${toBeFetchedIds.sort().join(",")}`,
+        method: "GET",
+      }),
+    retry: false,
+    enabled: toBeFetchedIds.length > 0 && isLoggedIn,
+  });
+
+  useEffect(() => {
+    if (
+      !isUserMovieStatusLoading &&
+      !isUserMovieStatusError &&
+      userMovieStatus
+    ) {
+      toBeFetchedIds.forEach((id) => fetchedIds.current.add(id));
+    }
+  }, [userMovieStatus]);
 
   const observerRef = useRef(null);
   const sentinelRef = useCallback(
@@ -128,17 +175,7 @@ const SearchResults = () => {
     );
   }
 
-  const seenIds = new Set();
-  const filteredMovies = [];
-  movies.forEach((m) => {
-    if (m.id && (m.title || m.original_title) && !seenIds.has(m.id)) {
-      seenIds.add(m.id);
-      filteredMovies.push(m);
-    }
-  });
-
   if (filteredMovies.length === 0) {
-    if (hasNextPage) return fetchNextPage();
     return (
       <div className="my-15">
         <SectionState
@@ -160,6 +197,7 @@ const SearchResults = () => {
           {total_results} {total_results > 1 ? "results" : "result"} found
         </span>
       </div>
+
       <div className="flex flex-wrap gap-1 sm:gap-2">
         {filteredMovies.map((movie, i) => (
           <SearchResultMovieCard
@@ -169,9 +207,11 @@ const SearchResults = () => {
           />
         ))}
       </div>
+
       {isFetchingNextPage && (
         <Reel className="size-8  lg:size-15 animate-spin  self-center text-accent" />
       )}
+
       {isFetchNextPageError && (
         <SectionState
           message="Failed to load more movies."
@@ -183,4 +223,4 @@ const SearchResults = () => {
   );
 };
 
-export default SearchResults;
+export default SearchResultsPage;
