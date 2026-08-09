@@ -19,9 +19,9 @@ const SearchResultsPage = () => {
   const queryParams = new URLSearchParams({ name: searchParams.get("name") });
   const name = searchParams.get("name");
 
-  const seenIds = new Set();
-  const filteredMovies = [];
-
+  let seenIds = new Set();
+  let filteredMovies = [];
+  // console.log(filteredMovies);
   const toBeFetchedIds = [];
 
   const {
@@ -64,10 +64,11 @@ const SearchResultsPage = () => {
     }
   });
 
-  const fetchedIds = useRef(new Set());
-
+  const fetchedMovieStatus = useRef([]);
+  console.log(fetchedMovieStatus.current);
   filteredMovies.forEach((m) => {
-    if (!fetchedIds.current.has(m.id)) toBeFetchedIds.push(m.id);
+    if (!fetchedMovieStatus.current?.find((status) => status.movieId === m.id))
+      toBeFetchedIds.push(m.id);
   });
 
   const {
@@ -91,7 +92,19 @@ const SearchResultsPage = () => {
       !isUserMovieStatusError &&
       userMovieStatus
     ) {
-      toBeFetchedIds.forEach((id) => fetchedIds.current.add(id));
+      fetchedMovieStatus.current = [
+        ...fetchedMovieStatus.current,
+        ...userMovieStatus,
+      ];
+
+      filteredMovies = filteredMovies.map((movie) => ({
+        ...movie,
+        ...fetchedMovieStatus.current.find(
+          (status) => status.movieId === movie.id,
+        ),
+      }));
+
+      console.log(filteredMovies);
     }
   }, [userMovieStatus]);
 
