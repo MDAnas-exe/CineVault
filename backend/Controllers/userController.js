@@ -148,6 +148,7 @@ export { getLiked, getWatched, getWatchlist };
 
 const getUserMovieStatus = expressAsyncHandler(async (req, res) => {
   let { ids } = req.query;
+
   ids = ids.split(",").map((id) => Number(id));
 
   let results = await userMovieModel
@@ -167,7 +168,7 @@ const getUserMovieStatus = expressAsyncHandler(async (req, res) => {
       },
   );
 
-  res.json(results);
+  res.status(200).json(results);
 });
 
 const getUserMe = expressAsyncHandler(async (req, res) => {
