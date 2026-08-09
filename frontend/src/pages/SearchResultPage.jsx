@@ -131,13 +131,14 @@ const SearchResults = () => {
   const seenIds = new Set();
   const filteredMovies = [];
   movies.forEach((m) => {
-    if (!seenIds.has(m.id)) {
+    if (m.id && (m.title || m.original_title) && !seenIds.has(m.id)) {
       seenIds.add(m.id);
       filteredMovies.push(m);
     }
   });
 
   if (filteredMovies.length === 0) {
+    if (hasNextPage) return fetchNextPage();
     return (
       <div className="my-15">
         <SectionState
