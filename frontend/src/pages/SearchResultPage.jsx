@@ -128,11 +128,11 @@ const SearchResults = () => {
     );
   }
 
-  const seen = {};
+  const seenIds = new Set();
   const filteredMovies = [];
   movies.forEach((m) => {
-    if (!(m.id in seen)) {
-      seen[m.id] = m.id;
+    if (!seenIds.has(m.id)) {
+      seenIds.add(m.id);
       filteredMovies.push(m);
     }
   });
