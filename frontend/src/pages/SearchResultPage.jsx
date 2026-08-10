@@ -65,7 +65,7 @@ const SearchResultsPage = () => {
   });
 
   const fetchedMovieStatus = useRef([]);
-  console.log(fetchedMovieStatus.current);
+
   filteredMovies.forEach((m) => {
     if (!fetchedMovieStatus.current?.find((status) => status.movieId === m.id))
       toBeFetchedIds.push(m.id);
@@ -103,8 +103,6 @@ const SearchResultsPage = () => {
           (status) => status.movieId === movie.id,
         ),
       }));
-
-      console.log(filteredMovies);
     }
   }, [userMovieStatus]);
 
