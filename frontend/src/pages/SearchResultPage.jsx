@@ -8,7 +8,11 @@ import ErrorSign from "../assets/images/SearchResultErrorSign.png";
 import EmptySign from "../assets/images/reel.png";
 import SectionState from "../components/ui/SectionState";
 import Reel from "../assets/images/reel.svg?react";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import apiRequest from "../utils/apiRequest.js";
 
 const SearchResultsPage = () => {
@@ -19,9 +23,11 @@ const SearchResultsPage = () => {
   const queryParams = new URLSearchParams({ name: searchParams.get("name") });
   const name = searchParams.get("name");
 
+  const queryClient = useQueryClient();
+
   let seenIds = new Set();
   let filteredMovies = [];
-  // console.log(filteredMovies);
+
   const toBeFetchedIds = [];
 
   const {
@@ -64,10 +70,8 @@ const SearchResultsPage = () => {
     }
   });
 
-  const fetchedMovieStatus = useRef([]);
-
   filteredMovies.forEach((m) => {
-    if (!fetchedMovieStatus.current?.find((status) => status.movieId === m.id))
+    if (!queryClient.getQueryData(["movie-status", m.id]))
       toBeFetchedIds.push(m.id);
   });
 
@@ -92,19 +96,16 @@ const SearchResultsPage = () => {
       !isUserMovieStatusError &&
       userMovieStatus
     ) {
-      fetchedMovieStatus.current = [
-        ...fetchedMovieStatus.current,
-        ...userMovieStatus,
-      ];
-
-      filteredMovies = filteredMovies.map((movie) => ({
-        ...movie,
-        ...fetchedMovieStatus.current.find(
-          (status) => status.movieId === movie.id,
-        ),
-      }));
+      userMovieStatus.forEach((status) =>
+        queryClient.setQueryData(["movie-status", status.movieId], status),
+      );
     }
-  }, [userMovieStatus]);
+  }, [userMovieStatus, isUserMovieStatusLoading, isUserMovieStatusError]);
+
+  filteredMovies = filteredMovies.map((movie) => ({
+    ...movie,
+    ...queryClient.getQueryData(["movie-status", movie.id]),
+  }));
 
   const observerRef = useRef(null);
   const sentinelRef = useCallback(
