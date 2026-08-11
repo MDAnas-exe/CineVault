@@ -81,6 +81,7 @@ const SearchResultsPage = () => {
     useQuery({
       queryKey: ["movie-status", user?._id, toBeFetchedIds.sort().join(",")],
       queryFn: async () => {
+        const merged = [];
         const results = await Promise.allSettled(
           chunks.map((chunk) =>
             apiRequest({
@@ -91,42 +92,35 @@ const SearchResultsPage = () => {
         );
 
         results.forEach((result, i) => {
-          if (result.status === "fulfilled") data.push(...result.value);
+          if (result.status === "fulfilled") merged.push(...result.value);
           else
-            data.push(
+            merged.push(
               ...chunks[i].map((id) => ({
                 movieId: id,
                 isUserMovieStatusError: true,
               })),
             );
         });
-        return data;
+        return merged;
       },
       retry: false,
       enabled: toBeFetchedIds.length > 0 && isLoggedIn,
     });
 
-  useEffect(() => {
-    if (!isUserMovieStatusLoading && userMovieStatus) {
-      userMovieStatus.forEach((status) => {
-        if (status.isError !== true)
-          queryClient.setQueryData(["movie-status", status.movieId], status);
-      });
+  filteredMovies = filteredMovies.map((movie) => ({
+    ...movie,
+    ...queryClient.getQueryData(["movie-status", movie.id]),
+    isUserMovieStatusLoading: toBeFetchedIds.includes(movie.id)
+      ? isUserMovieStatusLoading
+      : false,
+  }));
 
-      filteredMovies = filteredMovies.map((movie) => ({
-        ...movie,
-        ...userMovieStatus.find((status) => status.movieId === movie.id),
-        isUserMovieStatusLoading,
-      }));
-
-      if (isUserMovieStatusLoading) {
-        filteredMovies = filteredMovies.map((movie) => ({
-          ...movie,
-          isUserMovieStatusLoading,
-        }));
-      }
-    }
-  }, [userMovieStatus, isUserMovieStatusLoading]);
+  if (!isUserMovieStatusLoading && userMovieStatus) {
+    userMovieStatus.forEach((status) => {
+      if (status.isUserMovieStatusError !== true)
+        queryClient.setQueryData(["movie-status", status.movieId], status);
+    });
+  }
 
   const observerRef = useRef(null);
   const sentinelRef = useCallback(
