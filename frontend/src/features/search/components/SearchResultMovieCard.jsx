@@ -9,8 +9,9 @@ import {
 import { useNavigate } from "react-router-dom";
 import { MdTrendingUp } from "react-icons/md";
 import MovieActionButton from "../../../components/ui/MovieActionButton";
+import UserBtnSection from "../../../components/ui/UserBtnSection";
 
-const SearchResultMovieCard = ({ movie, ref }) => {
+const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
   const navigate = useNavigate();
 
   const iconMap = {
@@ -99,7 +100,11 @@ const SearchResultMovieCard = ({ movie, ref }) => {
             </span>
           </div>
 
-          <div className="flex items-center w-full sm:w-auto sm:gap-3 justify-around lg:text-base sm:text-sm text-base">
+          <UserBtnSection
+            className="flex items-center w-full sm:w-auto sm:gap-3 justify-around lg:text-base sm:text-sm text-base"
+            isLoading={isLoading}
+            isError={isError}
+          >
             {[
               { icon: "FaRegHeart", title: "Add to liked" },
               { icon: "FaRegBookmark", title: "Add to Watchlist" },
@@ -114,7 +119,7 @@ const SearchResultMovieCard = ({ movie, ref }) => {
                 />
               );
             })}
-          </div>
+          </UserBtnSection>
         </div>
       </div>
     </div>

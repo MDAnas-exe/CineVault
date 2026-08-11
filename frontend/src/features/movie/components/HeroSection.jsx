@@ -14,6 +14,7 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import SectionState from "../../../components/ui/SectionState";
 import errorBg from "../../../assets/images/heroError.png";
+import UserBtnSection from "../../../components/ui/UserBtnSection";
 
 const HeroSection = () => {
   const { id } = useParams();
@@ -217,7 +218,11 @@ const HeroSection = () => {
             {overview}
           </p>
 
-          <div className="flex gap-3 mt-2 lg:text-base text-xs">
+          <UserBtnSection
+            className="flex gap-3 mt-2 lg:text-base text-xs"
+            isLoading={false}
+            isError={false}
+          >
             <button className="flex items-center gap-2 px-1 md:px-5 md:py-2.5 rounded-lg bg-accent text-primary font-semibold hover:brightness-110 transition-all duration-300 cursor-pointer">
               <FaRegBookmark />
               Add to Watchlist
@@ -230,7 +235,7 @@ const HeroSection = () => {
               <FaRegHeart />
               Like
             </button>
-          </div>
+          </UserBtnSection>
 
           {trailer && (
             <div className="flex gap-3 mt-1 lg:text-base text-xs">
