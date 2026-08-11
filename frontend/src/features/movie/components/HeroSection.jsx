@@ -231,7 +231,7 @@ const HeroSection = () => {
               id={id}
               endpoint={`users/watchlist/${id}`}
               isActive={false}
-              className="px-1 md:px-5 md:py-2.5 rounded-lg h-auto w-auto hover:bg-accent hover:brightness-110"
+              className="px-1 md:px-5 md:py-2.5 rounded-lg h-auto w-auto bg-transparent hover:bg-white/10 border border-white/40 text-white font-medium"
             />
             <UserActionButton
               icon={<FaCheck />}
@@ -249,7 +249,7 @@ const HeroSection = () => {
               id={id}
               endpoint={`users/likes/${id}`}
               isActive={false}
-              className="px-5 py-2.5 rounded-lg h-auto w-auto bg-transparent hover:bg-white/10 border border-white/40 text-white font-medium"
+              className="px-1 md:px-5 md:py-2.5 rounded-lg h-auto w-auto bg-transparent hover:bg-white/10 border border-white/40 text-white font-medium"
             />
           </UserBtnSection>
 
