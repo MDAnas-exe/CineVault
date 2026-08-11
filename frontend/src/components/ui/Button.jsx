@@ -5,7 +5,7 @@ const Button = ({
   type,
   className = "",
   isPending = false,
-  onClick = {},
+  onClick,
 }) => {
   return (
     <button
