@@ -15,6 +15,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import SectionState from "../../../components/ui/SectionState";
 import errorBg from "../../../assets/images/heroError.png";
 import UserBtnSection from "../../../components/ui/UserBtnSection";
+import UserActionButton from "../../../components/ui/UserActionButton";
 
 const HeroSection = () => {
   const { id } = useParams();
@@ -223,18 +224,33 @@ const HeroSection = () => {
             isLoading={false}
             isError={false}
           >
-            <button className="flex items-center gap-2 px-1 md:px-5 md:py-2.5 rounded-lg bg-accent text-primary font-semibold hover:brightness-110 transition-all duration-300 cursor-pointer">
-              <FaRegBookmark />
-              Add to Watchlist
-            </button>
-            <button className="flex items-center gap-2 px-1 md:px-5 md:py-2.5 rounded-lg border border-white/40 text-white font-medium hover:bg-white/10 transition-all duration-300 cursor-pointer">
-              <FaCheck />
-              Mark as Watched
-            </button>
-            <button className="flex items-center gap-2 px-5 py-2.5 rounded-lg border border-white/40 text-white font-medium hover:bg-white/10 transition-all duration-300 cursor-pointer">
-              <FaRegHeart />
-              Like
-            </button>
+            <UserActionButton
+              icon={<FaRegBookmark />}
+              label="Add to Watchlist"
+              title="Add to Watchlist"
+              id={id}
+              endpoint={`users/watchlist/${id}`}
+              isActive={false}
+              className="px-1 md:px-5 md:py-2.5 rounded-lg h-auto w-auto hover:bg-accent hover:brightness-110"
+            />
+            <UserActionButton
+              icon={<FaCheck />}
+              label="Mark as Watched"
+              title="Mark as Watched"
+              id={id}
+              endpoint={`users/watched/${id}`}
+              isActive={false}
+              className="px-1 md:px-5 md:py-2.5 rounded-lg h-auto w-auto bg-transparent hover:bg-white/10 border border-white/40 text-white font-medium"
+            />
+            <UserActionButton
+              icon={<FaRegHeart />}
+              label="Like"
+              title="Like"
+              id={id}
+              endpoint={`users/likes/${id}`}
+              isActive={false}
+              className="px-5 py-2.5 rounded-lg h-auto w-auto bg-transparent hover:bg-white/10 border border-white/40 text-white font-medium"
+            />
           </UserBtnSection>
 
           {trailer && (

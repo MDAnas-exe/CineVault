@@ -8,17 +8,29 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { MdTrendingUp } from "react-icons/md";
-import MovieActionButton from "../../../components/ui/MovieActionButton";
+import UserActionButton from "../../../components/ui/UserActionButton";
 import UserBtnSection from "../../../components/ui/UserBtnSection";
 
 const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
   const navigate = useNavigate();
 
-  const iconMap = {
-    FaRegHeart,
-    FaRegBookmark,
-    FaRegEye,
-  };
+  const buttons = [
+    {
+      icon: <FaRegHeart />,
+      title: "Add to liked",
+      endpoint: `users/likes/${movie.id}`,
+    },
+    {
+      icon: <FaRegBookmark />,
+      title: "Add to Watchlist",
+      endpoint: `users/watchlist/${movie.id}`,
+    },
+    {
+      icon: <FaRegEye />,
+      title: "Mark as Watched",
+      endpoint: `users/watched/${movie.id}`,
+    },
+  ];
 
   const releaseDate = movie.release_date
     ? new Date(movie.release_date).toLocaleDateString("en-US", {
@@ -105,20 +117,17 @@ const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
             isLoading={isLoading}
             isError={isError}
           >
-            {[
-              { icon: "FaRegHeart", title: "Add to liked" },
-              { icon: "FaRegBookmark", title: "Add to Watchlist" },
-              { icon: "FaRegEye", title: "Mark as Watched" },
-            ].map((btn, index) => {
-              const Icon = iconMap[btn.icon];
-              return (
-                <MovieActionButton
-                  icon={<Icon />}
-                  title={btn.title}
-                  key={index}
-                />
-              );
-            })}
+            {buttons.map((btn, index) => (
+              <UserActionButton
+                key={index}
+                icon={btn.icon}
+                title={btn.title}
+                id={movie.id}
+                endpoint={btn.endpoint}
+                isActive={false}
+                className="w-7 h-7 lg:w-10 lg:h-10 rounded-full sm:border border-gray-200 bg-transparent hover:bg-transparent shadow-none text-primary/60 hover:text-accent"
+              />
+            ))}
           </UserBtnSection>
         </div>
       </div>
