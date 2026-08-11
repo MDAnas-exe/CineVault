@@ -70,42 +70,63 @@ const SearchResultsPage = () => {
       toBeFetchedIds.push(m.id);
   });
 
+  const chunks = [];
+  for (let i = 0; i < toBeFetchedIds.length; i = i + 20) {
+    chunks.push(toBeFetchedIds.slice(i, i + 20));
+  }
+
   const { user, isLoggedIn } = useAuth();
 
-  const {
-    data: userMovieStatus,
-    isLoading: isUserMovieStatusLoading,
-    isError: isUserMovieStatusError,
-  } = useQuery({
-    queryKey: ["movie-status", user?._id, toBeFetchedIds.sort().join(",")],
-    queryFn: () =>
-      apiRequest({
-        endpoint: `users/movie-status?ids=${toBeFetchedIds.sort().join(",")}`,
-        method: "GET",
-      }),
-    retry: false,
-    enabled: toBeFetchedIds.length > 0 && isLoggedIn,
-  });
+  const { data: userMovieStatus, isLoading: isUserMovieStatusLoading } =
+    useQuery({
+      queryKey: ["movie-status", user?._id, toBeFetchedIds.sort().join(",")],
+      queryFn: async () => {
+        const results = await Promise.allSettled(
+          chunks.map((chunk) =>
+            apiRequest({
+              endpoint: `users/movie-status?ids=${chunk.sort().join(",")}`,
+              method: "GET",
+            }),
+          ),
+        );
+
+        results.forEach((result, i) => {
+          if (result.status === "fulfilled") data.push(...result.value);
+          else
+            data.push(
+              ...chunks[i].map((id) => ({
+                movieId: id,
+                isUserMovieStatusError: true,
+              })),
+            );
+        });
+        return data;
+      },
+      retry: false,
+      enabled: toBeFetchedIds.length > 0 && isLoggedIn,
+    });
 
   useEffect(() => {
-    if (
-      !isUserMovieStatusLoading &&
-      !isUserMovieStatusError &&
-      userMovieStatus
-    ) {
-      userMovieStatus.forEach((status) =>
-        queryClient.setQueryData(["movie-status", status.movieId], status),
-      );
-    }
+    if (!isUserMovieStatusLoading && userMovieStatus) {
+      userMovieStatus.forEach((status) => {
+        if (status.isError !== true)
+          queryClient.setQueryData(["movie-status", status.movieId], status);
+      });
 
-    if (!isUserMovieStatusLoading && isUserMovieStatusError) {
-    }
-  }, [userMovieStatus, isUserMovieStatusLoading, isUserMovieStatusError]);
+      filteredMovies = filteredMovies.map((movie) => ({
+        ...movie,
+        ...userMovieStatus.find((status) => status.movieId === movie.id),
+        isUserMovieStatusLoading,
+      }));
 
-  filteredMovies = filteredMovies.map((movie) => ({
-    ...movie,
-    ...queryClient.getQueryData(["movie-status", movie.id]),
-  }));
+      if (isUserMovieStatusLoading) {
+        filteredMovies = filteredMovies.map((movie) => ({
+          ...movie,
+          isUserMovieStatusLoading,
+        }));
+      }
+    }
+  }, [userMovieStatus, isUserMovieStatusLoading]);
 
   const observerRef = useRef(null);
   const sentinelRef = useCallback(
