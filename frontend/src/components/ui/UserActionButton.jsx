@@ -14,10 +14,10 @@ const UserActionButton = ({
     <Button
       type="button"
       title={title}
-      className={twMerge("flex items-center gap-2", className)}
+      className={twMerge(`flex items-center gap-2 `, className)}
     >
       <span
-        className={`transition-colors duration-200 ${isActive ? "text-accent" : ""}`}
+        className={`transition-colors duration-200 ${isActive ? "text-accent" : ""} ${!label && "mx-auto"}`}
       >
         {icon}
       </span>
