@@ -14,71 +14,82 @@ import UserBtnSection from "../../../components/ui/UserBtnSection";
 const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
   const navigate = useNavigate();
 
+  const {
+    id,
+    title,
+    original_title,
+    poster_path,
+    release_date,
+    original_language,
+    vote_average,
+    vote_count,
+    popularity,
+    overview,
+  } = movie;
+
   const buttons = [
     {
       icon: <FaRegHeart />,
       title: "Add to liked",
-      endpoint: `users/likes/${movie.id}`,
+      endpoint: `users/likes/${id}`,
     },
     {
       icon: <FaRegBookmark />,
       title: "Add to Watchlist",
-      endpoint: `users/watchlist/${movie.id}`,
+      endpoint: `users/watchlist/${id}`,
     },
     {
       icon: <FaRegEye />,
       title: "Mark as Watched",
-      endpoint: `users/watched/${movie.id}`,
+      endpoint: `users/watched/${id}`,
     },
   ];
 
-  const releaseDate = movie.release_date
-    ? new Date(movie.release_date).toLocaleDateString("en-US", {
+  const releaseDate = release_date
+    ? new Date(release_date).toLocaleDateString("en-US", {
         month: "short",
         day: "2-digit",
         year: "numeric",
       })
     : "N/A";
 
-  const language = movie.original_language
-    ? new Intl.DisplayNames(["en"], { type: "language" }).of(
-        movie.original_language,
-      )
+  const language = original_language
+    ? new Intl.DisplayNames(["en"], { type: "language" }).of(original_language)
     : "N/A";
 
-  const votes = !movie.vote_count
+  const votes = !vote_count
     ? "N/A"
-    : movie.vote_count >= 1000000
-      ? `${(movie.vote_count / 1000000).toFixed(1)}M votes`
-      : movie.vote_count >= 1000
-        ? `${(movie.vote_count / 1000).toFixed(1)}K votes`
-        : `${movie.vote_count} votes`;
+    : vote_count >= 1000000
+      ? `${(vote_count / 1000000).toFixed(1)}M votes`
+      : vote_count >= 1000
+        ? `${(vote_count / 1000).toFixed(1)}K votes`
+        : `${vote_count} votes`;
 
   return (
     <div
       className="flex gap-2 sm:gap-6 p-2 sm:p-4 lg:p-6 rounded-2xl bg-white  font-inter border border-gray-200/60 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer sm:flex-row  sm:w-full  "
       ref={ref}
       onClick={() => {
-        navigate(`/movies/${movie.id}`);
+        navigate(`/movies/${id}`);
       }}
     >
       <img
-        src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
-        alt={movie.title}
+        src={`https://image.tmdb.org/t/p/w300/${poster_path}`}
+        alt={title}
         className="size-40 sm:w-30 sm:h-40 lg:w-37.5 lg:h-50 rounded-xl self-center"
       />
 
       <div className="flex flex-col justify-between w-full gap-2 sm:gap-0">
         <div className="flex items-center justify-between  ">
           <h1 className="font-poppins font-bold text-lg lg:text-3xl text-primary  line-clamp-1 sm:line-clamp-2 ">
-            {movie.title || movie.orginal_title}
+            {title || original_title}
           </h1>
           <div className="flex flex-col sm:flex-row items-center sm:gap-2">
             <div className="flex items-center gap-1 text-accent font-bold text-lg">
-              {movie.vote_average ? (
+              {vote_average ? (
                 <>
                   <FaStar />
-                  {movie.vote_average.toFixed(2)}
+                  {vote_average.toFixed(2)}
                 </>
               ) : (
                 "N/A"
@@ -98,7 +109,7 @@ const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
         </div>
 
         <p className="text-primary/80 text-xs sm:text-sm lg:text-base line-clamp-3 sm:line-clamp-2 lg:w-125 ">
-          {movie.overview ? movie.overview : "N/A"}
+          {overview ? overview : "N/A"}
         </p>
 
         <hr className=" border-gray-200" />
@@ -108,7 +119,7 @@ const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
             <MdTrendingUp />
             Popularity
             <span className="text-primary font-bold">
-              {movie.popularity ? movie.popularity.toFixed(2) : "N/A"}
+              {popularity ? popularity.toFixed(2) : "N/A"}
             </span>
           </div>
 
@@ -122,7 +133,7 @@ const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
                 key={index}
                 icon={btn.icon}
                 title={btn.title}
-                id={movie.id}
+                id={id}
                 endpoint={btn.endpoint}
                 isActive={false}
                 className="w-7 h-7 lg:w-10 lg:h-10 rounded-full sm:border border-gray-200 bg-transparent hover:bg-transparent shadow-none text-primary/60 hover:text-accent"
