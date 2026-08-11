@@ -126,6 +126,81 @@ const SearchResultsPage = () => {
 
   const total_results = data?.total_results;
 
+  if (isLoading) {
+    return (
+      <div className="flex flex-col gap-2 justify-evenly px-4 sm:px-20 lg:px-40 py-5 bg-gray-100">
+        <Skeleton width="30%" height={30} />
+        <Skeleton width="15%" height={20} />
+        {Array.from({ length: 3 }).map((_, index) => (
+          <div
+            className="flex gap-2 sm:gap-6 p-2 sm:p-4 lg:p-6 rounded-2xl bg-white border border-gray-200/60 shadow-sm"
+            key={index}
+          >
+            <div className="h-40 w-25 sm:w-30 sm:h-40 lg:w-37.5 lg:h-50 shrink-0">
+              <Skeleton height="100%" width="100%" borderRadius="0.75rem" />
+            </div>
+            <div className="flex flex-col justify-between w-full gap-2 sm:gap-0">
+              <div className="flex items-center justify-between">
+                <div className="w-2/3 lg:w-2/5">
+                  <Skeleton height={28} />
+                </div>
+                <div className="flex flex-col sm:flex-row items-center sm:gap-2">
+                  <Skeleton width={50} height={20} />
+                  <div className="hidden sm:block">
+                    <Skeleton width={70} height={20} />
+                  </div>
+                </div>
+              </div>
+              <div className="w-2/5 sm:w-1/3">
+                <Skeleton height={16} />
+              </div>
+              <div className="w-full lg:w-125">
+                <Skeleton count={2} />
+              </div>
+              <hr className="border-gray-200" />
+              <div className="flex justify-between items-center">
+                <div className="hidden sm:block w-1/3">
+                  <Skeleton height={22} />
+                </div>
+                <div className="flex items-center w-full sm:w-auto sm:gap-3 justify-around">
+                  <Skeleton circle width={28} height={28} />
+                  <Skeleton circle width={28} height={28} />
+                  <Skeleton circle width={28} height={28} />
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="my-5 md:my-15">
+        <SectionState
+          imageSource={ErrorSign}
+          buttonText="Retry"
+          message="Something went wrong"
+          description={`Couldn't load result for ${name} please try again later`}
+          onRetry={refetch}
+        />
+      </div>
+    );
+  }
+
+  if (filteredMovies.length === 0) {
+    return (
+      <div className="my-15">
+        <SectionState
+          imageSource={EmptySign}
+          message={`No results for "${name}"`}
+          description="Try checking your spelling or use less specific keywords."
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-2 justify-evenly px-2 sm:px-15 lg:px-30 py-2 sm:py-5 bg-gray-100">
       <div className="flex flex-col">
