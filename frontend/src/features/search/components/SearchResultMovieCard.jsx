@@ -25,6 +25,11 @@ const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
     vote_count,
     popularity,
     overview,
+    liked,
+    watched,
+    inWatchlist,
+    isUserMovieStatusError,
+    isUserMovieStatusLoading,
   } = movie;
 
   const buttons = [
@@ -32,16 +37,19 @@ const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
       icon: <FaRegHeart />,
       title: "Add to liked",
       endpoint: `users/likes/${id}`,
+      isActive: liked,
     },
     {
       icon: <FaRegBookmark />,
       title: "Add to Watchlist",
       endpoint: `users/watchlist/${id}`,
+      isActive: inWatchlist,
     },
     {
       icon: <FaRegEye />,
       title: "Mark as Watched",
       endpoint: `users/watched/${id}`,
+      isActive: watched,
     },
   ];
 
@@ -125,8 +133,8 @@ const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
 
           <UserBtnSection
             className="flex items-center w-full sm:w-auto sm:gap-3 justify-around lg:text-base sm:text-sm text-base"
-            isLoading={isLoading}
-            isError={isError}
+            isLoading={isUserMovieStatusLoading}
+            isError={isUserMovieStatusError}
           >
             {buttons.map((btn, index) => (
               <UserActionButton
@@ -135,8 +143,8 @@ const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
                 title={btn.title}
                 id={id}
                 endpoint={btn.endpoint}
-                isActive={false}
-                className="w-7 h-7 lg:w-10 lg:h-10 rounded-full sm:border border-gray-200 bg-transparent hover:bg-transparent shadow-none text-primary/60 hover:text-accent"
+                isActive={btn.isActive}
+                className="w-7 h-7 lg:w-10 lg:h-10 rounded-full sm:border border-gray-200 bg-transparent hover:bg-transparent shadow-none text-primary/60 hover:text-accent "
               />
             ))}
           </UserBtnSection>
