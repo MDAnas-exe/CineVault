@@ -1,10 +1,16 @@
-export default async function apiRequest({ data, endpoint, method = "POST" }) {
+export default async function apiRequest({
+  data,
+  endpoint,
+  method = "POST",
+  signal,
+}) {
   const response = await fetch(`http://localhost:3000/${endpoint}`, {
     method,
     headers: { "Content-Type": "application/json" },
     credentials: "include",
     ...(method !== "GET" &&
       method !== "DELETE" && { body: JSON.stringify(data) }),
+    signal,
   });
 
   if (!response.ok) {
