@@ -14,6 +14,7 @@ const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
     poster_path,
     release_date,
     original_language,
+    genre_ids,
     vote_average,
     vote_count,
     popularity,
@@ -28,19 +29,16 @@ const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
   const buttons = [
     {
       iconKey: "like",
-      title: "Add to liked",
       endpoint: `users/likes/${id}`,
       isActive: liked,
     },
     {
       iconKey: "watchlist",
-      title: "Add to Watchlist",
       endpoint: `users/watchlist/${id}`,
       isActive: inWatchlist,
     },
     {
       iconKey: "watched",
-      title: "Mark as Watched",
       endpoint: `users/watched/${id}`,
       isActive: watched,
     },
@@ -132,9 +130,13 @@ const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
             {buttons.map((btn, index) => (
               <UserActionButton
                 key={index}
-                iconKey={btn.iconKey}
-                title={btn.title}
+                title={title}
                 id={id}
+                popularity={popularity}
+                releaseDate={release_date}
+                posterPath={poster_path}
+                genres={genre_ids}
+                iconKey={btn.iconKey}
                 endpoint={btn.endpoint}
                 isActive={btn.isActive}
                 className="w-7 h-7 lg:w-10 lg:h-10 rounded-full sm:border border-gray-200 bg-transparent hover:bg-transparent shadow-none text-primary/60 hover:text-accent focus:ring-0"
