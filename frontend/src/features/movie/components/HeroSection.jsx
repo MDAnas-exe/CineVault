@@ -207,13 +207,7 @@ const HeroSection = () => {
 
           <UserBtnSection
             variant="hero"
-            className={
-              false
-                ? "flex gap-3 mt-2"
-                : false
-                  ? "flex mt-2 text-sm"
-                  : "flex gap-3 mt-2 lg:text-base text-xs"
-            }
+            className={"flex gap-3 mt-2 lg:text-base text-xs"}
             isLoading={false}
             isError={false}
           >
