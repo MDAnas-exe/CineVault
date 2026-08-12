@@ -86,8 +86,6 @@ const UserActionButton = ({
 
   if (popularity) movieInfo.popularity = popularity.toFixed(2);
 
-  console.log(movieInfo);
-
   const { mutateAsync } = useMutation({
     mutationFn: apiRequest,
     onMutate: () => ({ wasActive: isActive }),
