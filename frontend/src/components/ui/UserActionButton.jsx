@@ -61,7 +61,11 @@ const messages = {
 const UserActionButton = ({
   iconKey,
   label = "",
-  title = "",
+  title,
+  posterPath,
+  releaseDate,
+  genres,
+  popularity,
   className = "",
   id,
   endpoint,
@@ -69,6 +73,20 @@ const UserActionButton = ({
 }) => {
   const queryClient = useQueryClient();
   const [isActive, setIsActive] = useState(initialIsActive);
+
+  const movieInfo = {};
+
+  movieInfo.title = title;
+
+  if (posterPath) movieInfo.posterPath = posterPath;
+
+  if (releaseDate) movieInfo.releaseDate = new Date(releaseDate);
+
+  if (genres) movieInfo.genres = genres;
+
+  if (popularity) movieInfo.popularity = popularity.toFixed(2);
+
+  console.log(movieInfo);
 
   const { mutateAsync } = useMutation({
     mutationFn: apiRequest,
@@ -89,7 +107,6 @@ const UserActionButton = ({
   return (
     <Button
       type="button"
-      title={title}
       className={twMerge(`flex items-center gap-2 `, className)}
       onClick={(e) => {
         e.stopPropagation();
@@ -98,7 +115,7 @@ const UserActionButton = ({
         toast.success(
           wasActive ? messages[iconKey].remove : messages[iconKey].add,
         );
-        mutateAsync({ endpoint, method: "PATCH" });
+        mutateAsync({ endpoint, method: "PATCH", data: { movieInfo } });
       }}
     >
       <CrossFadeIcon iconKey={iconKey} isActive={isActive} label={label} />
