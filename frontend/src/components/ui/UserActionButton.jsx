@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 import {
   FaRegHeart,
@@ -74,6 +74,8 @@ const UserActionButton = ({
   const queryClient = useQueryClient();
   const [isActive, setIsActive] = useState(initialIsActive);
 
+  const controllerRef = useRef(null);
+
   const movieInfo = {};
 
   movieInfo.title = title;
@@ -93,6 +95,7 @@ const UserActionButton = ({
       queryClient.setQueryData(["movie-status", id], null);
     },
     onError: (err, variables, context) => {
+      if (err.name === "AbortError") return;
       setIsActive(context.wasActive);
       toast.error(
         context.wasActive
@@ -102,19 +105,27 @@ const UserActionButton = ({
     },
   });
 
+  const handleClick = async (e) => {
+    e.stopPropagation();
+    const wasActive = isActive;
+    setIsActive((prev) => !prev);
+    toast.success(wasActive ? messages[iconKey].remove : messages[iconKey].add);
+    controllerRef.current?.abort();
+    controllerRef.current = new AbortController();
+
+    await mutateAsync({
+      endpoint,
+      method: "PATCH",
+      data: { movieInfo },
+      signal: controllerRef.current.signal,
+    });
+  };
+
   return (
     <Button
       type="button"
       className={twMerge(`flex items-center gap-2 `, className)}
-      onClick={(e) => {
-        e.stopPropagation();
-        const wasActive = isActive;
-        setIsActive((prev) => !prev);
-        toast.success(
-          wasActive ? messages[iconKey].remove : messages[iconKey].add,
-        );
-        mutateAsync({ endpoint, method: "PATCH", data: { movieInfo } });
-      }}
+      onClick={handleClick}
     >
       <CrossFadeIcon iconKey={iconKey} isActive={isActive} label={label} />
       {label && <span>{label}</span>}
