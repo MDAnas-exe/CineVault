@@ -10,9 +10,27 @@ import {
 import Button from "./Button";
 
 const ICON_MAP = {
-  like:      { inactive: <FaRegHeart />,     active: <FaHeart /> },
-  watchlist: { inactive: <FaRegBookmark />,  active: <FaBookmark /> },
-  watched:   { inactive: <FaRegEye />,       active: <FaEye /> },
+  like: { outline: FaRegHeart, solid: FaHeart },
+  watchlist: { outline: FaRegBookmark, solid: FaBookmark },
+  watched: { outline: FaRegEye, solid: FaEye },
+};
+
+const CrossFadeIcon = ({ iconKey, isActive, label }) => {
+  const icons = ICON_MAP[iconKey];
+  if (!icons) return null;
+  const { outline: Outline, solid: Solid } = icons;
+  return (
+    <span className={`relative size-4 ${!label && "size-full"} `}>
+      <Outline
+        className={`absolute inset-0 transition-opacity duration-200  ${!label && "m-auto"}`}
+        style={{ opacity: isActive ? 0 : 1 }}
+      />
+      <Solid
+        className={`absolute inset-0 transition-opacity duration-200 ${!label && "m-auto"}`}
+        style={{ opacity: isActive ? 1 : 0, color: "#D4A017" }}
+      />
+    </span>
+  );
 };
 
 const UserActionButton = ({
@@ -24,19 +42,13 @@ const UserActionButton = ({
   endpoint,
   isActive = false,
 }) => {
-  const iconSet = ICON_MAP[iconKey] ?? null;
-  const icon = iconSet ? (isActive ? iconSet.active : iconSet.inactive) : null;
   return (
     <Button
       type="button"
       title={title}
       className={twMerge(`flex items-center gap-2 `, className)}
     >
-      <span
-        className={`transition-colors duration-200 ${isActive ? "text-accent" : ""} ${!label && "mx-auto"}`}
-      >
-        {icon}
-      </span>
+      <CrossFadeIcon iconKey={iconKey} isActive={isActive} label={label} />
       {label && <span>{label}</span>}
     </Button>
   );
