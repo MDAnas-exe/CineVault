@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import {
   FaRegHeart,
@@ -8,6 +9,9 @@ import {
   FaEye,
 } from "react-icons/fa";
 import Button from "./Button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import apiRequest from "../../utils/apiRequest.js";
+import toast from "react-hot-toast";
 
 const ICON_MAP = {
   like: { outline: FaRegHeart, solid: FaHeart },
@@ -22,7 +26,7 @@ const CrossFadeIcon = ({ iconKey, isActive, label }) => {
   return (
     <span className={`relative size-4 ${!label && "size-full"} `}>
       <Outline
-        className={`absolute inset-0 transition-opacity duration-200  ${!label && "m-auto"}`}
+        className={`absolute inset-0 transition-opacity duration-200 ${!label && "m-auto"}`}
         style={{ opacity: isActive ? 0 : 1 }}
       />
       <Solid
@@ -33,6 +37,27 @@ const CrossFadeIcon = ({ iconKey, isActive, label }) => {
   );
 };
 
+const messages = {
+  like: {
+    add: "Added to liked",
+    remove: "Removed from liked",
+    addError: "Failed to like",
+    removeError: "Failed to unlike",
+  },
+  watchlist: {
+    add: "Added to watchlist",
+    remove: "Removed from watchlist",
+    addError: "Failed to add to watchlist",
+    removeError: "Failed to remove from watchlist",
+  },
+  watched: {
+    add: "Marked as watched",
+    remove: "Unmarked as watched",
+    addError: "Failed to mark as watched",
+    removeError: "Failed to unmark as watched",
+  },
+};
+
 const UserActionButton = ({
   iconKey,
   label = "",
@@ -40,13 +65,41 @@ const UserActionButton = ({
   className = "",
   id,
   endpoint,
-  isActive = false,
+  isActive: initialIsActive,
 }) => {
+  const queryClient = useQueryClient();
+  const [isActive, setIsActive] = useState(initialIsActive);
+
+  const { mutateAsync } = useMutation({
+    mutationFn: apiRequest,
+    onMutate: () => ({ wasActive: isActive }),
+    onSuccess: () => {
+      queryClient.setQueryData(["movie-status", id], null);
+    },
+    onError: (err, variables, context) => {
+      setIsActive(context.wasActive);
+      toast.error(
+        context.wasActive
+          ? messages[iconKey].removeError
+          : messages[iconKey].addError,
+      );
+    },
+  });
+
   return (
     <Button
       type="button"
       title={title}
       className={twMerge(`flex items-center gap-2 `, className)}
+      onClick={(e) => {
+        e.stopPropagation();
+        const wasActive = isActive;
+        setIsActive((prev) => !prev);
+        toast.success(
+          wasActive ? messages[iconKey].remove : messages[iconKey].add,
+        );
+        mutateAsync({ endpoint, method: "PATCH" });
+      }}
     >
       <CrossFadeIcon iconKey={iconKey} isActive={isActive} label={label} />
       {label && <span>{label}</span>}
