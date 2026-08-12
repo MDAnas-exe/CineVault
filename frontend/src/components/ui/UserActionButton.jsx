@@ -1,8 +1,22 @@
 import { twMerge } from "tailwind-merge";
+import {
+  FaRegHeart,
+  FaHeart,
+  FaRegBookmark,
+  FaBookmark,
+  FaRegEye,
+  FaEye,
+} from "react-icons/fa";
 import Button from "./Button";
 
+const ICON_MAP = {
+  like:      { inactive: <FaRegHeart />,     active: <FaHeart /> },
+  watchlist: { inactive: <FaRegBookmark />,  active: <FaBookmark /> },
+  watched:   { inactive: <FaRegEye />,       active: <FaEye /> },
+};
+
 const UserActionButton = ({
-  icon,
+  iconKey,
   label = "",
   title = "",
   className = "",
@@ -10,6 +24,8 @@ const UserActionButton = ({
   endpoint,
   isActive = false,
 }) => {
+  const iconSet = ICON_MAP[iconKey] ?? null;
+  const icon = iconSet ? (isActive ? iconSet.active : iconSet.inactive) : null;
   return (
     <Button
       type="button"

@@ -1,11 +1,4 @@
-import {
-  FaStar,
-  FaCalendarAlt,
-  FaGlobe,
-  FaRegBookmark,
-  FaRegHeart,
-  FaRegEye,
-} from "react-icons/fa";
+import { FaStar, FaCalendarAlt, FaGlobe } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { MdTrendingUp } from "react-icons/md";
 import UserActionButton from "../../../components/ui/UserActionButton";
@@ -34,19 +27,19 @@ const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
 
   const buttons = [
     {
-      icon: <FaRegHeart />,
+      iconKey: "like",
       title: "Add to liked",
       endpoint: `users/likes/${id}`,
       isActive: liked,
     },
     {
-      icon: <FaRegBookmark />,
+      iconKey: "watchlist",
       title: "Add to Watchlist",
       endpoint: `users/watchlist/${id}`,
       isActive: inWatchlist,
     },
     {
-      icon: <FaRegEye />,
+      iconKey: "watched",
       title: "Mark as Watched",
       endpoint: `users/watched/${id}`,
       isActive: watched,
@@ -139,7 +132,7 @@ const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
             {buttons.map((btn, index) => (
               <UserActionButton
                 key={index}
-                icon={btn.icon}
+                iconKey={btn.iconKey}
                 title={btn.title}
                 id={id}
                 endpoint={btn.endpoint}

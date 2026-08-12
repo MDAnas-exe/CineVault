@@ -1,9 +1,6 @@
 import { useParams } from "react-router-dom";
 import {
   FaStar,
-  FaRegBookmark,
-  FaRegHeart,
-  FaCheck,
   FaPlay,
   FaCalendarAlt,
   FaClock,
@@ -225,7 +222,7 @@ const HeroSection = () => {
             isError={false}
           >
             <UserActionButton
-              icon={<FaRegBookmark />}
+              iconKey="watchlist"
               label="Add to Watchlist"
               title="Add to Watchlist"
               id={id}
@@ -234,7 +231,7 @@ const HeroSection = () => {
               className="px-1 md:px-5 md:py-2.5 rounded-lg h-auto w-auto bg-transparent hover:bg-white/10 border border-white/40 text-white font-medium"
             />
             <UserActionButton
-              icon={<FaCheck />}
+              iconKey="watched"
               label="Mark as Watched"
               title="Mark as Watched"
               id={id}
@@ -243,7 +240,7 @@ const HeroSection = () => {
               className="px-1 md:px-5 md:py-2.5 rounded-lg h-auto w-auto bg-transparent hover:bg-white/10 border border-white/40 text-white font-medium"
             />
             <UserActionButton
-              icon={<FaRegHeart />}
+              iconKey="like"
               label="Like"
               title="Like"
               id={id}
