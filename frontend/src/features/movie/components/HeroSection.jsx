@@ -224,7 +224,6 @@ const HeroSection = () => {
             <UserActionButton
               iconKey="watchlist"
               label="Add to Watchlist"
-              title="Add to Watchlist"
               id={id}
               endpoint={`users/watchlist/${id}`}
               isActive={false}
@@ -233,7 +232,6 @@ const HeroSection = () => {
             <UserActionButton
               iconKey="watched"
               label="Mark as Watched"
-              title="Mark as Watched"
               id={id}
               endpoint={`users/watched/${id}`}
               isActive={false}
@@ -242,7 +240,6 @@ const HeroSection = () => {
             <UserActionButton
               iconKey="like"
               label="Like"
-              title="Like"
               id={id}
               endpoint={`users/likes/${id}`}
               isActive={false}
