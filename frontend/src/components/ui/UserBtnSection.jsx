@@ -1,22 +1,16 @@
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import { FaExclamationCircle } from "react-icons/fa";
+import HeroButtonSkeleton from "./HeroButtonSkeleton";
+import SearchButtonSkeleton from "./SearchButtonSkeleton";
 
-const UserBtnSection = ({ className = "", isLoading, isError, children }) => {
+const UserBtnSection = ({ className = "", isLoading, isError, variant, children }) => {
   if (isLoading) {
-    return (
-      <div className="flex gap-2">
-        {[...Array(3)].map((_, i) => (
-          <Skeleton key={i} circle width={30} height={30} />
-        ))}
-      </div>
-    );
+    return variant === "hero" ? <HeroButtonSkeleton /> : <SearchButtonSkeleton />;
   }
 
   if (isError) {
     return (
       <div className={className}>
-        <span className="flex items-center gap-1 text-xs text-red-400 font-inter">
+        <span className="flex items-center gap-1 text-red-400 font-inter">
           <FaExclamationCircle />
           Failed to load status
         </span>
