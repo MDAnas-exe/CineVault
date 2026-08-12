@@ -137,7 +137,7 @@ const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
                 id={id}
                 endpoint={btn.endpoint}
                 isActive={btn.isActive}
-                className="w-7 h-7 lg:w-10 lg:h-10 rounded-full sm:border border-gray-200 bg-transparent hover:bg-transparent shadow-none text-primary/60 hover:text-accent "
+                className="w-7 h-7 lg:w-10 lg:h-10 rounded-full sm:border border-gray-200 bg-transparent hover:bg-transparent shadow-none text-primary/60 hover:text-accent focus:ring-0"
               />
             ))}
           </UserBtnSection>
