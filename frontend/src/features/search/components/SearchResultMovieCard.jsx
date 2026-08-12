@@ -123,7 +123,14 @@ const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
           </div>
 
           <UserBtnSection
-            className="flex items-center w-full sm:w-auto sm:gap-3 justify-around lg:text-base sm:text-sm text-base"
+            variant="search"
+            className={
+              isUserMovieStatusLoading
+                ? "flex gap-3 items-center"
+                : isUserMovieStatusError
+                  ? "flex items-center"
+                  : "flex items-center w-full sm:w-auto sm:gap-3 justify-around lg:text-base sm:text-sm text-base"
+            }
             isLoading={isUserMovieStatusLoading}
             isError={isUserMovieStatusError}
           >
