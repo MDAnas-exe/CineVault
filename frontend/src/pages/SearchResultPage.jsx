@@ -80,13 +80,14 @@ const SearchResultsPage = () => {
   const { data: userMovieStatus, isLoading: isUserMovieStatusLoading } =
     useQuery({
       queryKey: ["movie-status", user?._id, toBeFetchedIds.sort().join(",")],
-      queryFn: async () => {
+      queryFn: async ({ signal }) => {
         const merged = [];
         const results = await Promise.allSettled(
           chunks.map((chunk) =>
             apiRequest({
               endpoint: `users/movie-status?ids=${chunk.sort().join(",")}`,
               method: "GET",
+              signal,
             }),
           ),
         );
