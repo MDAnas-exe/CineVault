@@ -14,9 +14,8 @@ const LogoutButton = ({ className = "" }) => {
     onSuccess: (data) => {
       toast.success("Logout Successful");
       queryClient.setQueryData(["auth", "me"], null);
-      setTimeout(() => {
-        navigate("/login", { replace: true });
-      }, 1000);
+
+      navigate("/login", { replace: true });
     },
     onError: () => toast.error("Couldn't log out. Please try again."),
   });
