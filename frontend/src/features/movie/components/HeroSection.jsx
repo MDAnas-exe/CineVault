@@ -13,6 +13,7 @@ import SectionState from "../../../components/ui/SectionState";
 import errorBg from "../../../assets/images/heroError.png";
 import UserBtnSection from "../../../components/ui/UserBtnSection";
 import UserActionButton from "../../../components/ui/UserActionButton";
+import HeroButtonSkeleton from "../../../components/ui/HeroButtonSkeleton";
 
 const HeroSection = () => {
   const { id } = useParams();
@@ -72,19 +73,7 @@ const HeroSection = () => {
 
               <Skeleton count={2} />
 
-              <div className="mt-2 flex gap-3 text-xs lg:text-base">
-                <div className="w-44">
-                  <Skeleton className="h-11.5 rounded-lg" />
-                </div>
-
-                <div className="w-44">
-                  <Skeleton className="h-11.5 rounded-lg" />
-                </div>
-
-                <div className="w-28">
-                  <Skeleton className="h-11.5 rounded-lg" />
-                </div>
-              </div>
+              <HeroButtonSkeleton />
 
               <div className="mt-1 flex gap-3 text-xs lg:text-base">
                 <div className="w-44">
@@ -217,7 +206,14 @@ const HeroSection = () => {
           </p>
 
           <UserBtnSection
-            className="flex gap-3 mt-2 lg:text-base text-xs"
+            variant="hero"
+            className={
+              false
+                ? "flex gap-3 mt-2"
+                : false
+                  ? "flex mt-2 text-sm"
+                  : "flex gap-3 mt-2 lg:text-base text-xs"
+            }
             isLoading={false}
             isError={false}
           >
