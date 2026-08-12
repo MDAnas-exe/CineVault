@@ -7,6 +7,7 @@ import SearchResultMovieCard from "../features/search/components/SearchResultMov
 import ErrorSign from "../assets/images/SearchResultErrorSign.png";
 import EmptySign from "../assets/images/reel.png";
 import SectionState from "../components/ui/SectionState";
+import SearchButtonSkeleton from "../components/ui/SearchButtonSkeleton";
 import Reel from "../assets/images/reel.svg?react";
 import {
   useInfiniteQuery,
@@ -178,11 +179,7 @@ const SearchResultsPage = () => {
                 <div className="hidden sm:block w-1/3">
                   <Skeleton height={22} />
                 </div>
-                <div className="flex items-center w-full sm:w-auto sm:gap-3 justify-around">
-                  <Skeleton circle width={28} height={28} />
-                  <Skeleton circle width={28} height={28} />
-                  <Skeleton circle width={28} height={28} />
-                </div>
+                <SearchButtonSkeleton />
               </div>
             </div>
           </div>
