@@ -57,19 +57,16 @@ const HeroSection = () => {
   const buttons = [
     {
       iconKey: "like",
-      label: "Like",
       endpoint: `users/likes/${id}`,
       isActive: liked,
     },
     {
       iconKey: "watchlist",
-      label: "Add to Watchlist",
       endpoint: `users/watchlist/${id}`,
       isActive: inWatchlist,
     },
     {
       iconKey: "watched",
-      label: "Mark as Watched",
       endpoint: `users/watched/${id}`,
       isActive: watched,
     },
@@ -271,6 +268,7 @@ const HeroSection = () => {
             {buttons.map((btn) => (
               <UserActionButton
                 key={btn.iconKey}
+                label={true}
                 {...btn}
                 posterPath={poster_path}
                 releaseDate={release_date}
