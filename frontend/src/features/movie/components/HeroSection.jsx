@@ -15,9 +15,13 @@ import errorBg from "../../../assets/images/heroError.png";
 import UserBtnSection from "../../../components/ui/UserBtnSection";
 import UserActionButton from "../../../components/ui/UserActionButton";
 import HeroButtonSkeleton from "../../../components/ui/HeroButtonSkeleton";
+import useAuth from "../../../hooks/useAuth";
 
 const HeroSection = () => {
   const { id } = useParams();
+
+  const { isLoggedIn } = useAuth;
+
   const {
     data: movie,
     isLoading,
@@ -30,21 +34,44 @@ const HeroSection = () => {
     staleTime: 60 * 60 * 1000,
   });
 
-  const heroActions = [
+  const {
+    data: userMovieStatus,
+    isLoading: isUserMovieStatusLoading,
+    isError: isUserMovieStatusError,
+    error,
+  } = useQuery({
+    queryKey: ["movie-status", id],
+    queryFn: () =>
+      apiRequest({
+        method: "GET",
+        endpoint: `users/movie-status?ids=${id}`,
+      }),
+    enabled: !!id && isLoggedIn,
+    retry: isLoggedIn,
+  });
+
+  const liked = userMovieStatus ? userMovieStatus[0].liked : false;
+  const watched = userMovieStatus ? userMovieStatus[0].watched : false;
+  const inWatchlist = userMovieStatus ? userMovieStatus[0].inWatchlist : false;
+
+  const buttons = [
+    {
+      iconKey: "like",
+      label: "Like",
+      endpoint: `users/likes/${id}`,
+      isActive: liked,
+    },
     {
       iconKey: "watchlist",
       label: "Add to Watchlist",
       endpoint: `users/watchlist/${id}`,
+      isActive: inWatchlist,
     },
     {
       iconKey: "watched",
       label: "Mark as Watched",
       endpoint: `users/watched/${id}`,
-    },
-    {
-      iconKey: "like",
-      label: "Like",
-      endpoint: `users/likes/${id}`,
+      isActive: watched,
     },
   ];
 
@@ -145,9 +172,8 @@ const HeroSection = () => {
     spoken_languages,
     genres,
     videos,
+    popularity,
   } = movie;
-
-  console.log(movie);
 
   const releaseYear = release_date ? release_date.split("-")[0] : "N/A";
 
@@ -239,15 +265,22 @@ const HeroSection = () => {
           <UserBtnSection
             variant="hero"
             className="flex gap-3 mt-2 lg:text-base text-xs"
-            isLoading={false}
-            isError={false}
+            isLoading={isUserMovieStatusLoading}
+            isError={isUserMovieStatusError}
           >
-            {heroActions.map((action) => (
+            {buttons.map((btn) => (
               <UserActionButton
-                key={action.iconKey}
-                {...action}
+                key={btn.iconKey}
+                iconKey={btn.iconKey}
+                posterPath={poster_path}
+                releaseDate={release_date}
+                genres={genres.map((genre) => genre.id)}
+                popularity={popularity}
                 id={id}
-                isActive={false}
+                endpoint={btn.endpoint}
+                label={btn.label}
+                title={title}
+                isActive={btn.isActive}
                 className="px-1 md:px-5 md:py-2.5 rounded-lg h-auto w-auto bg-transparent hover:bg-white/10 border border-white/40 text-white font-medium"
               />
             ))}
