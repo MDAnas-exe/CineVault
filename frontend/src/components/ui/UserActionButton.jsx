@@ -27,11 +27,11 @@ const CrossFadeIcon = ({ iconKey, isActive, label }) => {
   return (
     <span className={`relative size-4 ${!label && "size-full"} `}>
       <Outline
-        className={`absolute inset-0 transition-opacity duration-200 ${!label && "m-auto"}`}
+        className={`absolute inset-0 transition-opacity duration-200 md:m-auto ${!label && "m-auto"}`}
         style={{ opacity: isActive ? 0 : 1 }}
       />
       <Solid
-        className={`absolute inset-0 transition-opacity duration-200 ${!label && "m-auto"}`}
+        className={`absolute inset-0 transition-opacity duration-200 md:m-auto ${!label && "m-auto"}`}
         style={{ opacity: isActive ? 1 : 0, color: "#D4A017" }}
       />
     </span>
@@ -61,7 +61,7 @@ const messages = {
 
 const UserActionButton = ({
   iconKey,
-  label = "",
+  label = false,
   title,
   posterPath,
   releaseDate,
@@ -77,6 +77,12 @@ const UserActionButton = ({
   const { isLoggedIn } = useAuth();
 
   const [isActive, setIsActive] = useState(initialIsActive);
+
+  const btnLabel = {
+    watchlist: isActive ? "Remove from Watchlist" : "Add to Watchlist",
+    watched: isActive ? "Mark as Unwatched" : "Mark as Watched",
+    like: isActive ? "Unlike" : "Like",
+  };
 
   const controllerRef = useRef(null);
 
@@ -139,7 +145,7 @@ const UserActionButton = ({
       onClick={handleClick}
     >
       <CrossFadeIcon iconKey={iconKey} isActive={isActive} label={label} />
-      {label && <span>{label}</span>}
+      {label && <span>{btnLabel[iconKey]}</span>}
     </Button>
   );
 };
