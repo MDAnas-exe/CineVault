@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
-import useFetchReleaseInfo from "../hooks/useFetchReleaseInfo";
+import { useQuery } from "@tanstack/react-query";
+import apiRequest from "../../../utils/apiRequest";
 import ReleaseInfoSection from "./ReleaseInfoSection";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -18,7 +19,11 @@ const releaseTypes = {
 export default function ReleaseInfo() {
   const { id } = useParams();
 
-  const { data, isLoading, isError, refetch } = useFetchReleaseInfo(id);
+  const { data, isLoading, isError, refetch } = useQuery({
+    queryKey: ["movie-release-info", id],
+    queryFn: () => apiRequest({ endpoint: `movies/${id}/releaseinfo`, method: "GET" }),
+    enabled: !!id,
+  });
 
   const groupedReleaseInfo = useMemo(() => {
     if (!data) return [];

@@ -9,7 +9,8 @@ import {
   FaImdb,
   FaLink,
 } from "react-icons/fa";
-import useFetchMovieDetails from "../hooks/useFetchMovieDetails";
+import { useQuery } from "@tanstack/react-query";
+import apiRequest from "../../../utils/apiRequest";
 import { useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -45,7 +46,12 @@ const InfoCard = ({
 export default function Details() {
   const { id } = useParams();
 
-  const { movie, isLoading, isError, refetch } = useFetchMovieDetails(id);
+  const { data: movie, isLoading, isError, refetch } = useQuery({
+    queryKey: ["movie-details", id],
+    queryFn: () => apiRequest({ endpoint: `movies/${id}`, method: "GET" }),
+    enabled: !!id,
+    staleTime: 60 * 60 * 1000,
+  });
 
   if (isLoading) {
     return (

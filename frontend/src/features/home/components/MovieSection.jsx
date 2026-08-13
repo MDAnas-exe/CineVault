@@ -1,6 +1,7 @@
 import { useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
-import useFetchMoviesByCategory from "../hooks/useFetchMoviesByCategory";
+import apiRequest from "../../../utils/apiRequest";
 import "react-loading-skeleton/dist/skeleton.css";
 import HomeMovieCard from "./MovieCard";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
@@ -9,10 +10,14 @@ import errorSign from "../../../assets/images/errorSign.png";
 import SectionState from "../../../components/ui/SectionState";
 const HomeMovieSection = ({ title, endpoint }) => {
   const ref = useRef(null);
-  const { movies, isLoading, isError, refetch } = useFetchMoviesByCategory(
-    endpoint,
-    title,
-  );
+  const { data: movies = [], isLoading, isError, refetch } = useQuery({
+    queryKey: [endpoint],
+    queryFn: async () => {
+      const data = await apiRequest({ endpoint: `movies/${endpoint}`, method: "GET" });
+      return data.results.filter((m) => m.id && m.title);
+    },
+    staleTime: 30 * 60 * 1000,
+  });
 
   if (isLoading) {
     return (

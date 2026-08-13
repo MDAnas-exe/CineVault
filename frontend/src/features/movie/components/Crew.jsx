@@ -7,7 +7,8 @@ import {
 } from "react-icons/hi2";
 import { HiColorSwatch } from "react-icons/hi";
 import { useParams } from "react-router-dom";
-import useFetchMovieCredits from "../hooks/useFetchMovieCredits";
+import { useQuery } from "@tanstack/react-query";
+import apiRequest from "../../../utils/apiRequest";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import SectionState from "../../../components/ui/SectionState";
@@ -20,7 +21,14 @@ export default function Crew() {
     isLoading,
     isError,
     refetch,
-  } = useFetchMovieCredits(id, "crew");
+  } = useQuery({
+    queryKey: ["movie-credits", id, "crew"],
+    queryFn: async () => {
+      const data = await apiRequest({ endpoint: `movies/${id}/credits`, method: "GET" });
+      return data.crew;
+    },
+    enabled: !!id,
+  });
 
   const departments = [
     {
