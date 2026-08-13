@@ -18,12 +18,35 @@ import HeroButtonSkeleton from "../../../components/ui/HeroButtonSkeleton";
 
 const HeroSection = () => {
   const { id } = useParams();
-  const { data: movie, isLoading, isError, refetch } = useQuery({
+  const {
+    data: movie,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery({
     queryKey: ["movie-details", id],
     queryFn: () => apiRequest({ endpoint: `movies/${id}`, method: "GET" }),
     enabled: !!id,
     staleTime: 60 * 60 * 1000,
   });
+
+  const heroActions = [
+    {
+      iconKey: "watchlist",
+      label: "Add to Watchlist",
+      endpoint: `users/watchlist/${id}`,
+    },
+    {
+      iconKey: "watched",
+      label: "Mark as Watched",
+      endpoint: `users/watched/${id}`,
+    },
+    {
+      iconKey: "like",
+      label: "Like",
+      endpoint: `users/likes/${id}`,
+    },
+  ];
 
   if (isLoading) {
     return (
@@ -124,6 +147,8 @@ const HeroSection = () => {
     videos,
   } = movie;
 
+  console.log(movie);
+
   const releaseYear = release_date ? release_date.split("-")[0] : "N/A";
 
   const hours = runtime ? Math.floor(runtime / 60) : null;
@@ -213,34 +238,19 @@ const HeroSection = () => {
 
           <UserBtnSection
             variant="hero"
-            className={"flex gap-3 mt-2 lg:text-base text-xs"}
+            className="flex gap-3 mt-2 lg:text-base text-xs"
             isLoading={false}
             isError={false}
           >
-            <UserActionButton
-              iconKey="watchlist"
-              label="Add to Watchlist"
-              id={id}
-              endpoint={`users/watchlist/${id}`}
-              isActive={false}
-              className="px-1 md:px-5 md:py-2.5 rounded-lg h-auto w-auto bg-transparent hover:bg-white/10 border border-white/40 text-white font-medium"
-            />
-            <UserActionButton
-              iconKey="watched"
-              label="Mark as Watched"
-              id={id}
-              endpoint={`users/watched/${id}`}
-              isActive={false}
-              className="px-1 md:px-5 md:py-2.5 rounded-lg h-auto w-auto bg-transparent hover:bg-white/10 border border-white/40 text-white font-medium"
-            />
-            <UserActionButton
-              iconKey="like"
-              label="Like"
-              id={id}
-              endpoint={`users/likes/${id}`}
-              isActive={false}
-              className="px-1 md:px-5 md:py-2.5 rounded-lg h-auto w-auto bg-transparent hover:bg-white/10 border border-white/40 text-white font-medium"
-            />
+            {heroActions.map((action) => (
+              <UserActionButton
+                key={action.iconKey}
+                {...action}
+                id={id}
+                isActive={false}
+                className="px-1 md:px-5 md:py-2.5 rounded-lg h-auto w-auto bg-transparent hover:bg-white/10 border border-white/40 text-white font-medium"
+              />
+            ))}
           </UserBtnSection>
 
           {trailer && (
