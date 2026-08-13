@@ -27,11 +27,11 @@ const CrossFadeIcon = ({ iconKey, isActive, label }) => {
   return (
     <span className={`relative size-4 ${!label && "size-full"} `}>
       <Outline
-        className={`absolute inset-0 transition-opacity duration-200 md:m-auto ${!label && "m-auto"}`}
+        className={`absolute inset-0 transition-opacity duration-200 lg:m-0 m-auto ${!label && "m-auto"}`}
         style={{ opacity: isActive ? 0 : 1 }}
       />
       <Solid
-        className={`absolute inset-0 transition-opacity duration-200 md:m-auto ${!label && "m-auto"}`}
+        className={`absolute inset-0 transition-opacity duration-200 lg:m-0 m-auto ${!label && "m-auto"}`}
         style={{ opacity: isActive ? 1 : 0, color: "#D4A017" }}
       />
     </span>
@@ -141,7 +141,7 @@ const UserActionButton = ({
   return (
     <Button
       type="button"
-      className={twMerge(`flex items-center gap-2 `, className)}
+      className={twMerge(`flex items-center md:gap-2 `, className)}
       onClick={handleClick}
     >
       <CrossFadeIcon iconKey={iconKey} isActive={isActive} label={label} />
