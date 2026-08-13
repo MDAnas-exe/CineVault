@@ -271,16 +271,13 @@ const HeroSection = () => {
             {buttons.map((btn) => (
               <UserActionButton
                 key={btn.iconKey}
-                iconKey={btn.iconKey}
+                {...btn}
                 posterPath={poster_path}
                 releaseDate={release_date}
                 genres={genres.map((genre) => genre.id)}
                 popularity={popularity}
                 id={id}
-                endpoint={btn.endpoint}
-                label={btn.label}
                 title={title}
-                isActive={btn.isActive}
                 className="px-1 md:px-5 md:py-2.5 rounded-lg h-auto w-auto bg-transparent hover:bg-white/10 border border-white/40 text-white font-medium"
               />
             ))}
