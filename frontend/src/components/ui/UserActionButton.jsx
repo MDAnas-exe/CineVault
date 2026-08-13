@@ -12,6 +12,7 @@ import Button from "./Button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiRequest from "../../utils/apiRequest.js";
 import toast from "react-hot-toast";
+import useAuth from "../../hooks/useAuth.js";
 
 const ICON_MAP = {
   like: { outline: FaRegHeart, solid: FaHeart },
@@ -72,6 +73,9 @@ const UserActionButton = ({
   isActive: initialIsActive,
 }) => {
   const queryClient = useQueryClient();
+
+  const { isLoggedIn } = useAuth();
+
   const [isActive, setIsActive] = useState(initialIsActive);
 
   const controllerRef = useRef(null);
@@ -107,9 +111,15 @@ const UserActionButton = ({
 
   const handleClick = async (e) => {
     e.stopPropagation();
+
+    if (!isLoggedIn) return toast.error("login required");
+
     const wasActive = isActive;
+
     setIsActive((prev) => !prev);
+
     toast.success(wasActive ? messages[iconKey].remove : messages[iconKey].add);
+
     controllerRef.current?.abort();
     controllerRef.current = new AbortController();
 
