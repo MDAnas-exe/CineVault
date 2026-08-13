@@ -15,12 +15,12 @@ import errorBg from "../../../assets/images/heroError.png";
 import UserBtnSection from "../../../components/ui/UserBtnSection";
 import UserActionButton from "../../../components/ui/UserActionButton";
 import HeroButtonSkeleton from "../../../components/ui/HeroButtonSkeleton";
-import useAuth from "../../../hooks/useAuth";
+import useAuth from "../../../hooks/useAuth.js";
 
 const HeroSection = () => {
   const { id } = useParams();
 
-  const { isLoggedIn } = useAuth;
+  const { isLoggedIn } = useAuth();
 
   const {
     data: movie,
