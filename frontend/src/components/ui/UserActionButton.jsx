@@ -97,6 +97,7 @@ const UserActionButton = ({
     onMutate: () => ({ wasActive: isActive }),
     onSuccess: () => {
       queryClient.setQueryData(["movie-status", id], null);
+      queryClient.invalidateQueries(["movie-status", id]);
     },
     onError: (err, variables, context) => {
       if (err.name === "AbortError") return;
