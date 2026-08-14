@@ -270,13 +270,13 @@ const manageReview = expressAsyncHandler(async (req, res) => {
       { user: req.user._id, movie: Number(movieId) },
       {
         user: req.user._id,
-        username: req.user.name,
+        name: req.user.name,
         movie: Number(movieId),
         review,
       },
       { upsert: true, returnDocument: "after" },
     )
-    .select("movie review username createdAt updatedAt -_id")
+    .select("movie review name createdAt updatedAt -_id")
     .lean();
 
   res.status(200).json({
@@ -309,7 +309,7 @@ const getUserReviews = expressAsyncHandler(async (req, res) => {
   const [reviews, totalResults] = await Promise.all([
     reviewModel
       .find({ user: req.user._id })
-      .select("movie review username createdAt updatedAt -_id")
+      .select("movie review name createdAt updatedAt -_id")
       .sort({ createdAt: -1 })
       .limit(limit)
       .skip((pageNum - 1) * limit)

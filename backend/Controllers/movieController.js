@@ -9,7 +9,8 @@ const getMovies = (endpoint) => {
     const { page = 1, name, append_to_response } = req.query || {};
     const url = typeof endpoint === "function" ? endpoint(req) : endpoint;
 
-    const defaultAppend = typeof url === "string" && /^movie\/\d+$/.test(url) ? "videos" : "";
+    const defaultAppend =
+      typeof url === "string" && /^movie\/\d+$/.test(url) ? "videos" : "";
     const appendToResponse = append_to_response || defaultAppend;
 
     const cacheKey = req.originalUrl;
@@ -52,7 +53,7 @@ const getMovieReviews = asyncHandler(async (req, res) => {
   const [reviews, totalResults] = await Promise.all([
     reviewModel
       .find({ movie: movieId })
-      .select("username review createdAt -_id")
+      .select("name review createdAt -_id")
       .sort({ createdAt: -1 })
       .limit(limit)
       .skip((pageNum - 1) * limit)
