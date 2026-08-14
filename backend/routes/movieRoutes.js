@@ -8,6 +8,7 @@ import {
   paginationQueryValidator,
 } from "../utils/validators/movieValidators.js";
 import { getReviewsQueryValidator } from "../utils/validators/reviewValidators.js";
+import optionalAuth from "../middlewares/optionalAuthMiddleware.js";
 
 const router = express.Router();
 
@@ -41,6 +42,7 @@ router.get(
   movieIdParamValidator,
   getReviewsQueryValidator,
   validate,
+  optionalAuth,
   getMovieReviews,
 );
 
