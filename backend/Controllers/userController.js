@@ -198,7 +198,7 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
     userMovieModel.countDocuments({ userId, liked: true }),
     userMovieModel.countDocuments({ userId, watched: true }),
     userMovieModel.countDocuments({ userId, inWatchlist: true }),
-    reviewModel.countDocuments({ user: userId }),
+    reviewModel.countDocuments({ userId }),
     userMovieModel
       .find({ userId, liked: true })
       .select("movieId movieInfo.title -_id")
@@ -218,8 +218,8 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
       .limit(10)
       .lean(),
     reviewModel
-      .find({ user: userId })
-      .select("movie review createdAt -_id")
+      .find({ userId })
+      .select("movieId movieTitle review createdAt -_id")
       .sort({ createdAt: -1 })
       .limit(10)
       .lean(),
@@ -253,7 +253,8 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
         title: item.movieInfo?.title,
       })),
       reviews: recentReviews.map((item) => ({
-        movieId: item.movie,
+        movieId: item.movieId,
+        movieTitle: item.movieTitle,
         review: item.review,
         createdAt: item.createdAt,
       })),
@@ -263,20 +264,21 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
 
 const manageReview = expressAsyncHandler(async (req, res) => {
   const { movieId } = req.params;
-  const { review } = req.body;
+  const { review, movieTitle } = req.body;
 
   const updatedReview = await reviewModel
     .findOneAndUpdate(
-      { user: req.user._id, movie: Number(movieId) },
+      { userId: req.user._id, movieId: Number(movieId) },
       {
-        user: req.user._id,
+        userId: req.user._id,
         name: req.user.name,
-        movie: Number(movieId),
+        movieId: Number(movieId),
+        movieTitle,
         review,
       },
       { upsert: true, returnDocument: "after" },
     )
-    .select("movie review name createdAt updatedAt -_id")
+    .select("movieId movieTitle review name createdAt updatedAt -_id")
     .lean();
 
   res.status(200).json({
@@ -289,8 +291,8 @@ const deleteReview = expressAsyncHandler(async (req, res) => {
   const { movieId } = req.params;
 
   const deleted = await reviewModel.findOneAndDelete({
-    user: req.user._id,
-    movie: Number(movieId),
+    userId: req.user._id,
+    movieId: Number(movieId),
   });
 
   if (!deleted) {
@@ -308,13 +310,13 @@ const getUserReviews = expressAsyncHandler(async (req, res) => {
 
   const [reviews, totalResults] = await Promise.all([
     reviewModel
-      .find({ user: req.user._id })
-      .select("movie review name createdAt updatedAt -_id")
+      .find({ userId: req.user._id })
+      .select("movieId movieTitle review name createdAt updatedAt -_id")
       .sort({ createdAt: -1 })
       .limit(limit)
       .skip((pageNum - 1) * limit)
       .lean(),
-    reviewModel.countDocuments({ user: req.user._id }),
+    reviewModel.countDocuments({ userId: req.user._id }),
   ]);
 
   const totalPages = Math.ceil(totalResults / limit);

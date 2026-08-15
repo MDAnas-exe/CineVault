@@ -52,13 +52,13 @@ const getMovieReviews = asyncHandler(async (req, res) => {
 
   const [reviews, totalResults] = await Promise.all([
     reviewModel
-      .find({ movie: movieId })
+      .find({ movieId })
       .select("name review createdAt -_id")
       .sort({ createdAt: -1 })
       .limit(limit)
       .skip((pageNum - 1) * limit)
       .lean(),
-    reviewModel.countDocuments({ movie: movieId }),
+    reviewModel.countDocuments({ movieId }),
   ]);
 
   const totalPages = Math.ceil(totalResults / limit);
