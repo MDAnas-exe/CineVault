@@ -50,7 +50,7 @@ const getMovieReviews = asyncHandler(async (req, res) => {
   const pageNum = parseInt(page);
   const limit = 10;
 
-  const [reviews, totalResults] = await Promise.all([
+  const [reviews, totalResults, hasReviewed] = await Promise.all([
     reviewModel
       .find({ movieId })
       .select("name review createdAt -_id")
@@ -59,12 +59,16 @@ const getMovieReviews = asyncHandler(async (req, res) => {
       .skip((pageNum - 1) * limit)
       .lean(),
     reviewModel.countDocuments({ movieId }),
+    req.userId
+      ? reviewModel.exists({ userId: req.userId, movieId }).then((r) => !!r)
+      : Promise.resolve(null),
   ]);
 
   const totalPages = Math.ceil(totalResults / limit);
 
   res.status(200).json({
     reviews,
+    ...(req.userId && { hasReviewed }),
     page: pageNum,
     totalPages,
     totalResults,
