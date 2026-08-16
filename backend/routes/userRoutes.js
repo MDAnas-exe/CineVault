@@ -13,6 +13,7 @@ import {
   manageReview,
   deleteReview,
   getUserReviews,
+  getUserReviewForMovie,
 } from "../controllers/userController.js";
 import {
   movieInfoValidator,
@@ -23,6 +24,7 @@ import {
   upsertReviewValidator,
   deleteReviewValidator,
   getReviewsQueryValidator,
+  getMovieReviewValidator,
 } from "../utils/validators/reviewValidators.js";
 import validate from "../middlewares/validationMiddleware.js";
 import {
@@ -119,6 +121,15 @@ router.get(
   getReviewsQueryValidator,
   validate,
   getUserReviews,
+);
+
+router.get(
+  "/reviews/:movieId",
+  protect,
+  userReadLimiter,
+  getMovieReviewValidator,
+  validate,
+  getUserReviewForMovie,
 );
 
 export default router;
