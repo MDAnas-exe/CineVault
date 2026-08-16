@@ -329,4 +329,20 @@ const getUserReviews = expressAsyncHandler(async (req, res) => {
   });
 });
 
-export { getUserProfile, manageReview, deleteReview, getUserReviews };
+const getUserReviewForMovie = expressAsyncHandler(async (req, res) => {
+  const { movieId } = req.params;
+
+  const review = await reviewModel
+    .findOne({ userId: req.user._id, movieId: Number(movieId) })
+    .select("movieId movieTitle review name createdAt updatedAt -_id")
+    .lean();
+
+  if (!review) {
+    res.status(404);
+    throw new Error("No review found for this movie");
+  }
+
+  res.status(200).json({ review });
+});
+
+export { getUserProfile, manageReview, deleteReview, getUserReviews, getUserReviewForMovie };
