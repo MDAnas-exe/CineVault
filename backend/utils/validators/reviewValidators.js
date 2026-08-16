@@ -30,6 +30,13 @@ export const deleteReviewValidator = [
     .withMessage("Movie ID must be a positive integer"),
 ];
 
+export const getMovieReviewValidator = [
+  param("movieId")
+    .toInt()
+    .isInt({ min: 1 })
+    .withMessage("Movie ID must be a positive integer"),
+];
+
 export const getReviewsQueryValidator = [
   query("page")
     .optional()
