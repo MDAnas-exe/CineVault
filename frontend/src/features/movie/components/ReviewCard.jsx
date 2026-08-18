@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaEllipsisV } from "react-icons/fa";
+import { twMerge } from "tailwind-merge";
 import Button from "../../../components/ui/Button";
 
 const ReviewCard = ({ review, isOwner = false }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const close = () => setMenuOpen(false);
+    window.addEventListener("scroll", close);
+    return () => window.removeEventListener("scroll", close);
+  }, [menuOpen]);
 
   return (
     <div className="relative rounded-xl bg-neutral-50 px-5 py-4 font-inter">
@@ -24,21 +32,33 @@ const ReviewCard = ({ review, isOwner = false }) => {
             </Button>
 
             {menuOpen && (
-              <div className="absolute right-0 top-8 z-10 w-32 overflow-hidden rounded-lg border border-gray-100 bg-white py-1 shadow-md">
-                <Button
-                  type="button"
-                  className="w-full rounded-none px-4 py-2 text-left font-inter text-sm font-normal text-primary hover:bg-neutral-50 active:scale-100 focus:ring-0 focus:ring-offset-0"
-                >
-                  Edit
-                </Button>
-                <Button
-                  type="button"
-                  className="w-full rounded-none px-4 py-2 text-left font-inter text-sm font-normal text-red-600 hover:bg-red-50 active:scale-100 focus:ring-0 focus:ring-offset-0"
-                >
-                  Delete
-                </Button>
-              </div>
+              <div
+                className="fixed inset-0 z-5"
+                onClick={() => setMenuOpen(false)}
+              />
             )}
+
+            <div
+              className={twMerge(
+                "absolute right-0 top-8 z-10 w-32 overflow-hidden rounded-lg border border-gray-100 bg-white py-1 shadow-md origin-top-right transition-all duration-200 ease-out",
+                menuOpen
+                  ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+                  : "opacity-0 scale-95 -translate-y-1 pointer-events-none",
+              )}
+            >
+              <Button
+                type="button"
+                className="w-full rounded-none px-4 py-2 text-left font-inter text-sm font-normal text-primary hover:bg-neutral-50 active:scale-100 focus:ring-0 focus:ring-offset-0"
+              >
+                Edit
+              </Button>
+              <Button
+                type="button"
+                className="w-full rounded-none px-4 py-2 text-left font-inter text-sm font-normal text-red-600 hover:bg-red-50 active:scale-100 focus:ring-0 focus:ring-offset-0"
+              >
+                Delete
+              </Button>
+            </div>
           </div>
         )}
       </div>
