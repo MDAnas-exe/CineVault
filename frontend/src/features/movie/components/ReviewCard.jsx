@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";
+import Button from "../../../components/ui/Button";
 
 const ReviewCard = ({ review, isOwner = false }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -13,22 +14,29 @@ const ReviewCard = ({ review, isOwner = false }) => {
 
         {isOwner && (
           <div className="relative shrink-0">
-            <button
+            <Button
+              type="button"
               onClick={() => setMenuOpen((prev) => !prev)}
-              className="rounded-md p-1.5 text-neutral-400 transition-colors duration-200 hover:bg-neutral-200 hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+              className="rounded-md p-1.5 text-neutral-400 hover:bg-neutral-200 hover:text-primary"
               aria-label="Review options"
             >
               <FaEllipsisV className="text-xs" />
-            </button>
+            </Button>
 
             {menuOpen && (
               <div className="absolute right-0 top-8 z-10 w-32 overflow-hidden rounded-lg border border-gray-100 bg-white py-1 shadow-md">
-                <button className="w-full px-4 py-2 text-left font-inter text-sm text-primary transition-colors duration-150 hover:bg-neutral-50">
+                <Button
+                  type="button"
+                  className="w-full rounded-none px-4 py-2 text-left font-inter text-sm font-normal text-primary hover:bg-neutral-50 active:scale-100 focus:ring-0 focus:ring-offset-0"
+                >
                   Edit
-                </button>
-                <button className="w-full px-4 py-2 text-left font-inter text-sm text-red-600 transition-colors duration-150 hover:bg-red-50">
+                </Button>
+                <Button
+                  type="button"
+                  className="w-full rounded-none px-4 py-2 text-left font-inter text-sm font-normal text-red-600 hover:bg-red-50 active:scale-100 focus:ring-0 focus:ring-offset-0"
+                >
                   Delete
-                </button>
+                </Button>
               </div>
             )}
           </div>

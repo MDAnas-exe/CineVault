@@ -1,14 +1,18 @@
-const MAX_CHARS = 2000;
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import apiRequest from "../../../utils/apiRequest.js";
 import { useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import apiRequest from "../../../utils/apiRequest.js";
+import Button from "../../../components/ui/Button";
+
+const MAX_CHARS = 2000;
+
 const ReviewForm = () => {
   const { id } = useParams();
   const queryClient = useQueryClient();
   const {
     register,
+    handleSubmit,
     setValue,
     formState: { errors },
     watch,
@@ -25,9 +29,9 @@ const ReviewForm = () => {
 
   return (
     <form
-      onSubmit={() =>
+      onSubmit={handleSubmit((data) =>
         mutateAsync({ method: "PUT", data, endpoint: `users/reviews/${id}` })
-      }
+      )}
     >
       <div className="relative">
         <textarea
@@ -44,28 +48,29 @@ const ReviewForm = () => {
           })}
         />
         <span className="absolute bottom-3 right-4 font-inter text-xs text-neutral-400">
-          {watch("review")?.length} / {MAX_CHARS}
+          {watch("review")?.length || 0} / {MAX_CHARS}
         </span>
       </div>
       <p className="min-h-5 text-sm text-red-500">{errors.review?.message}</p>
       <div className="mt-3 flex justify-end gap-2">
-        <button
+        <Button
           type="button"
-          className="rounded-lg px-4 py-2 font-inter text-sm font-medium text-neutral-500 transition-colors duration-200 hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          className="rounded-lg px-4 py-2 font-inter text-sm font-medium text-neutral-500 hover:text-primary"
           onClick={() => setValue("review", "")}
         >
           Cancel
-        </button>
-        <button
+        </Button>
+        <Button
           type="submit"
-          className="cursor-pointer rounded-lg bg-accent px-4 py-2 font-poppins text-sm font-semibold text-primary transition-colors duration-200 hover:bg-[#c89412] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-lg bg-accent px-4 py-2 text-sm text-primary hover:bg-[#c89412] disabled:cursor-not-allowed disabled:opacity-50"
           disabled={isPending}
         >
           Submit Review
-        </button>
+        </Button>
       </div>
     </form>
   );
 };
 
 export default ReviewForm;
+

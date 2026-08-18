@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import Button from "../../../components/ui/Button";
 
 const GuestReviewCTA = () => {
   const navigate = useNavigate();
@@ -18,12 +19,13 @@ const GuestReviewCTA = () => {
         </p>
       </div>
 
-      <button
+      <Button
+        type="button"
         onClick={handleSignIn}
-        className="shrink-0 cursor-pointer rounded-lg bg-accent px-4 py-2 font-poppins text-xs font-semibold text-primary transition-colors duration-200 hover:bg-[#c89412] focus:outline-none focus:ring-2 focus:ring-accent/40 focus:ring-offset-2 md:text-sm"
+        className="shrink-0 rounded-lg bg-accent px-4 py-2 text-xs text-primary hover:bg-[#c89412] md:text-sm"
       >
         Sign in to review
-      </button>
+      </Button>
     </div>
   );
 };
