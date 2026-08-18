@@ -13,11 +13,25 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
     return () => window.removeEventListener("scroll", close);
   }, [menuOpen]);
 
+  function getDateAdded(date) {
+    let dateAdded = (Date.now() - new Date(date)) / 1000;
+    let unit;
+
+    if (dateAdded < 60) unit = parseInt(dateAdded) + " second";
+    else if ((dateAdded /= 60) < 60) unit = parseInt(dateAdded) + " minute";
+    else if ((dateAdded /= 60) < 24) unit = parseInt(dateAdded) + " hour";
+    else if ((dateAdded /= 24) < 30) unit = parseInt(dateAdded) + " day";
+    else if ((dateAdded /= 30) < 12) unit = parseInt(dateAdded) + " month";
+    else unit = parseInt((dateAdded /= 12)) + " year";
+
+    return parseInt(unit) > 1 ? unit + "s ago" : unit + " ago";
+  }
+
   return (
     <div className="relative rounded-xl bg-neutral-50 px-5 py-4 font-inter">
       <div className="flex items-start justify-between gap-2">
         <span className="font-poppins text-sm font-semibold text-primary">
-          {review.name}
+          {reviewInfo.name}
         </span>
 
         {isOwner && (
@@ -68,7 +82,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
       </p>
 
       <p className="mt-4 text-right font-inter text-xs text-neutral-400">
-        x days ago
+        {getDateAdded(reviewInfo.createdAt)}
       </p>
     </div>
   );
