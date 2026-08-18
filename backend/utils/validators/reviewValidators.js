@@ -5,14 +5,7 @@ export const upsertReviewValidator = [
     .toInt()
     .isInt({ min: 1 })
     .withMessage("Movie ID must be a positive integer"),
-  body("movieTitle")
-    .isString()
-    .trim()
-    .notEmpty()
-    .withMessage("Movie title is required")
-    .isLength({ max: 300 })
-    .withMessage("Movie title must be 300 characters or fewer")
-    .escape(),
+
   body("review")
     .isString()
     .trim()
