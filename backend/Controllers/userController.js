@@ -264,7 +264,7 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
 
 const manageReview = expressAsyncHandler(async (req, res) => {
   const { movieId } = req.params;
-  const { review, movieTitle } = req.body;
+  const { review } = req.body;
 
   const updatedReview = await reviewModel
     .findOneAndUpdate(
@@ -273,7 +273,6 @@ const manageReview = expressAsyncHandler(async (req, res) => {
         userId: req.user._id,
         name: req.user.name,
         movieId: Number(movieId),
-        movieTitle,
         review,
       },
       { upsert: true, returnDocument: "after" },
@@ -345,4 +344,10 @@ const getUserReviewForMovie = expressAsyncHandler(async (req, res) => {
   res.status(200).json({ review });
 });
 
-export { getUserProfile, manageReview, deleteReview, getUserReviews, getUserReviewForMovie };
+export {
+  getUserProfile,
+  manageReview,
+  deleteReview,
+  getUserReviews,
+  getUserReviewForMovie,
+};
