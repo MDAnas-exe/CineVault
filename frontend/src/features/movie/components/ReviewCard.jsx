@@ -39,8 +39,8 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
             <Button
               type="button"
               onClick={() => setMenuOpen((prev) => !prev)}
-              className="rounded-md p-1.5 text-neutral-400 hover:bg-neutral-200 hover:text-primary"
-              aria-label="Review options"
+              className={`rounded-md p-1.5 text-neutral-400 hover:bg-neutral-200 hover:text-primary focus:ring-0 ${menuOpen && "focus:ring-2"}`}
+              aria-label="Review options "
             >
               <FaEllipsisV className="text-xs" />
             </Button>
