@@ -107,7 +107,7 @@ const DesktopNavbar = () => {
           <Button
             onClick={() => setIsOpen((prev) => !prev)}
             type="button"
-            className={`hidden md:flex relative h-auto w-auto items-center gap-1.5 rounded-lg bg-transparent px-3 py-2 font-medium text-primary shadow-none hover:bg-gray-100 hover:text-primary ${isOpen && "ring-2 ring-accent/40"}  active:scale-100 z-50`}
+            className={`hidden md:flex relative items-center gap-1.5 rounded-lg bg-transparent px-3 py-2 font-medium text-primary hover:bg-gray-100 hover:text-primary ${isOpen && "ring-2 ring-accent/40"} active:scale-100 z-50`}
           >
             <span>{name.split(" ")[name.split(" ").length - 1]}</span>
 

@@ -77,7 +77,7 @@ const MobileNavbar = () => {
         <div className="md:hidden">
           <Button
             onClick={() => setIsOpen((prev) => !prev)}
-            className="h-auto bg-white shadow-white"
+            className="bg-transparent"
           >
             <GiHamburgerMenu />
           </Button>
@@ -90,7 +90,7 @@ const MobileNavbar = () => {
           >
             <Button
               onClick={() => setIsOpen((prev) => !prev)}
-              className="h-auto w-auto bg-white shadow-white self-end p-0"
+              className="bg-transparent self-end p-0"
             >
               <IoClose className="size-6" />
             </Button>

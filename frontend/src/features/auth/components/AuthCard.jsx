@@ -152,8 +152,8 @@ const AuthCard = ({ type }) => {
 
         <Button
           type="submit"
-          isPending={isPending}
-          className={isPending ? "flex gap-2 items-center justify-center" : ""}
+          disabled={isPending}
+          className="flex h-12 w-full items-center justify-center gap-2 bg-accent text-primary shadow-sm hover:bg-[#c89412] disabled:opacity-70"
         >
           {isPending ? (
             <>

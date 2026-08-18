@@ -24,7 +24,7 @@ const LogoutButton = ({ className = "" }) => {
     <Button
       type="button"
       className={twMerge(
-        "rounded-b-2xl px-4 py-3 text-left font-inter text-red-600 transition-colors  hover:bg-red-50 flex gap-2 items-center bg-white rounded-t-none font-normal focus:outline-none focus:ring-0 active:scale-none focus:ring-offset-0",
+        "w-full rounded-b-2xl rounded-t-none px-4 py-3 text-left font-inter font-normal text-red-600 bg-white hover:bg-red-50 flex items-center gap-2 active:scale-100 focus:ring-0 focus:ring-offset-0",
         className,
       )}
       onClick={() => mutateAsync({ endpoint: "auth/logout" })}

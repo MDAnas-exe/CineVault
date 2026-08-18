@@ -276,7 +276,7 @@ const HeroSection = () => {
                 popularity={popularity}
                 id={id}
                 title={title}
-                className="py-2 px-1 md:px-5 md:py-2.5 rounded-lg h-auto w-auto bg-transparent hover:bg-white/10 border border-white/40 text-white font-medium focus:outline-0 focus-visible:outline-0 focus:ring-offset-0 focus:shadow-none focus:ring-0 focus"
+                className="py-2 px-1 md:px-5 md:py-2.5 rounded-lg bg-transparent hover:bg-white/10 border border-white/40 text-white font-medium focus:outline-0 focus-visible:outline-0 focus:ring-offset-0 focus:shadow-none focus:ring-0 focus"
               />
             ))}
           </UserBtnSection>
