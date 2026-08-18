@@ -1,6 +1,7 @@
 import useAuth from "../../../hooks/useAuth";
 import GuestReviewCTA from "./GuestReviewCTA";
-import ReviewCardSkeleton from "../components/ReviewCardSkeleton";
+import SectionSubheading from "../../../components/ui/SectionSubheading";
+
 const UserReviewSection = () => {
   const { isLoggedIn } = useAuth();
 
@@ -8,9 +9,12 @@ const UserReviewSection = () => {
     return <GuestReviewCTA />;
   }
 
-  if (true) return <ReviewCardSkeleton />;
-  // TODO: fetch user review, handle loading / error / form / existing review
-  return null;
+  return (
+    <div>
+      <SectionSubheading>Your Review</SectionSubheading>
+      {/* TODO: loading / error / ReviewForm / YourReview */}
+    </div>
+  );
 };
 
 export default UserReviewSection;

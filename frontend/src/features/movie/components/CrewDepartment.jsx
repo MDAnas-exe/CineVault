@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaChevronUp, FaUserCircle } from "react-icons/fa";
+import SectionSubheading from "../../../components/ui/SectionSubheading";
 
 export default function CrewDepartment({ title, icon: Icon, members }) {
   const [expanded, setExpanded] = useState(true);
@@ -13,9 +14,7 @@ export default function CrewDepartment({ title, icon: Icon, members }) {
         <div className="flex items-center gap-3">
           <Icon className="text-2xl text-accent" />
 
-          <h3 className="font-poppins text-xl font-semibold text-primary md:text-3xl">
-            {title}
-          </h3>
+          <SectionSubheading className="mb-0">{title}</SectionSubheading>
         </div>
 
         <FaChevronUp

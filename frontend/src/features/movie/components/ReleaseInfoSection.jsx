@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaChevronUp } from "react-icons/fa";
+import SectionSubheading from "../../../components/ui/SectionSubheading";
 const formatDate = (dateString) => {
   if (!dateString) return "N/A";
   const date = new Date(dateString);
@@ -33,9 +34,7 @@ const ReleaseInfoSection = ({ section }) => {
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <div className="flex items-center gap-3">
-          <h3 className="font-poppins text-lg md:text-2xl font-semibold text-primary">
-            {section.type}
-          </h3>
+          <SectionSubheading className="mb-0">{section.type}</SectionSubheading>
           <span className="rounded-full bg-gray-100 px-2 md:px-3 py-1 font-inter text-xs md:text-sm text-secondary">
             {section.releases.length}
           </span>
