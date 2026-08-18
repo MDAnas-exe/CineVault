@@ -3,7 +3,7 @@ import { FaEllipsisV } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 import Button from "../../../components/ui/Button";
 
-const ReviewCard = ({ review, isOwner = false }) => {
+const ReviewCard = ({ reviewInfo, isOwner = false }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const ReviewCard = ({ review, isOwner = false }) => {
       </div>
 
       <p className="mt-3 text-sm leading-relaxed text-primary/80">
-        {review.review}
+        {reviewInfo.review}
       </p>
 
       <p className="mt-4 text-right font-inter text-xs text-neutral-400">
