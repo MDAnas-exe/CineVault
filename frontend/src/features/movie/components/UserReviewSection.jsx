@@ -13,7 +13,7 @@ const UserReviewSection = () => {
   const { isLoggedIn } = useAuth();
   const { id } = useParams();
 
-  const { data, isLoading, isError, error, refetch } = useQuery({
+  const { data, isLoading, isFetching, isError, error, refetch } = useQuery({
     queryKey: ["user-review", id],
     queryFn: () =>
       apiRequest({ method: "GET", endpoint: `users/reviews/${id}` }),
@@ -27,7 +27,7 @@ const UserReviewSection = () => {
     <div>
       <SectionSubheading>Your Review</SectionSubheading>
 
-      {isLoading && <ReviewCardSkeleton />}
+      {(isLoading || isFetching) && <ReviewCardSkeleton />}
 
       {isError && error.status !== 404 && (
         <SectionState
