@@ -7,9 +7,12 @@ import apiRequest from "../../../utils/apiRequest.js";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import Reel from "../../../assets/images/reel.svg?react";
+import { useForm } from "react-hook-form";
+import Textarea from "./Textarea";
 
 const ReviewCard = ({ reviewInfo, isOwner = false }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -20,6 +23,10 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
 
   const { id } = useParams();
   const queryClient = useQueryClient();
+
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({
+    defaultValues: { review: reviewInfo.review },
+  });
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: apiRequest,
@@ -52,7 +59,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
           {reviewInfo.name}
         </span>
 
-        {isOwner && (
+        {isOwner && !isEditing && (
           <div className="relative shrink-0">
             <Button
               type="button"
@@ -109,15 +116,49 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
         )}
       </div>
 
-      <p className="mt-3 text-sm leading-relaxed text-primary/80">
-        {reviewInfo.review}
-      </p>
+      <Textarea
+        isEditing={isEditing}
+        value={reviewInfo.review}
+        register={register("review", {
+          maxLength: {
+            value: 2000,
+            message: "reviews cannot be more than 2000 characters.",
+          },
+          required: "review cannot be empty",
+          setValueAs: (v) => v.trim(),
+        })}
+        watch={watch}
+      />
 
-      <p className="mt-4 text-right font-inter text-xs text-neutral-400">
-        {getDateAdded(reviewInfo.createdAt)}
-      </p>
+      {isEditing && (
+        <p className="min-h-5 text-sm text-red-500">{errors.review?.message}</p>
+      )}
+
+      {isEditing ? (
+        <div className="mt-3 flex justify-end gap-2">
+          <Button
+            type="button"
+            className="rounded-lg px-4 py-2 font-inter text-sm font-medium text-neutral-500 hover:text-primary"
+            onClick={() => setIsEditing(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="button"
+            onClick={handleSubmit((data) => console.log("edit submitted", data))}
+            className="rounded-lg bg-accent px-4 py-2 text-sm text-primary hover:bg-[#c89412] disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Submit
+          </Button>
+        </div>
+      ) : (
+        <p className="mt-4 text-right font-inter text-xs text-neutral-400">
+          {getDateAdded(reviewInfo.createdAt)}
+        </p>
+      )}
     </div>
   );
 };
 
 export default ReviewCard;
+
