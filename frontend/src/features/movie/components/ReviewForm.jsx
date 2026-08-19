@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import apiRequest from "../../../utils/apiRequest.js";
 import Button from "../../../components/ui/Button";
-
+import Reel from "../../../assets/images/reel.svg?react";
 const MAX_CHARS = 2000;
 
 const ReviewForm = () => {
@@ -30,7 +30,7 @@ const ReviewForm = () => {
   return (
     <form
       onSubmit={handleSubmit((data) =>
-        mutateAsync({ method: "PUT", data, endpoint: `users/reviews/${id}` })
+        mutateAsync({ method: "PUT", data, endpoint: `users/reviews/${id}` }),
       )}
     >
       <div className="relative">
@@ -62,10 +62,17 @@ const ReviewForm = () => {
         </Button>
         <Button
           type="submit"
-          className="rounded-lg bg-accent px-4 py-2 text-sm text-primary hover:bg-[#c89412] disabled:cursor-not-allowed disabled:opacity-50"
+          className={`rounded-lg bg-accent px-4 py-2 text-sm text-primary hover:bg-[#c89412] disabled:cursor-not-allowed disabled:opacity-50 ${isPending && "flex gap-2 items-center"}`}
           disabled={isPending}
         >
-          Submit Review
+          {isPending ? (
+            <>
+              <Reel className="animate-spin size-4" />{" "}
+              <span>Submitting...</span>
+            </>
+          ) : (
+            "Submit Review"
+          )}
         </Button>
       </div>
     </form>
@@ -73,4 +80,3 @@ const ReviewForm = () => {
 };
 
 export default ReviewForm;
-
