@@ -2,6 +2,11 @@ import { useState, useEffect } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 import Button from "../../../components/ui/Button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import apiRequest from "../../../utils/apiRequest.js";
+import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
+import Reel from "../../../assets/images/reel.svg?react";
 
 const ReviewCard = ({ reviewInfo, isOwner = false }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,6 +17,19 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
     window.addEventListener("scroll", close);
     return () => window.removeEventListener("scroll", close);
   }, [menuOpen]);
+
+  const { id } = useParams();
+  const queryClient = useQueryClient();
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: apiRequest,
+    onSuccess: () => {
+      toast.success("review deleted successfully!!");
+      queryClient.invalidateQueries(["user-review", id]);
+      queryClient.setQueryData(["user-review", id], null);
+    },
+    onError: () => toast.error("Failed to delete review."),
+  });
 
   function getDateAdded(date) {
     let dateAdded = (Date.now() - new Date(date)) / 1000;
@@ -68,9 +86,23 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
               </Button>
               <Button
                 type="button"
-                className="w-full rounded-none px-4 py-2 text-left font-inter text-sm font-normal text-red-600 hover:bg-red-50 active:scale-100 focus:ring-0 focus:ring-offset-0"
+                className={`w-full rounded-none px-4 py-2 text-left font-inter text-sm font-normal text-red-600 hover:bg-red-50 active:scale-100 focus:ring-0 focus:ring-offset-0 ${isPending && "flex gap-2 items-center"}`}
+                disabled={isPending}
+                onClick={() =>
+                  mutateAsync({
+                    method: "DELETE",
+                    endpoint: `users/reviews/${id}`,
+                  })
+                }
               >
-                Delete
+                {isPending ? (
+                  <>
+                    <Reel className="animate-spin size-4.5" />
+                    <span>Deleting...</span>
+                  </>
+                ) : (
+                  "Delete"
+                )}
               </Button>
             </div>
           </div>
