@@ -33,15 +33,27 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
     defaultValues: { review: reviewInfo.review },
   });
 
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: apiRequest,
-    onSuccess: () => {
-      toast.success("review deleted successfully!!");
-      queryClient.invalidateQueries(["user-review", id]);
-      queryClient.setQueryData(["user-review", id], null);
-    },
-    onError: () => toast.error("Failed to delete review."),
-  });
+  const { mutateAsync: delMutateAsync, isPending: isDeletePending } =
+    useMutation({
+      mutationFn: apiRequest,
+      onSuccess: () => {
+        toast.success("review deleted successfully!!");
+        queryClient.invalidateQueries(["user-review", id]);
+        queryClient.setQueryData(["user-review", id], null);
+      },
+      onError: () => toast.error("Failed to delete review."),
+    });
+
+  const { mutateAsync: editMutateAsync, isPending: isEditPending } =
+    useMutation({
+      mutationFn: apiRequest,
+      onSuccess: () => {
+        toast.success("review edited successfully!!");
+        queryClient.invalidateQueries(["user-review", id]);
+        queryClient.setQueryData(["user-review", id], null);
+      },
+      onError: () => toast.error("Failed to edit review."),
+    });
 
   function getDateAdded(date) {
     let dateAdded = (Date.now() - new Date(date)) / 1000;
@@ -103,16 +115,16 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
               </Button>
               <Button
                 type="button"
-                className={`w-full rounded-none px-4 py-2 text-left font-inter text-sm font-normal text-red-600 hover:bg-red-50 active:scale-100 focus:ring-0 focus:ring-offset-0 ${isPending && "flex gap-2 items-center"}`}
-                disabled={isPending}
+                className={`w-full rounded-none px-4 py-2 text-left font-inter text-sm font-normal text-red-600 hover:bg-red-50 active:scale-100 focus:ring-0 focus:ring-offset-0 ${isDeletePending && "flex gap-2 items-center"}`}
+                disabled={isDeletePending}
                 onClick={() =>
-                  mutateAsync({
+                  delMutateAsync({
                     method: "DELETE",
                     endpoint: `users/reviews/${id}`,
                   })
                 }
               >
-                {isPending ? (
+                {isDeletePending ? (
                   <>
                     <Reel className="animate-spin size-4.5" />
                     <span>Deleting...</span>
@@ -150,17 +162,34 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
             type="button"
             className="rounded-lg px-4 py-2 font-inter text-sm font-medium text-neutral-500 hover:text-primary"
             onClick={() => setIsEditing(false)}
+            disabled={isEditPending}
           >
             Cancel
           </Button>
           <Button
             type="button"
-            onClick={handleSubmit((data) =>
-              console.log("edit submitted", data),
-            )}
-            className="rounded-lg bg-accent px-4 py-2 text-sm text-primary hover:bg-[#c89412] disabled:cursor-not-allowed disabled:opacity-50"
+            onClick={handleSubmit((data) => {
+              if (data.review === reviewInfo.review) {
+                setIsEditing(false);
+                return toast.success("review edited successfully");
+              }
+              editMutateAsync({
+                endpoint: `users/reviews/${id}`,
+                data,
+                method: "PUT",
+              });
+            })}
+            className={`rounded-lg bg-accent px-4 py-2 text-sm text-primary hover:bg-[#c89412] disabled:cursor-not-allowed disabled:opacity-50 ${isEditPending && "flex gap-2 items-center"}`}
+            disabled={isEditPending}
           >
-            Submit
+            {isEditPending ? (
+              <>
+                <Reel className="animate-spin size-4" />{" "}
+                <span>Submitting...</span>
+              </>
+            ) : (
+              "Submit Review"
+            )}
           </Button>
         </div>
       ) : (
