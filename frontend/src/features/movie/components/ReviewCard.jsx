@@ -71,7 +71,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
 
   return (
     <div
-      className={` ${!isEditing && "relative rounded-xl bg-neutral-50 px-3 py-3 md:px-5 md:py-4 font-inter"}`}
+      className={` ${!isEditing && "relative rounded-xl bg-neutral-50 px-3 py-3 md:px-5 md:py-4 font-inter"} w-full md:max-w-xl`}
     >
       <div className="flex items-start justify-between gap-2">
         {!isEditing && (
