@@ -50,15 +50,18 @@ const getMovieReviews = asyncHandler(async (req, res) => {
   const pageNum = parseInt(page);
   const limit = 10;
 
+  const filter = { movieId };
+  if (req.userId) filter.userId = { $ne: req.userId };
+
   const [reviews, totalResults] = await Promise.all([
     reviewModel
-      .find({ movieId })
-      .select("name review createdAt -_id")
+      .find(filter)
+      .select("name review createdAt ")
       .sort({ createdAt: -1 })
       .limit(limit)
       .skip((pageNum - 1) * limit)
       .lean(),
-    reviewModel.countDocuments({ movieId }),
+    reviewModel.countDocuments(filter),
   ]);
 
   const totalPages = Math.ceil(totalResults / limit);
