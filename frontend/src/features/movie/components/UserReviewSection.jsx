@@ -10,7 +10,7 @@ import ReviewForm from "./ReviewForm";
 import ReviewCard from "./ReviewCard";
 
 const UserReviewSection = () => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, isLoading: isAuthLoading } = useAuth();
   const { id } = useParams();
 
   const { data, isLoading, isFetching, isError, error, refetch } = useQuery({
@@ -21,6 +21,7 @@ const UserReviewSection = () => {
     retry: false,
   });
 
+  if (isAuthLoading) return <ReviewCardSkeleton />;
   if (!isLoggedIn) return <GuestReviewCTA />;
 
   return (
