@@ -24,7 +24,12 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
   const { id } = useParams();
   const queryClient = useQueryClient();
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
     defaultValues: { review: reviewInfo.review },
   });
 
@@ -53,11 +58,15 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
   }
 
   return (
-    <div className="relative rounded-xl bg-neutral-50 px-5 py-4 font-inter">
+    <div
+      className={` ${!isEditing && "relative rounded-xl bg-neutral-50 px-5 py-4 font-inter"}`}
+    >
       <div className="flex items-start justify-between gap-2">
-        <span className="font-poppins text-sm font-semibold text-primary">
-          {reviewInfo.name}
-        </span>
+        {!isEditing && (
+          <span className="font-poppins text-sm font-semibold text-primary">
+            {reviewInfo.name}
+          </span>
+        )}
 
         {isOwner && !isEditing && (
           <div className="relative shrink-0">
@@ -88,6 +97,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
               <Button
                 type="button"
                 className="w-full rounded-none px-4 py-2 text-left font-inter text-sm font-normal text-primary hover:bg-neutral-50 active:scale-100 focus:ring-0 focus:ring-offset-0"
+                onClick={() => setIsEditing(true)}
               >
                 Edit
               </Button>
@@ -145,7 +155,9 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
           </Button>
           <Button
             type="button"
-            onClick={handleSubmit((data) => console.log("edit submitted", data))}
+            onClick={handleSubmit((data) =>
+              console.log("edit submitted", data),
+            )}
             className="rounded-lg bg-accent px-4 py-2 text-sm text-primary hover:bg-[#c89412] disabled:cursor-not-allowed disabled:opacity-50"
           >
             Submit
@@ -161,4 +173,3 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
 };
 
 export default ReviewCard;
-
