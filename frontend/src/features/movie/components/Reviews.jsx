@@ -1,4 +1,5 @@
 import UserReviewSection from "./UserReviewSection";
+import MovieReviewsSection from "./MovieReviewsSection";
 
 const Reviews = () => {
   return (
@@ -9,7 +10,7 @@ const Reviews = () => {
 
       <UserReviewSection />
 
-      {/* TODO: MovieReviewsSection */}
+      <MovieReviewsSection />
     </section>
   );
 };
