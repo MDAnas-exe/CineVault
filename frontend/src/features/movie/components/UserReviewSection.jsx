@@ -41,7 +41,7 @@ const UserReviewSection = () => {
 
       {isError && error.status === 404 && <ReviewForm />}
 
-      {false && <ReviewCard reviewInfo={data.review} isOwner />}
+      {data && <ReviewCard reviewInfo={data.review} isOwner />}
     </div>
   );
 };
