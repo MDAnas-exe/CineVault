@@ -71,7 +71,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
 
   return (
     <div
-      className={` ${!isEditing && "relative rounded-xl bg-neutral-50 px-5 py-4 font-inter"}`}
+      className={` ${!isEditing && "relative rounded-xl bg-neutral-50 px-3 py-3 md:px-5 md:py-4 font-inter"}`}
     >
       <div className="flex items-start justify-between gap-2">
         {!isEditing && (
@@ -160,7 +160,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
         <div className="mt-3 flex justify-end gap-2">
           <Button
             type="button"
-            className="rounded-lg px-4 py-2 font-inter text-sm font-medium text-neutral-500 hover:text-primary"
+            className="rounded-lg px-3 py-1.5 md:px-4 md:py-2 font-inter text-xs md:text-sm font-medium text-neutral-500 hover:text-primary"
             onClick={() => setIsEditing(false)}
             disabled={isEditPending}
           >
@@ -179,7 +179,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
                 method: "PUT",
               });
             })}
-            className={`rounded-lg bg-accent px-4 py-2 text-sm text-primary hover:bg-[#c89412] disabled:cursor-not-allowed disabled:opacity-50 ${isEditPending && "flex gap-2 items-center"}`}
+            className={`rounded-lg bg-accent px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm text-primary hover:bg-[#c89412] disabled:cursor-not-allowed disabled:opacity-50 ${isEditPending && "flex gap-2 items-center"}`}
             disabled={isEditPending}
           >
             {isEditPending ? (

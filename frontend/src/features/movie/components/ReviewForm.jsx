@@ -49,14 +49,14 @@ const ReviewForm = () => {
       <div className="mt-3 flex justify-end gap-2">
         <Button
           type="button"
-          className="rounded-lg px-4 py-2 font-inter text-sm font-medium text-neutral-500 hover:text-primary"
+          className="rounded-lg px-3 py-1.5 md:px-4 md:py-2 font-inter text-xs md:text-sm font-medium text-neutral-500 hover:text-primary"
           onClick={() => setValue("review", "")}
         >
           Cancel
         </Button>
         <Button
           type="submit"
-          className={`rounded-lg bg-accent px-4 py-2 text-sm text-primary hover:bg-[#c89412] disabled:cursor-not-allowed disabled:opacity-50 ${isPending && "flex gap-2 items-center"}`}
+          className={`rounded-lg bg-accent px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm text-primary hover:bg-[#c89412] disabled:cursor-not-allowed disabled:opacity-50 ${isPending && "flex gap-2 items-center"}`}
           disabled={isPending}
         >
           {isPending ? (
