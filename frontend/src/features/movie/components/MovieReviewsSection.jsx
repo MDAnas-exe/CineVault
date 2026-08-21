@@ -10,7 +10,7 @@ import Reel from "../../../assets/images/reel.svg?react";
 
 const MovieReviewsSection = () => {
   const { id } = useParams();
-  const queryClient = useQueryClient();
+  const { isLoggedIn } = useQueryClient();
 
   const {
     data,
@@ -64,7 +64,13 @@ const MovieReviewsSection = () => {
   }
 
   if (totalResults === 0) {
-    const userReview = queryClient.getQueryData(["user-review", id]);
+    const { data: userReview } = useQuery({
+      queryKey: ["user-review", id],
+      queryFn: () =>
+        apiRequest({ method: "GET", endpoint: `users/reviews/${id}` }),
+      enabled: isLoggedIn && !!id,
+      retry: false,
+    });
     const hasUserReviewed = !!userReview?.review;
 
     return (
