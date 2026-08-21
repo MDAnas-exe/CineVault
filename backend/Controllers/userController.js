@@ -124,7 +124,8 @@ const getUserMovies = (field, buildExtraFilter = () => ({})) =>
         $gte: new Date(fromYear),
       };
 
-    sortBy = sortBy === "dateAdded" ? "createdAt" : `movieInfo.${sortBy}`;
+    sortBy =
+      sortBy === "dateAdded" ? fieldTimestamps[field] : `movieInfo.${sortBy}`;
 
     const [results, totalResults] = await Promise.all([
       userMovieModel
