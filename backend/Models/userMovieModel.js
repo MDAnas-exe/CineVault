@@ -16,8 +16,11 @@ const userMovieSchema = new mongoose.Schema(
       popularity: Number,
     },
     watched: { type: Boolean, default: false },
+    watchedAt: { type: Date, default: null },
     liked: { type: Boolean, default: false },
+    likedAt: { type: Date, default: null },
     inWatchlist: { type: Boolean, default: false },
+    watchlistedAt: { type: Date, default: null },
   },
   { timestamps: true },
 );
