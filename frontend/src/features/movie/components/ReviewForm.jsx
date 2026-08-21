@@ -32,7 +32,7 @@ const ReviewForm = () => {
       onSubmit={handleSubmit((data) =>
         mutateAsync({ method: "PUT", data, endpoint: `users/reviews/${id}` }),
       )}
-      className="w-full md:max-w-xl"
+      className="w-full md:max-w-2xl"
     >
       <Textarea
         isEditing={true}
