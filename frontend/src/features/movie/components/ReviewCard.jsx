@@ -28,6 +28,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: { review: reviewInfo.review },
@@ -108,6 +109,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
               <Button
                 type="button"
                 className="w-full rounded-none px-4 py-2 text-left font-inter text-sm font-normal text-primary hover:bg-neutral-50 active:scale-100 focus:ring-0 focus:ring-offset-0"
+                disabled={isDeletePending || isEditPending}
                 onClick={() => setIsEditing(true)}
               >
                 Edit
@@ -160,7 +162,10 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
           <Button
             type="button"
             className="rounded-lg px-3 py-1.5 md:px-4 md:py-2 font-inter text-xs md:text-sm font-medium text-neutral-500 hover:text-primary"
-            onClick={() => setIsEditing(false)}
+            onClick={() => {
+              setIsEditing(false);
+              reset();
+            }}
             disabled={isEditPending}
           >
             Cancel
