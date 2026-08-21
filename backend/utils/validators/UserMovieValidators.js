@@ -70,7 +70,6 @@ const queryValidators = [
 
   query("sortBy")
     .optional()
-    .toLowerCase()
     .isIn(["title", "releaseDate", "popularity", "dateAdded"])
     .withMessage("Invalid sort field"),
 
