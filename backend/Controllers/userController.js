@@ -12,6 +12,12 @@ const FIELD_MESSAGES = {
   },
 };
 
+const fieldTimestamps = {
+  liked: "likedAt",
+  watched: "watchedAt",
+  inWatchlist: "watchlistedAt",
+};
+
 const manageMovieState = (field) =>
   expressAsyncHandler(async (req, res) => {
     const { id } = req.params;
@@ -24,10 +30,18 @@ const manageMovieState = (field) =>
 
     let finalValue;
 
+    const fieldTimestamp = fieldTimestamps[field];
     if (existingDoc) {
+      const setFields = {
+        $set: {
+          [field]: !existingDoc[field],
+          [fieldTimestamp]: !existingDoc[field] ? new Date() : null,
+        },
+      };
+
       const updated = await userMovieModel.findOneAndUpdate(
         { userId: req.user._id, movieId: id },
-        { $set: { [field]: !existingDoc[field] } },
+        setFields,
         { returnDocument: "after" },
       );
       finalValue = updated[field];
@@ -44,12 +58,13 @@ const manageMovieState = (field) =>
       const created = await userMovieModel.findOneAndUpdate(
         { userId: req.user._id, movieId: id },
         {
-          $setOnInsert: {
+          $set: {
             userId: req.user._id,
             movieId: id,
             movieInfo: { ...movieInfo, genres: resolvedGenres },
+            [fieldTimestamp]: new Date(),
+            [field]: true,
           },
-          $set: { [field]: true },
         },
         { upsert: true, returnDocument: "after" },
       );
