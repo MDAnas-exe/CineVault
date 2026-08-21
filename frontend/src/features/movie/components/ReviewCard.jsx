@@ -50,7 +50,6 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
       onSuccess: () => {
         toast.success("review edited successfully!!");
         queryClient.invalidateQueries(["user-review", id]);
-        queryClient.setQueryData(["user-review", id], null);
       },
       onError: () => toast.error("Failed to edit review."),
     });
