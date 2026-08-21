@@ -1,4 +1,4 @@
-﻿import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+﻿import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import apiRequest from "../../../utils/apiRequest";
 import SectionSubheading from "../../../components/ui/SectionSubheading";
@@ -7,10 +7,11 @@ import ReviewCard from "./ReviewCard";
 import ReviewCardSkeleton from "./ReviewCardSkeleton";
 import Button from "../../../components/ui/Button";
 import Reel from "../../../assets/images/reel.svg?react";
+import useAuth from "../../../hooks/useAuth.js";
 
 const MovieReviewsSection = () => {
   const { id } = useParams();
-  const { isLoggedIn } = useQueryClient();
+  const { isLoggedIn } = useAuth();
 
   const {
     data,
@@ -31,6 +32,14 @@ const MovieReviewsSection = () => {
     initialPageParam: 1,
     getNextPageParam: (lastPage) =>
       lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined,
+  });
+
+  const { data: userReview } = useQuery({
+    queryKey: ["user-review", id],
+    queryFn: () =>
+      apiRequest({ method: "GET", endpoint: `users/reviews/${id}` }),
+    enabled: isLoggedIn && !!id,
+    retry: false,
   });
 
   const reviews = data?.pages.flatMap((page) => page.reviews) ?? [];
@@ -64,13 +73,6 @@ const MovieReviewsSection = () => {
   }
 
   if (totalResults === 0) {
-    const { data: userReview } = useQuery({
-      queryKey: ["user-review", id],
-      queryFn: () =>
-        apiRequest({ method: "GET", endpoint: `users/reviews/${id}` }),
-      enabled: isLoggedIn && !!id,
-      retry: false,
-    });
     const hasUserReviewed = !!userReview?.review;
 
     return (
