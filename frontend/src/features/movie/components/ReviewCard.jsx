@@ -38,7 +38,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
       mutationFn: apiRequest,
       onSuccess: () => {
         toast.success("review deleted successfully!!");
-        queryClient.invalidateQueries(["user-review", id]);
+        queryClient.invalidateQueries({ queryKey: ["user-review", id] });
         queryClient.setQueryData(["user-review", id], null);
       },
       onError: () => toast.error("Failed to delete review."),

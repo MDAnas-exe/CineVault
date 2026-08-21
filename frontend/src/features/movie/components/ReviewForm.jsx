@@ -22,7 +22,7 @@ const ReviewForm = () => {
     mutationFn: apiRequest,
     onSuccess: () => {
       toast.success("review submitted successfully");
-      queryClient.invalidateQueries(["user-review", id]);
+      queryClient.invalidateQueries({ queryKey: ["user-review", id] });
     },
     onError: () => toast.error("failed to submit review"),
   });
