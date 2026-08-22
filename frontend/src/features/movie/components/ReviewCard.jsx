@@ -50,7 +50,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
       mutationFn: apiRequest,
       onSuccess: () => {
         toast.success("review edited successfully!!");
-        queryClient.invalidateQueries(["user-review", id]);
+        queryClient.invalidateQueries({ queryKey: ["user-review", id] });
       },
       onError: () => toast.error("Failed to edit review."),
     });
