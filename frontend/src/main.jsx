@@ -60,37 +60,8 @@ const router = createBrowserRouter([
     element: <UserLayout />,
     children: [
       { path: "/users/profile", element: <div>user profile</div> },
-      {
-        path: "/users/watchlist",
-        element: (
-          <UserMovieCollectionPage
-            title="Watchlist"
-            endpoint="watchlist"
-            emptyMessage="Your watchlist is empty."
-          />
-        ),
-      },
-      {
-        path: "/users/liked",
-        element: (
-          <UserMovieCollectionPage
-            title="Liked Movies"
-            endpoint="liked"
-            emptyMessage="You haven't liked any movies yet."
-          />
-        ),
-      },
-      {
-        path: "/users/watched",
-        element: (
-          <UserMovieCollectionPage
-            title="Watched Movies"
-            endpoint="watched"
-            emptyMessage="You haven't marked any movies as watched yet."
-          />
-        ),
-      },
       { path: "/users/reviews", element: <UserReviewsPage /> },
+      { path: "/users/:status", element: <UserMovieCollectionPage /> },
     ],
   },
 ]);

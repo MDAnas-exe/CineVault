@@ -25,7 +25,7 @@ const DesktopNavbar = () => {
       className: "block lg:hidden",
     },
     {
-      to: "/users/watchlist",
+      to: "/users/watchlisted",
       label: "Watchlist",
       className: "block lg:hidden",
     },
@@ -88,7 +88,7 @@ const DesktopNavbar = () => {
         <div className="hidden md:flex gap-5 items-center">
           {[
             { to: "/users/watched", label: "Watched" },
-            { to: "/users/watchlist", label: "Watchlist" },
+            { to: "/users/watchlisted", label: "Watchlist" },
           ].map(({ to, label }) => (
             <NavLink
               key={to}

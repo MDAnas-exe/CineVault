@@ -25,7 +25,7 @@ const MobileNavbar = () => {
       className: "block lg:hidden",
     },
     {
-      to: "/users/watchlist",
+      to: "/users/watchlisted",
       label: "Watchlist",
       className: "block lg:hidden",
     },

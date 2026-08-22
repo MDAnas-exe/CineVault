@@ -38,7 +38,6 @@ const HeroSection = () => {
     data: userMovieStatus,
     isLoading: isUserMovieStatusLoading,
     isError: isUserMovieStatusError,
-    error,
   } = useQuery({
     queryKey: ["movie-status", id],
     queryFn: () =>
@@ -52,21 +51,21 @@ const HeroSection = () => {
 
   const liked = userMovieStatus ? userMovieStatus[0].liked : false;
   const watched = userMovieStatus ? userMovieStatus[0].watched : false;
-  const inWatchlist = userMovieStatus ? userMovieStatus[0].inWatchlist : false;
+  const watchlisted = userMovieStatus ? userMovieStatus[0].watchlisted : false;
 
   const buttons = [
     {
-      iconKey: "like",
-      endpoint: `users/likes/${id}`,
+      status: "liked",
+      endpoint: `users/liked/${id}`,
       isActive: liked,
     },
     {
-      iconKey: "watchlist",
-      endpoint: `users/watchlist/${id}`,
-      isActive: inWatchlist,
+      status: "watchlisted",
+      endpoint: `users/watchlisted/${id}`,
+      isActive: watchlisted,
     },
     {
-      iconKey: "watched",
+      status: "watched",
       endpoint: `users/watched/${id}`,
       isActive: watched,
     },
@@ -267,7 +266,7 @@ const HeroSection = () => {
           >
             {buttons.map((btn) => (
               <UserActionButton
-                key={btn.iconKey}
+                key={btn.status}
                 label={true}
                 {...btn}
                 posterPath={poster_path}

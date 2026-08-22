@@ -6,7 +6,7 @@ import { GENRES } from "../constants/genres.js";
 const FIELD_MESSAGES = {
   liked: { onTrue: "Liked Movie", onFalse: "Unliked Movie" },
   watched: { onTrue: "Marked as Watched", onFalse: "Marked as Unwatched" },
-  inWatchlist: {
+  watchlisted: {
     onTrue: "Added to Watchlist",
     onFalse: "Removed from Watchlist",
   },
@@ -15,7 +15,7 @@ const FIELD_MESSAGES = {
 const fieldTimestamps = {
   liked: "likedAt",
   watched: "watchedAt",
-  inWatchlist: "watchlistedAt",
+  watchlisted: "watchlistedAt",
 };
 
 const manageMovieState = (field) =>
@@ -25,7 +25,7 @@ const manageMovieState = (field) =>
 
     const existingDoc = await userMovieModel
       .findOne({ userId: req.user._id, movieId: id })
-      .select("liked watched inWatchlist")
+      .select("liked watched watchlisted")
       .lean();
 
     let finalValue;
@@ -79,11 +79,11 @@ const manageMovieState = (field) =>
     });
   });
 
-const manageLikes = manageMovieState("liked");
+const manageLiked = manageMovieState("liked");
 const manageWatched = manageMovieState("watched");
-const manageWatchlist = manageMovieState("inWatchlist");
+const manageWatchlisted = manageMovieState("watchlisted");
 
-export { manageLikes, manageWatched, manageWatchlist };
+export { manageLiked, manageWatched, manageWatchlisted };
 
 const getUserMovies = (field, buildExtraFilter = () => ({})) =>
   expressAsyncHandler(async (req, res) => {
@@ -131,7 +131,7 @@ const getUserMovies = (field, buildExtraFilter = () => ({})) =>
       userMovieModel
         .find(filter)
         .select(
-          "movieId movieInfo.title movieInfo.posterPath liked watched inWatchlist -_id",
+          "movieId movieInfo.title movieInfo.posterPath liked watched watchlisted -_id",
         )
         .limit(limit)
         .skip((page - 1) * limit)
@@ -148,7 +148,7 @@ const getUserMovies = (field, buildExtraFilter = () => ({})) =>
       posterPath: result.movieInfo.posterPath,
       liked: result.liked,
       watched: result.watched,
-      watchlist: result.inWatchlist,
+      watchlisted: result.watchlisted,
     }));
 
     const responseData = { movies, page, totalPages, totalResults };
@@ -161,9 +161,9 @@ const getWatched = getUserMovies("watched", ({ liked }) => {
   if (liked === "false") return { liked: false };
   return {};
 });
-const getWatchlist = getUserMovies("inWatchlist");
+const getWatchlisted = getUserMovies("watchlisted");
 
-export { getLiked, getWatched, getWatchlist };
+export { getLiked, getWatched, getWatchlisted };
 
 const getUserMovieStatus = expressAsyncHandler(async (req, res) => {
   let { ids } = req.query;
@@ -172,7 +172,7 @@ const getUserMovieStatus = expressAsyncHandler(async (req, res) => {
 
   let results = await userMovieModel
     .find({ userId: req.user._id, movieId: { $in: ids } })
-    .select("inWatchlist watched liked movieId -_id")
+    .select("watchlisted watched liked movieId -_id")
     .lean();
 
   let map = new Map(results.map((result) => [result.movieId, result]));
@@ -183,7 +183,7 @@ const getUserMovieStatus = expressAsyncHandler(async (req, res) => {
         movieId: id,
         liked: false,
         watched: false,
-        inWatchlist: false,
+        watchlisted: false,
       },
   );
 
@@ -207,16 +207,16 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
   const [
     likedCount,
     watchedCount,
-    watchlistCount,
+    watchlistedCount,
     reviewCount,
     recentLiked,
     recentWatched,
-    recentWatchlist,
+    recentWatchlisted,
     recentReviews,
   ] = await Promise.all([
     userMovieModel.countDocuments({ userId, liked: true }),
     userMovieModel.countDocuments({ userId, watched: true }),
-    userMovieModel.countDocuments({ userId, inWatchlist: true }),
+    userMovieModel.countDocuments({ userId, watchlisted: true }),
     reviewModel.countDocuments({ userId }),
     userMovieModel
       .find({ userId, liked: true })
@@ -231,7 +231,7 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
       .limit(10)
       .lean(),
     userMovieModel
-      .find({ userId, inWatchlist: true })
+      .find({ userId, watchlisted: true })
       .select("movieId movieInfo.title -_id")
       .sort({ updatedAt: -1 })
       .limit(10)
@@ -255,7 +255,7 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
     stats: {
       likedCount,
       watchedCount,
-      watchlistCount,
+      watchlistedCount,
       reviewCount,
     },
     recent: {
@@ -267,7 +267,7 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
         movieId: item.movieId,
         title: item.movieInfo?.title,
       })),
-      watchlist: recentWatchlist.map((item) => ({
+      watchlisted: recentWatchlisted.map((item) => ({
         movieId: item.movieId,
         title: item.movieInfo?.title,
       })),

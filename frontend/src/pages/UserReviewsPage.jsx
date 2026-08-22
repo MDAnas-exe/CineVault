@@ -17,21 +17,27 @@ const UserReviewsPage = () => {
 
   const reviews = data?.reviews ?? [];
 
-  return (
-    <PageContentWrapper>
-      <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
-        Reviews
-      </h1>
-
-      {isLoading && (
+  if (isLoading) {
+    return (
+      <PageContentWrapper>
+        <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
+          Reviews
+        </h1>
         <div className="mx-auto flex w-full max-w-2xl flex-col gap-4">
           {Array.from({ length: 5 }).map((_, i) => (
             <ReviewCardSkeleton key={i} />
           ))}
         </div>
-      )}
+      </PageContentWrapper>
+    );
+  }
 
-      {isError && (
+  if (isError) {
+    return (
+      <PageContentWrapper>
+        <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
+          Reviews
+        </h1>
         <SectionState
           imageSource={errorSign}
           buttonText="Retry"
@@ -39,29 +45,41 @@ const UserReviewsPage = () => {
           description="Please check your connection and try again."
           onRetry={refetch}
         />
-      )}
+      </PageContentWrapper>
+    );
+  }
 
-      {!isLoading && !isError && reviews.length === 0 && (
+  if (reviews.length === 0) {
+    return (
+      <PageContentWrapper>
+        <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
+          Reviews
+        </h1>
         <SectionState
           imageSource={emptySign}
           message="No reviews yet."
           description="Reviews you write will appear here."
         />
-      )}
+      </PageContentWrapper>
+    );
+  }
 
-      {!isLoading && !isError && reviews.length > 0 && (
-        <div className="mx-auto flex w-full max-w-2xl flex-col gap-4">
-          {reviews.map((review) => (
-            <div
-              key={review.movieId}
-              className="cursor-pointer rounded-xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
-              onClick={() => navigate(`/movies/${review.movieId}/reviews`)}
-            >
-              <ReviewCard reviewInfo={review} isOwner={false} />
-            </div>
-          ))}
-        </div>
-      )}
+  return (
+    <PageContentWrapper>
+      <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
+        Reviews
+      </h1>
+      <div className="mx-auto flex w-full max-w-2xl flex-col gap-4">
+        {reviews.map((review) => (
+          <div
+            key={review.movieId}
+            className="cursor-pointer rounded-xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+            onClick={() => navigate(`/movies/${review.movieId}/reviews`)}
+          >
+            <ReviewCard reviewInfo={review} isOwner={false} />
+          </div>
+        ))}
+      </div>
     </PageContentWrapper>
   );
 };

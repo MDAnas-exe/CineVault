@@ -4,7 +4,7 @@ import { MdTrendingUp } from "react-icons/md";
 import UserActionButton from "../../../components/ui/UserActionButton";
 import UserBtnSection from "../../../components/ui/UserBtnSection";
 
-const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
+const SearchResultMovieCard = ({ movie, ref }) => {
   const navigate = useNavigate();
 
   const {
@@ -21,24 +21,24 @@ const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
     overview,
     liked,
     watched,
-    inWatchlist,
+    watchlisted,
     isUserMovieStatusError,
     isUserMovieStatusLoading,
   } = movie;
 
   const buttons = [
     {
-      iconKey: "like",
-      endpoint: `users/likes/${id}`,
+      status: "liked",
+      endpoint: `users/liked/${id}`,
       isActive: liked,
     },
     {
-      iconKey: "watchlist",
-      endpoint: `users/watchlist/${id}`,
-      isActive: inWatchlist,
+      status: "watchlisted",
+      endpoint: `users/watchlisted/${id}`,
+      isActive: watchlisted,
     },
     {
-      iconKey: "watched",
+      status: "watched",
       endpoint: `users/watched/${id}`,
       isActive: watched,
     },
@@ -132,7 +132,7 @@ const SearchResultMovieCard = ({ movie, ref, isLoading, isError }) => {
           >
             {buttons.map((btn) => (
               <UserActionButton
-                key={btn.iconKey}
+                key={btn.status}
                 {...btn}
                 title={title}
                 id={id}

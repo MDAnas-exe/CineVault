@@ -15,13 +15,13 @@ import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth.js";
 
 const ICON_MAP = {
-  like: { outline: FaRegHeart, solid: FaHeart },
-  watchlist: { outline: FaRegBookmark, solid: FaBookmark },
+  liked: { outline: FaRegHeart, solid: FaHeart },
+  watchlisted: { outline: FaRegBookmark, solid: FaBookmark },
   watched: { outline: FaRegEye, solid: FaEye },
 };
 
-const CrossFadeIcon = ({ iconKey, isActive, label }) => {
-  const icons = ICON_MAP[iconKey];
+const CrossFadeIcon = ({ status, isActive, label }) => {
+  const icons = ICON_MAP[status];
   if (!icons) return null;
   const { outline: Outline, solid: Solid } = icons;
   return (
@@ -44,13 +44,13 @@ const CrossFadeIcon = ({ iconKey, isActive, label }) => {
 };
 
 const messages = {
-  like: {
+  liked: {
     add: "Added to liked",
     remove: "Removed from liked",
     addError: "Failed to like",
     removeError: "Failed to unlike",
   },
-  watchlist: {
+  watchlisted: {
     add: "Added to watchlist",
     remove: "Removed from watchlist",
     addError: "Failed to add to watchlist",
@@ -65,7 +65,7 @@ const messages = {
 };
 
 const UserActionButton = ({
-  iconKey,
+  status,
   label = false,
   title,
   posterPath,
@@ -84,9 +84,9 @@ const UserActionButton = ({
   const [isActive, setIsActive] = useState(initialIsActive);
 
   const btnLabel = {
-    watchlist: isActive ? "Remove from Watchlist" : "Add to Watchlist",
+    watchlisted: isActive ? "Remove from Watchlist" : "Add to Watchlist",
     watched: isActive ? "Mark as Unwatched" : "Mark as Watched",
-    like: isActive ? "Unlike" : "Like",
+    liked: isActive ? "Unlike" : "Like",
   };
 
   const controllerRef = useRef(null);
@@ -109,14 +109,15 @@ const UserActionButton = ({
     onSuccess: () => {
       queryClient.setQueryData(["movie-status", id], null);
       queryClient.invalidateQueries({ queryKey: ["movie-status", id] });
+      queryClient.invalidateQueries({ queryKey: ["user-movies"] });
     },
     onError: (err, variables, context) => {
       if (err.name === "AbortError") return;
       setIsActive(context.wasActive);
       toast.error(
         context.wasActive
-          ? messages[iconKey].removeError
-          : messages[iconKey].addError,
+          ? messages[status].removeError
+          : messages[status].addError,
       );
     },
   });
@@ -130,7 +131,7 @@ const UserActionButton = ({
 
     setIsActive((prev) => !prev);
 
-    toast.success(wasActive ? messages[iconKey].remove : messages[iconKey].add);
+    toast.success(wasActive ? messages[status].remove : messages[status].add);
 
     controllerRef.current?.abort();
     controllerRef.current = new AbortController();
@@ -149,8 +150,8 @@ const UserActionButton = ({
       className={twMerge(`flex items-center md:gap-2 `, className)}
       onClick={handleClick}
     >
-      <CrossFadeIcon iconKey={iconKey} isActive={isActive} label={label} />
-      {label && <span>{btnLabel[iconKey]}</span>}
+      <CrossFadeIcon status={status} isActive={isActive} label={label} />
+      {label && <span>{btnLabel[status]}</span>}
     </Button>
   );
 };

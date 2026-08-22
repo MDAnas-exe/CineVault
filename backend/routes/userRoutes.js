@@ -1,11 +1,11 @@
 import express from "express";
 import protect from "../middlewares/authMiddleware.js";
 import {
-  manageLikes,
+  manageLiked,
   manageWatched,
-  manageWatchlist,
+  manageWatchlisted,
   getLiked,
-  getWatchlist,
+  getWatchlisted,
   getWatched,
   getUserMovieStatus,
   getUserMe,
@@ -38,12 +38,12 @@ router.get("/me", protect, userReadLimiter, getUserMe);
 router.get("/profile", protect, userReadLimiter, getUserProfile);
 
 router.patch(
-  "/likes/:id",
+  "/liked/:id",
   protect,
   userWriteLimiter,
   movieInfoValidator,
   validate,
-  manageLikes,
+  manageLiked,
 );
 router.patch(
   "/watched/:id",
@@ -54,12 +54,12 @@ router.patch(
   manageWatched,
 );
 router.patch(
-  "/watchlist/:id",
+  "/watchlisted/:id",
   protect,
   userWriteLimiter,
   movieInfoValidator,
   validate,
-  manageWatchlist,
+  manageWatchlisted,
 );
 
 router.get(
@@ -79,12 +79,12 @@ router.get(
   getWatched,
 );
 router.get(
-  "/watchlist",
+  "/watchlisted",
   protect,
   userReadLimiter,
   queryValidators,
   validate,
-  getWatchlist,
+  getWatchlisted,
 );
 
 router.get(

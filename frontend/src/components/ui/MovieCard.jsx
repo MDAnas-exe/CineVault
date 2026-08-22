@@ -34,22 +34,22 @@ const MovieCard = ({ movie, index, className = "", showActions = true }) => {
   const rawPopularity = getMovieValue(movie, "popularity");
   const popularity =
     typeof rawPopularity === "number" ? rawPopularity : Number(rawPopularity);
-  const inWatchlist = Boolean(getMovieValue(movie, "inWatchlist", "watchlist"));
+  const watchlisted = Boolean(movie?.watchlisted);
   const posterUrl = getImageUrl(posterPath);
 
   const buttons = [
     {
-      iconKey: "like",
-      endpoint: `users/likes/${id}`,
+      status: "liked",
+      endpoint: `users/liked/${id}`,
       isActive: Boolean(movie?.liked),
     },
     {
-      iconKey: "watchlist",
-      endpoint: `users/watchlist/${id}`,
-      isActive: inWatchlist,
+      status: "watchlisted",
+      endpoint: `users/watchlisted/${id}`,
+      isActive: watchlisted,
     },
     {
-      iconKey: "watched",
+      status: "watched",
       endpoint: `users/watched/${id}`,
       isActive: Boolean(movie?.watched),
     },
@@ -89,7 +89,7 @@ const MovieCard = ({ movie, index, className = "", showActions = true }) => {
             <div className="flex items-center justify-center gap-2">
               {buttons.map((btn) => (
                 <UserActionButton
-                  key={btn.iconKey}
+                  key={btn.status}
                   {...btn}
                   id={id}
                   title={title}

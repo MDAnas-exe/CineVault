@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Navigate, useParams } from "react-router-dom";
 import apiRequest from "../utils/apiRequest";
 import MovieCard from "../components/ui/MovieCard";
 import MovieSectionSkeleton from "../components/ui/MovieSectionSkeleton";
@@ -7,23 +8,52 @@ import SectionState from "../components/ui/SectionState";
 import emptySign from "../assets/images/reel.png";
 import errorSign from "../assets/images/errorSign.png";
 
-const UserMovieCollectionPage = ({ title, endpoint, emptyMessage }) => {
+const COLLECTIONS = {
+  liked: {
+    title: "Liked Movies",
+    emptyMessage: "You haven't liked any movies yet.",
+  },
+  watched: {
+    title: "Watched Movies",
+    emptyMessage: "You haven't marked any movies as watched yet.",
+  },
+  watchlisted: {
+    title: "Watchlist",
+    emptyMessage: "Your watchlist is empty.",
+  },
+};
+
+const UserMovieCollectionPage = () => {
+  const { status } = useParams();
+  const collection = COLLECTIONS[status];
   const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: ["user-movies", endpoint],
-    queryFn: () => apiRequest({ endpoint: `users/${endpoint}`, method: "GET" }),
+    queryKey: ["user-movies", status],
+    queryFn: () => apiRequest({ endpoint: `users/${status}`, method: "GET" }),
+    enabled: Boolean(collection),
   });
 
+  if (!collection) return <Navigate to="/users/liked" replace />;
+
   const movies = data?.movies ?? [];
+  const { title, emptyMessage } = collection;
 
-  return (
-    <PageContentWrapper>
-      <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
-        {title}
-      </h1>
+  if (isLoading) {
+    return (
+      <PageContentWrapper>
+        <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
+          {title}
+        </h1>
+        <MovieSectionSkeleton variant="grid" count={12} />
+      </PageContentWrapper>
+    );
+  }
 
-      {isLoading && <MovieSectionSkeleton variant="grid" count={12} />}
-
-      {isError && (
+  if (isError) {
+    return (
+      <PageContentWrapper>
+        <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
+          {title}
+        </h1>
         <SectionState
           imageSource={errorSign}
           buttonText="Retry"
@@ -31,27 +61,39 @@ const UserMovieCollectionPage = ({ title, endpoint, emptyMessage }) => {
           description="Please check your connection and try again."
           onRetry={refetch}
         />
-      )}
+      </PageContentWrapper>
+    );
+  }
 
-      {!isLoading && !isError && movies.length === 0 && (
+  if (movies.length === 0) {
+    return (
+      <PageContentWrapper>
+        <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
+          {title}
+        </h1>
         <SectionState
           imageSource={emptySign}
           message={emptyMessage}
           description="Movies you add will appear here."
         />
-      )}
+      </PageContentWrapper>
+    );
+  }
 
-      {!isLoading && !isError && movies.length > 0 && (
-        <div className="flex flex-wrap justify-between gap-6">
-          {movies.map((movie) => (
-            <MovieCard
-              key={movie.id || movie.movieId}
-              movie={movie}
-              className="h-58 w-38 sm:h-64 sm:w-42"
-            />
-          ))}
-        </div>
-      )}
+  return (
+    <PageContentWrapper>
+      <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
+        {title}
+      </h1>
+      <div className="flex flex-wrap justify-between gap-6">
+        {movies.map((movie) => (
+          <MovieCard
+            key={movie.id || movie.movieId}
+            movie={movie}
+            className="h-58 w-38 sm:h-64 sm:w-42"
+          />
+        ))}
+      </div>
     </PageContentWrapper>
   );
 };
