@@ -23,8 +23,8 @@ const UserReviewsPage = () => {
         <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
           Reviews
         </h1>
-        <div className="mx-auto flex w-full max-w-2xl flex-col gap-4">
-          {Array.from({ length: 5 }).map((_, i) => (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 3 }).map((_, i) => (
             <ReviewCardSkeleton key={i} />
           ))}
         </div>
@@ -69,7 +69,7 @@ const UserReviewsPage = () => {
       <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
         Reviews
       </h1>
-      <div className="mx-auto flex w-full max-w-2xl flex-col gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {reviews.map((review) => (
           <div
             key={review.movieId}

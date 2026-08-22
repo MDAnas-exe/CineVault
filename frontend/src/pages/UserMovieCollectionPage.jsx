@@ -71,13 +71,9 @@ const UserMovieCollectionPage = () => {
       <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
         {title}
       </h1>
-      <div className="flex flex-wrap justify-between gap-6">
+      <div className="grid gap-x-4 gap-y-4 grid-cols-4  lg:grid-cols-6">
         {movies.map((movie) => (
-          <MovieCard
-            key={movie.id || movie.movieId}
-            movie={movie}
-            className="h-58 w-38 sm:h-64 sm:w-42"
-          />
+          <MovieCard key={movie.id || movie.movieId} movie={movie} />
         ))}
       </div>
     </PageContentWrapper>

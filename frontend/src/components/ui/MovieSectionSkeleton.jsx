@@ -4,7 +4,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 const MovieSectionSkeleton = ({ variant = "row", count = 20 }) => {
   if (variant === "grid") {
     return (
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+      <div className="grid gap-x-4 gap-y-4 grid-cols-4  lg:grid-cols-6">
         {Array.from({ length: count }).map((_, i) => (
           <Skeleton
             key={i}

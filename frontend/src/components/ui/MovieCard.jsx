@@ -6,7 +6,9 @@ import { getUserMovieActions } from "../../constants/userMovie";
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
 const getMovieValue = (movie, ...keys) =>
-  keys.map((key) => movie?.[key]).find((value) => value !== undefined && value !== null);
+  keys
+    .map((key) => movie?.[key])
+    .find((value) => value !== undefined && value !== null);
 
 const getImageUrl = (path) => {
   if (!path) return null;
@@ -29,7 +31,8 @@ const MovieCard = ({ movie, index, className = "", showActions = true }) => {
   const releaseDate = getMovieValue(movie, "release_date", "releaseDate");
   const rawGenres = getMovieValue(movie, "genre_ids", "genres");
   const genres =
-    Array.isArray(rawGenres) && rawGenres.every((genre) => Number.isInteger(genre))
+    Array.isArray(rawGenres) &&
+    rawGenres.every((genre) => Number.isInteger(genre))
       ? rawGenres
       : undefined;
   const rawPopularity = getMovieValue(movie, "popularity");
@@ -63,7 +66,7 @@ const MovieCard = ({ movie, index, className = "", showActions = true }) => {
         }
         onClick={() => navigate(`/movies/${id}`)}
         className={twMerge(
-          "group relative h-52 w-32 shrink-0 cursor-pointer overflow-hidden rounded-xl bg-cover bg-center shadow-sm transition-shadow duration-300 hover:shadow-lg md:h-56 md:w-36",
+          "group relative h-32 w-18 xs:w-22 shrink-0 cursor-pointer overflow-hidden rounded-xl bg-cover bg-center shadow-sm transition-shadow duration-300 hover:shadow-lg sm:h-56 sm:w-36",
           className,
         )}
       >
