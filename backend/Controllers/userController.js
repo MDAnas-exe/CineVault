@@ -130,7 +130,9 @@ const getUserMovies = (field, buildExtraFilter = () => ({})) =>
     const [results, totalResults] = await Promise.all([
       userMovieModel
         .find(filter)
-        .select("movieId movieInfo.title liked watched inWatchlist -_id")
+        .select(
+          "movieId movieInfo.title movieInfo.posterPath liked watched inWatchlist -_id",
+        )
         .limit(limit)
         .skip((page - 1) * limit)
         .sort({ [sortBy]: order === "asc" ? 1 : -1 })
@@ -143,6 +145,7 @@ const getUserMovies = (field, buildExtraFilter = () => ({})) =>
     const movies = results.map((result) => ({
       title: result.movieInfo.title,
       movieId: result.movieId,
+      posterPath: result.movieInfo.posterPath,
       liked: result.liked,
       watched: result.watched,
       watchlist: result.inWatchlist,
