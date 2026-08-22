@@ -11,6 +11,8 @@ import MovieDetailsPage from "./pages/MovieDetailsPage.jsx";
 import Signup from "./pages/Signup.jsx";
 import Login from "./pages/Login.jsx";
 import EmailVerification from "./pages/EmailVerification.jsx";
+import UserMovieCollectionPage from "./pages/UserMovieCollectionPage.jsx";
+import UserReviewsPage from "./pages/UserReviewsPage.jsx";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthProvider.jsx";
 const queryClient = new QueryClient();
@@ -58,10 +60,37 @@ const router = createBrowserRouter([
     element: <UserLayout />,
     children: [
       { path: "/users/profile", element: <div>user profile</div> },
-      { path: "/users/watchlist", element: <div>user watchlist</div> },
-      { path: "/users/liked", element: <div>user liked</div> },
-      { path: "/users/watched", element: <div>user watched</div> },
-      { path: "/users/reviews", element: <div>user reviews</div> },
+      {
+        path: "/users/watchlist",
+        element: (
+          <UserMovieCollectionPage
+            title="Watchlist"
+            endpoint="watchlist"
+            emptyMessage="Your watchlist is empty."
+          />
+        ),
+      },
+      {
+        path: "/users/liked",
+        element: (
+          <UserMovieCollectionPage
+            title="Liked Movies"
+            endpoint="liked"
+            emptyMessage="You haven't liked any movies yet."
+          />
+        ),
+      },
+      {
+        path: "/users/watched",
+        element: (
+          <UserMovieCollectionPage
+            title="Watched Movies"
+            endpoint="watched"
+            emptyMessage="You haven't marked any movies as watched yet."
+          />
+        ),
+      },
+      { path: "/users/reviews", element: <UserReviewsPage /> },
     ],
   },
 ]);

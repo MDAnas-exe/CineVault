@@ -1,9 +1,8 @@
 import { useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-import Skeleton from "react-loading-skeleton";
 import apiRequest from "../../../utils/apiRequest";
-import "react-loading-skeleton/dist/skeleton.css";
-import HomeMovieCard from "./MovieCard";
+import MovieCard from "../../../components/ui/MovieCard";
+import MovieSectionSkeleton from "../../../components/ui/MovieSectionSkeleton";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import emptySign from "../../../assets/images/reel.png";
 import errorSign from "../../../assets/images/errorSign.png";
@@ -20,20 +19,7 @@ const HomeMovieSection = ({ title, endpoint }) => {
   });
 
   if (isLoading) {
-    return (
-      <div className="flex gap-3 flex-col px-3 md:px-6">
-        <Skeleton width={250} height={40} />
-
-        <div
-          className="overflow-x-scroll flex gap-4 h-56 "
-          style={{ scrollbarWidth: "none" }}
-        >
-          {Array.from({ length: 20 }).map((_, i) => (
-            <Skeleton width={120} height={200} borderRadius={12} key={i} />
-          ))}
-        </div>
-      </div>
-    );
+    return <MovieSectionSkeleton />;
   }
 
   if (isError)
@@ -88,7 +74,13 @@ const HomeMovieSection = ({ title, endpoint }) => {
           ref={ref}
         >
           {movies.map((movie, index) => (
-            <HomeMovieCard key={movie.id} movie={movie} index={index} />
+            <MovieCard
+              key={movie.id}
+              movie={movie}
+              index={index}
+              showActions={false}
+              className="h-40 w-24 lg:h-50 lg:w-30"
+            />
           ))}
         </div>
         <div
