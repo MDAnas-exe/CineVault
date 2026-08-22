@@ -20,7 +20,10 @@ const UserMovieCollectionPage = () => {
 
   if (!collection) return <Navigate to="/users/liked" replace />;
 
-  const movies = data?.movies ?? [];
+  const movies = (data?.movies ?? []).map((movie) => ({
+    ...movie,
+    id: movie.movieId,
+  }));
   const { title, emptyMessage } = collection;
 
   if (isLoading) {
@@ -73,7 +76,7 @@ const UserMovieCollectionPage = () => {
       </h1>
       <div className="grid gap-x-4 gap-y-4 grid-cols-4  lg:grid-cols-6">
         {movies.map((movie) => (
-          <MovieCard key={movie.id || movie.movieId} movie={movie} />
+          <MovieCard key={movie.id} movie={movie} />
         ))}
       </div>
     </PageContentWrapper>

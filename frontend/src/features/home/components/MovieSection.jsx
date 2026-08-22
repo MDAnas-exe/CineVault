@@ -21,7 +21,18 @@ const HomeMovieSection = ({ title, endpoint }) => {
         endpoint: `movies/${endpoint}`,
         method: "GET",
       });
-      return data.results.filter((m) => m.id && m.title);
+      return data.results
+        .filter((movie) => movie.id && movie.title)
+        .map(
+          ({ id, title, poster_path, release_date, genre_ids, popularity }) => ({
+            id,
+            title,
+            posterPath: poster_path,
+            releaseDate: release_date,
+            genres: genre_ids,
+            popularity,
+          }),
+        );
     },
     staleTime: 30 * 60 * 1000,
   });

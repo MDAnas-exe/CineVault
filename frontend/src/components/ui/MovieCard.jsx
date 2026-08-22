@@ -5,11 +5,6 @@ import { getUserMovieActions } from "../../constants/userMovie";
 
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
-const getMovieValue = (movie, ...keys) =>
-  keys
-    .map((key) => movie?.[key])
-    .find((value) => value !== undefined && value !== null);
-
 const getImageUrl = (path) => {
   if (!path) return null;
   if (path.startsWith("http")) return path;
@@ -19,27 +14,19 @@ const getImageUrl = (path) => {
 const MovieCard = ({ movie, index, className = "", showActions = true }) => {
   const navigate = useNavigate();
 
-  const id = getMovieValue(movie, "id", "movieId");
-  const title = getMovieValue(movie, "title", "original_title") || "Untitled";
-  const posterPath = getMovieValue(
-    movie,
-    "poster_path",
-    "posterPath",
-    "backdrop_path",
-    "backdropPath",
-  );
-  const releaseDate = getMovieValue(movie, "release_date", "releaseDate");
-  const rawGenres = getMovieValue(movie, "genre_ids", "genres");
-  const genres =
-    Array.isArray(rawGenres) &&
-    rawGenres.every((genre) => Number.isInteger(genre))
-      ? rawGenres
-      : undefined;
-  const rawPopularity = getMovieValue(movie, "popularity");
-  const popularity =
-    typeof rawPopularity === "number" ? rawPopularity : Number(rawPopularity);
+  const {
+    id,
+    title = "Untitled",
+    posterPath,
+    releaseDate,
+    genres,
+    popularity,
+    liked,
+    watched,
+    watchlisted,
+  } = movie;
   const posterUrl = getImageUrl(posterPath);
-  const buttons = getUserMovieActions(id, movie);
+  const buttons = getUserMovieActions(id, { liked, watched, watchlisted });
 
   return (
     <div className="flex gap-0.5">
@@ -82,9 +69,7 @@ const MovieCard = ({ movie, index, className = "", showActions = true }) => {
                   posterPath={posterPath}
                   releaseDate={releaseDate}
                   genres={genres}
-                  popularity={
-                    Number.isFinite(popularity) ? popularity : undefined
-                  }
+                  popularity={popularity}
                   className="size-8 justify-center rounded-full border border-white/25 bg-black/30 p-0 text-white shadow-none hover:bg-white/15 hover:text-accent focus:ring-0"
                 />
               ))}
