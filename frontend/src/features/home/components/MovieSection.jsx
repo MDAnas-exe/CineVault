@@ -24,7 +24,14 @@ const HomeMovieSection = ({ title, endpoint }) => {
       return data.results
         .filter((movie) => movie.id && movie.title)
         .map(
-          ({ id, title, poster_path, release_date, genre_ids, popularity }) => ({
+          ({
+            id,
+            title,
+            poster_path,
+            release_date,
+            genre_ids,
+            popularity,
+          }) => ({
             id,
             title,
             posterPath: poster_path,
