@@ -42,7 +42,7 @@ const UserMovieCollectionPage = ({ title, endpoint, emptyMessage }) => {
       )}
 
       {!isLoading && !isError && movies.length > 0 && (
-        <div className="grid grid-cols-2 content-between gap-x-3 gap-y-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 ">
+        <div className="flex flex-wrap justify-between gap-6">
           {movies.map((movie) => (
             <MovieCard
               key={movie.id || movie.movieId}
