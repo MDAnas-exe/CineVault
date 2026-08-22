@@ -25,13 +25,18 @@ const CrossFadeIcon = ({ iconKey, isActive, label }) => {
   if (!icons) return null;
   const { outline: Outline, solid: Solid } = icons;
   return (
-    <span className={`relative size-3 lg:size-4 ${!label && "size-full"} `}>
+    <span
+      className={twMerge(
+        "relative grid place-items-center",
+        label ? "size-3 lg:size-4" : "size-full",
+      )}
+    >
       <Outline
-        className={`absolute inset-0 transition-opacity duration-200  ${!label && "m-auto"}`}
+        className="absolute transition-opacity duration-200"
         style={{ opacity: isActive ? 0 : 1 }}
       />
       <Solid
-        className={`absolute inset-0 transition-opacity duration-200  ${!label && "m-auto"}`}
+        className="absolute transition-opacity duration-200"
         style={{ opacity: isActive ? 1 : 0, color: "#D4A017" }}
       />
     </span>
