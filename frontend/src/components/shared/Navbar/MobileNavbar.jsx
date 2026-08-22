@@ -13,32 +13,8 @@ import UserMenuLinks from "./UserMenuLinks";
 import { twMerge } from "tailwind-merge";
 import Button from "../../ui/Button";
 import LogoutButton from "./LogoutButton";
+import { USER_MENU_LINKS } from "./userMenuConfig";
 const MobileNavbar = () => {
-  const userMenuLinks = [
-    {
-      to: "/users/profile",
-      label: "View Profile",
-    },
-    {
-      to: "/users/watched",
-      label: "Watched Movies",
-      className: "block lg:hidden",
-    },
-    {
-      to: "/users/watchlisted",
-      label: "Watchlist",
-      className: "block lg:hidden",
-    },
-    {
-      to: "/users/liked",
-      label: "Liked Movies",
-    },
-    {
-      to: "/users/reviews",
-      label: "Reviews",
-    },
-  ];
-
   const { isLoading, isLoggedIn, user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const name = user?.name;
@@ -96,7 +72,7 @@ const MobileNavbar = () => {
             </Button>
 
             <UserInfoHeader name={name} email={email} className="pt-0" />
-            {userMenuLinks.map(({ to, label, className }) => (
+            {USER_MENU_LINKS.map(({ to, label, className }) => (
               <NavLink
                 key={to}
                 to={to}

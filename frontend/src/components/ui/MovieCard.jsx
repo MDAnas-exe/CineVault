@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import UserActionButton from "./UserActionButton";
+import { getUserMovieActions } from "../../constants/userMovie";
 
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
@@ -34,26 +35,8 @@ const MovieCard = ({ movie, index, className = "", showActions = true }) => {
   const rawPopularity = getMovieValue(movie, "popularity");
   const popularity =
     typeof rawPopularity === "number" ? rawPopularity : Number(rawPopularity);
-  const watchlisted = Boolean(movie?.watchlisted);
   const posterUrl = getImageUrl(posterPath);
-
-  const buttons = [
-    {
-      status: "liked",
-      endpoint: `users/liked/${id}`,
-      isActive: Boolean(movie?.liked),
-    },
-    {
-      status: "watchlisted",
-      endpoint: `users/watchlisted/${id}`,
-      isActive: watchlisted,
-    },
-    {
-      status: "watched",
-      endpoint: `users/watched/${id}`,
-      isActive: Boolean(movie?.watched),
-    },
-  ];
+  const buttons = getUserMovieActions(id, movie);
 
   return (
     <div className="flex gap-0.5">

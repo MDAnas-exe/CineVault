@@ -12,33 +12,12 @@ import { twMerge } from "tailwind-merge";
 import Skeleton from "react-loading-skeleton";
 import { MdOutlinePersonOutline } from "react-icons/md";
 import LogoutButton from "./LogoutButton";
+import {
+  PRIMARY_USER_MENU_LINKS,
+  USER_MENU_LINKS,
+} from "./userMenuConfig";
 
 const DesktopNavbar = () => {
-  const userMenuLinks = [
-    {
-      to: "/users/profile",
-      label: "View Profile",
-    },
-    {
-      to: "/users/watched",
-      label: "Watched Movies",
-      className: "block lg:hidden",
-    },
-    {
-      to: "/users/watchlisted",
-      label: "Watchlist",
-      className: "block lg:hidden",
-    },
-    {
-      to: "/users/liked",
-      label: "Liked Movies",
-    },
-    {
-      to: "/users/reviews",
-      label: "Reviews",
-    },
-  ];
-
   const { isLoading, isLoggedIn, user } = useAuth();
 
   const name = user?.name;
@@ -86,10 +65,7 @@ const DesktopNavbar = () => {
 
       {isLoggedIn && (
         <div className="hidden md:flex gap-5 items-center">
-          {[
-            { to: "/users/watched", label: "Watched" },
-            { to: "/users/watchlisted", label: "Watchlist" },
-          ].map(({ to, label }) => (
+          {PRIMARY_USER_MENU_LINKS.map(({ to, label }) => (
             <NavLink
               key={to}
               to={to}
@@ -135,7 +111,7 @@ const DesktopNavbar = () => {
             <UserInfoHeader name={name} email={email} />
 
             <div>
-              {userMenuLinks.map(({ to, label, className }) => (
+              {USER_MENU_LINKS.map(({ to, label, className }) => (
                 <NavLink
                   key={to}
                   to={to}

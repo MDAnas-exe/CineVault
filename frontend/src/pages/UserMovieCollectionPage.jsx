@@ -7,25 +7,11 @@ import PageContentWrapper from "../components/ui/PageContentWrapper";
 import SectionState from "../components/ui/SectionState";
 import emptySign from "../assets/images/reel.png";
 import errorSign from "../assets/images/errorSign.png";
-
-const COLLECTIONS = {
-  liked: {
-    title: "Liked Movies",
-    emptyMessage: "You haven't liked any movies yet.",
-  },
-  watched: {
-    title: "Watched Movies",
-    emptyMessage: "You haven't marked any movies as watched yet.",
-  },
-  watchlisted: {
-    title: "Watchlist",
-    emptyMessage: "Your watchlist is empty.",
-  },
-};
+import { USER_MOVIE_COLLECTIONS } from "../constants/userMovie";
 
 const UserMovieCollectionPage = () => {
   const { status } = useParams();
-  const collection = COLLECTIONS[status];
+  const collection = USER_MOVIE_COLLECTIONS[status];
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["user-movies", status],
     queryFn: () => apiRequest({ endpoint: `users/${status}`, method: "GET" }),

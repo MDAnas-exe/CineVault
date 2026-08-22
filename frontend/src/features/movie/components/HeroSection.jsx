@@ -16,6 +16,7 @@ import UserBtnSection from "../../../components/ui/UserBtnSection";
 import UserActionButton from "../../../components/ui/UserActionButton";
 import HeroButtonSkeleton from "../../../components/ui/HeroButtonSkeleton";
 import useAuth from "../../../hooks/useAuth.js";
+import { getUserMovieActions } from "../../../constants/userMovie";
 
 const HeroSection = () => {
   const { id } = useParams();
@@ -49,27 +50,7 @@ const HeroSection = () => {
     retry: isLoggedIn,
   });
 
-  const liked = userMovieStatus ? userMovieStatus[0].liked : false;
-  const watched = userMovieStatus ? userMovieStatus[0].watched : false;
-  const watchlisted = userMovieStatus ? userMovieStatus[0].watchlisted : false;
-
-  const buttons = [
-    {
-      status: "liked",
-      endpoint: `users/liked/${id}`,
-      isActive: liked,
-    },
-    {
-      status: "watchlisted",
-      endpoint: `users/watchlisted/${id}`,
-      isActive: watchlisted,
-    },
-    {
-      status: "watched",
-      endpoint: `users/watched/${id}`,
-      isActive: watched,
-    },
-  ];
+  const buttons = getUserMovieActions(id, userMovieStatus?.[0]);
 
   if (isLoading) {
     return (

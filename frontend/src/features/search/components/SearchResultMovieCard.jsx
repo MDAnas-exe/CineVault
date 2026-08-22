@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { MdTrendingUp } from "react-icons/md";
 import UserActionButton from "../../../components/ui/UserActionButton";
 import UserBtnSection from "../../../components/ui/UserBtnSection";
+import { getUserMovieActions } from "../../../constants/userMovie";
 
 const SearchResultMovieCard = ({ movie, ref }) => {
   const navigate = useNavigate();
@@ -19,30 +20,11 @@ const SearchResultMovieCard = ({ movie, ref }) => {
     vote_count,
     popularity,
     overview,
-    liked,
-    watched,
-    watchlisted,
     isUserMovieStatusError,
     isUserMovieStatusLoading,
   } = movie;
 
-  const buttons = [
-    {
-      status: "liked",
-      endpoint: `users/liked/${id}`,
-      isActive: liked,
-    },
-    {
-      status: "watchlisted",
-      endpoint: `users/watchlisted/${id}`,
-      isActive: watchlisted,
-    },
-    {
-      status: "watched",
-      endpoint: `users/watched/${id}`,
-      isActive: watched,
-    },
-  ];
+  const buttons = getUserMovieActions(id, movie);
 
   const releaseDate = release_date
     ? new Date(release_date).toLocaleDateString("en-US", {
