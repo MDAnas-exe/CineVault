@@ -8,12 +8,7 @@ import emptySign from "../assets/images/reel.png";
 import errorSign from "../assets/images/errorSign.png";
 
 const UserMovieCollectionPage = ({ title, endpoint, emptyMessage }) => {
-  const {
-    data,
-    isLoading,
-    isError,
-    refetch,
-  } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["user-movies", endpoint],
     queryFn: () => apiRequest({ endpoint: `users/${endpoint}`, method: "GET" }),
   });
@@ -21,7 +16,7 @@ const UserMovieCollectionPage = ({ title, endpoint, emptyMessage }) => {
   const movies = data?.movies ?? [];
 
   return (
-    <PageContentWrapper className="min-h-[70vh]">
+    <PageContentWrapper>
       <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
         {title}
       </h1>
@@ -47,7 +42,7 @@ const UserMovieCollectionPage = ({ title, endpoint, emptyMessage }) => {
       )}
 
       {!isLoading && !isError && movies.length > 0 && (
-        <div className="grid grid-cols-2 justify-items-center gap-x-3 gap-y-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        <div className="grid grid-cols-2 content-between gap-x-3 gap-y-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 ">
           {movies.map((movie) => (
             <MovieCard
               key={movie.id || movie.movieId}

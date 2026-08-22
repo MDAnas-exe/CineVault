@@ -9,10 +9,18 @@ import errorSign from "../../../assets/images/errorSign.png";
 import SectionState from "../../../components/ui/SectionState";
 const HomeMovieSection = ({ title, endpoint }) => {
   const ref = useRef(null);
-  const { data: movies = [], isLoading, isError, refetch } = useQuery({
+  const {
+    data: movies = [],
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery({
     queryKey: [endpoint],
     queryFn: async () => {
-      const data = await apiRequest({ endpoint: `movies/${endpoint}`, method: "GET" });
+      const data = await apiRequest({
+        endpoint: `movies/${endpoint}`,
+        method: "GET",
+      });
       return data.results.filter((m) => m.id && m.title);
     },
     staleTime: 30 * 60 * 1000,
@@ -78,7 +86,7 @@ const HomeMovieSection = ({ title, endpoint }) => {
               key={movie.id}
               movie={movie}
               index={index}
-              showActions={false}
+              showActions={true}
               className="h-40 w-24 lg:h-50 lg:w-30"
             />
           ))}

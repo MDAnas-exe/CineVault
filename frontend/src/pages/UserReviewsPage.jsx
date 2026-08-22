@@ -10,12 +10,7 @@ import errorSign from "../assets/images/errorSign.png";
 
 const UserReviewsPage = () => {
   const navigate = useNavigate();
-  const {
-    data,
-    isLoading,
-    isError,
-    refetch,
-  } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["user-reviews"],
     queryFn: () => apiRequest({ endpoint: "users/reviews", method: "GET" }),
   });
@@ -23,7 +18,7 @@ const UserReviewsPage = () => {
   const reviews = data?.reviews ?? [];
 
   return (
-    <PageContentWrapper className="min-h-[70vh]">
+    <PageContentWrapper>
       <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
         Reviews
       </h1>
