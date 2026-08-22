@@ -77,7 +77,7 @@ const HomeMovieSection = ({ title, endpoint }) => {
           <FaChevronLeft className="self-center h-10" />
         </div>
         <div
-          className="flex items-center gap-4 h-48 lg:h-60 overflow-x-scroll md:px-3"
+          className="flex items-center gap-4  overflow-x-scroll py-3 md:px-3"
           style={{ scrollbarWidth: "none" }}
           ref={ref}
         >

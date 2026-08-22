@@ -70,7 +70,7 @@ const MovieCard = ({ movie, index, className = "", showActions = true }) => {
           className,
         )}
       >
-        <div className="absolute inset-x-0 bottom-0 flex translate-y-2 flex-col gap-2 bg-linear-to-t from-black/95 via-black/75 to-transparent px-2 pb-2 pt-8 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+        <div className="absolute inset-x-0 bottom-0 sm:flex translate-y-2 flex-col gap-2 bg-linear-to-t from-black/95 via-black/75 to-transparent px-2 pb-2 pt-8 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 hidden ">
           {showActions && (
             <div className="flex items-center justify-center gap-2">
               {buttons.map((btn) => (
