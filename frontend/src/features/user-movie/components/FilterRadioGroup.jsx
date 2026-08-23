@@ -20,7 +20,7 @@ const FilterRadioGroup = ({ section, name, className = "" }) => {
                 value={value}
                 type="radio"
                 defaultChecked={isDefault}
-                className="size-5 cursor-pointer accent-accent focus:ring-2 focus:ring-accent/35"
+                className="appearance-none w-4.5 h-4.5 rounded-full border-2 border-gray-300 checked:border-accent checked:bg-accent checked:shadow-[inset_0_0_0_3px_white] cursor-pointer"
               />
               {label}
             </label>
