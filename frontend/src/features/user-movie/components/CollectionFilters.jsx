@@ -9,22 +9,35 @@ import Button from "../../../components/ui/Button";
 import FilterRadioGroup from "./FilterRadioGroup";
 import GenreChip from "./GenreChip";
 
+const COLLAPSED_GENRE_CUTOFFS = [
+  { visibleUpTo: 6, className: "" },
+  { visibleUpTo: 8, className: "hidden sm:flex" },
+  { visibleUpTo: 10, className: "hidden md:flex" },
+  { visibleUpTo: 12, className: "hidden lg:flex" },
+  { visibleUpTo: Infinity, className: "hidden xl:flex" },
+];
+
+const getCollapsedGenreClass = (index) =>
+  COLLAPSED_GENRE_CUTOFFS.find(({ visibleUpTo }) => index < visibleUpTo)
+    .className;
+
 const CollectionFilters = ({ status }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [areAllGenresShown, setAreAllGenresShown] = useState(false);
   const showLikedFilter = status === "watched";
 
   return (
-    <section className="mb-10  rounded-2xl border border-gray-200 border-l-4 border-l-accent bg-white shadow-sm">
+    <section className="mb-6 rounded-2xl border border-gray-200 border-l-4 border-l-accent bg-white shadow-sm sm:mb-10">
       <Button
         type="button"
         aria-expanded={isExpanded}
         aria-controls="collection-filter-options"
         onClick={() => setIsExpanded((expanded) => !expanded)}
-        className={`flex w-full items-center justify-between  px-4  py-5 text-left text-primary hover:bg-amber-50/60 sm:px-6 ${isExpanded && " sticky top-20 md:top-15 hover:bg-white bg-white border-b border-gray-200 "}`}
+        className={`flex w-full items-center justify-between  px-4 py-4 text-left text-primary hover:bg-amber-50/60 sm:px-6 sm:py-5 ${isExpanded && " sticky top-20 md:top-15 hover:bg-white bg-white border-b border-gray-200 "}`}
       >
         <span className="flex items-center gap-3 text-lg sm:text-xl">
           <LuSlidersHorizontal
-            className="text-2xl text-primary"
+            className="text-xl text-primary sm:text-2xl"
             aria-hidden="true"
           />
           Filters
@@ -40,32 +53,32 @@ const CollectionFilters = ({ status }) => {
       <div
         id="collection-filter-options"
         inert={!isExpanded}
-        className={`border-t border-gray-200  transition-all duration-300 ${isExpanded ? "max-h-500 opacity-100 px-4 pb-4 sm:px-6 sm:pb-5" : "max-h-0 opacity-0"}`}
+        className={`overflow-hidden transition-all duration-300 ${isExpanded ? "max-h-500 border-t border-gray-200 px-4 pb-4 opacity-100 sm:px-6 sm:pb-5" : "max-h-0 opacity-0"}`}
       >
-        <div className="grid gap-6 py-6 md:grid-cols-2 xl:grid-cols-[minmax(250px,0.85fr)_minmax(440px,1.7fr)_minmax(260px,0.9fr)_minmax(300px,1.1fr)]">
+        <div className="grid gap-4 py-4 sm:grid-cols-2 sm:gap-6 sm:py-6 xl:grid-cols-[minmax(250px,0.85fr)_minmax(440px,1.7fr)_minmax(260px,0.9fr)_minmax(300px,1.1fr)]">
           <fieldset>
-            <legend className="mb-3 font-poppins text-lg font-semibold text-primary">
+            <legend className="mb-2 font-poppins text-base font-semibold text-primary sm:mb-3 sm:text-lg">
               Release year
             </legend>
             <div className="grid grid-cols-2 gap-3">
               <label className="font-inter text-sm text-primary">
-                <span className="mb-1.5 block">From</span>
+                <span className="mb-1 block sm:mb-1.5">From</span>
                 <input
                   type="number"
                   min="1900"
                   max="2100"
                   defaultValue="1900"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-base text-primary outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-base text-primary outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20 sm:py-2.5"
                 />
               </label>
               <label className="font-inter text-sm text-primary">
-                <span className="mb-1.5 block">To</span>
+                <span className="mb-1 block sm:mb-1.5">To</span>
                 <input
                   type="number"
                   min="1900"
                   max="2100"
                   defaultValue="2100"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-base text-primary outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-base text-primary outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20 sm:py-2.5"
                 />
               </label>
             </div>
@@ -87,20 +100,41 @@ const CollectionFilters = ({ status }) => {
           )}
         </div>
 
-        <div className="border-t border-gray-200 py-5">
-          <div className="mb-3 flex items-end justify-between gap-4">
-            <h2 className="font-poppins text-lg font-semibold text-primary">
+        <div className="border-t border-gray-200 py-4 sm:py-5">
+          <div className="mb-2 flex items-end justify-between gap-4 sm:mb-3">
+            <h2 className="font-poppins text-base font-semibold text-primary sm:text-lg">
               Genres
             </h2>
             <p className="font-inter text-sm text-secondary">
-              0 of 19 selected
+              0 of {USER_MOVIE_FILTER_GENRES.length} selected
             </p>
           </div>
-          <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-10">
-            {USER_MOVIE_FILTER_GENRES.map((genre) => (
-              <GenreChip key={genre.id}>{genre.name}</GenreChip>
+          <div
+            id="collection-genre-options"
+            className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-10"
+          >
+            {USER_MOVIE_FILTER_GENRES.map((genre, index) => (
+              <GenreChip
+                key={genre.id}
+                className={
+                  areAllGenresShown ? "" : getCollapsedGenreClass(index)
+                }
+              >
+                {genre.name}
+              </GenreChip>
             ))}
           </div>
+          <Button
+            type="button"
+            aria-expanded={areAllGenresShown}
+            aria-controls="collection-genre-options"
+            onClick={() => setAreAllGenresShown((shown) => !shown)}
+            className="mt-3 font-inter text-sm font-medium text-accent underline-offset-4 hover:underline xl:hidden"
+          >
+            {areAllGenresShown
+              ? "Show fewer genres"
+              : `Show all ${USER_MOVIE_FILTER_GENRES.length} genres`}
+          </Button>
         </div>
 
         <div className="flex gap-3 border-t border-gray-200 pt-4 sm:justify-end">

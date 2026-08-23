@@ -3,7 +3,7 @@ import { FaCheck } from "react-icons/fa6";
 import { twMerge } from "tailwind-merge";
 import Button from "../../../components/ui/Button";
 
-const GenreChip = ({ children }) => {
+const GenreChip = ({ children, className = "" }) => {
   const [isSelected, setIsSelected] = useState(false);
 
   // Future three-genre limit classes: cursor-not-allowed border-gray-200 bg-gray-100 text-gray-400.
@@ -17,6 +17,7 @@ const GenreChip = ({ children }) => {
         isSelected
           ? "border-accent bg-accent text-white shadow-sm hover:bg-[#bd8f16]"
           : "border-gray-200 bg-white text-primary hover:border-accent/60 hover:bg-amber-50",
+        className,
       )}
     >
       <span>{children}</span>
