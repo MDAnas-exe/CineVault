@@ -39,6 +39,7 @@ const CollectionFilters = ({ status }) => {
 
       <div
         id="collection-filter-options"
+        inert={!isExpanded}
         className={`border-t border-gray-200  transition-all duration-300 ${isExpanded ? "max-h-500 opacity-100 px-4 pb-4 sm:px-6 sm:pb-5" : "max-h-0 opacity-0"}`}
       >
         <div className="grid gap-6 py-6 md:grid-cols-2 xl:grid-cols-[minmax(250px,0.85fr)_minmax(440px,1.7fr)_minmax(260px,0.9fr)_minmax(300px,1.1fr)]">
