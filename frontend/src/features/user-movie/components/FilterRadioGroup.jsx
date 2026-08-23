@@ -1,10 +1,10 @@
 const FilterRadioGroup = ({ section, name, className = "" }) => {
   return (
     <fieldset className={className}>
-      <legend className="mb-3 font-poppins text-lg font-semibold text-primary">
+      <legend className="mb-2 font-poppins text-base font-semibold text-primary sm:mb-3 sm:text-lg">
         {section.title}
       </legend>
-      <div className="grid grid-cols-2 gap-x-5 gap-y-3 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-x-4 gap-y-2.5 sm:gap-x-5 sm:gap-y-3 xl:grid-cols-4">
         {section.options.map(({ label, value, isDefault }) => {
           const id = `${name}-${value}`;
 

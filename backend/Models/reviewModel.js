@@ -9,7 +9,6 @@ const reviewSchema = new mongoose.Schema(
     },
     name: { type: String, required: true, trim: true },
     movieId: { type: Number, required: true },
-
     review: { type: String, required: true, trim: true },
   },
   { timestamps: true },
