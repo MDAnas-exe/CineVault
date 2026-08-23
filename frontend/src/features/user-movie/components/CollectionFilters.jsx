@@ -23,7 +23,10 @@ const CollectionFilters = ({ status }) => {
         className="flex w-full items-center justify-between rounded-none px-4 py-5 text-left text-primary hover:bg-amber-50/60 sm:px-6"
       >
         <span className="flex items-center gap-3 text-lg sm:text-xl">
-          <LuSlidersHorizontal className="text-2xl text-primary" aria-hidden="true" />
+          <LuSlidersHorizontal
+            className="text-2xl text-primary"
+            aria-hidden="true"
+          />
           Filters
         </span>
         <FaChevronDown
@@ -89,11 +92,13 @@ const CollectionFilters = ({ status }) => {
               <h2 className="font-poppins text-lg font-semibold text-primary">
                 Genres
               </h2>
-              <p className="font-inter text-sm text-secondary">0 of 19 selected</p>
+              <p className="font-inter text-sm text-secondary">
+                0 of 19 selected
+              </p>
             </div>
             <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-10">
               {USER_MOVIE_FILTER_GENRES.map((genre) => (
-                <GenreChip key={genre}>{genre}</GenreChip>
+                <GenreChip key={genre.id}>{genre.name}</GenreChip>
               ))}
             </div>
           </div>
