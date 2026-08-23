@@ -27,45 +27,60 @@ const UserMovieCollectionPage = () => {
   }));
   const { title, emptyMessage } = collection;
 
-  let content;
+  const heading = (
+    <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
+      {title}
+    </h1>
+  );
 
   if (isLoading) {
-    content = <MovieSectionSkeleton variant="grid" count={12} />;
-  } else if (isError) {
-    content = (
-      <SectionState
-        imageSource={errorSign}
-        buttonText="Retry"
-        message={`Couldn't load ${title.toLowerCase()}.`}
-        description="Please check your connection and try again."
-        onRetry={refetch}
-      />
+    return (
+      <PageContentWrapper>
+        {heading}
+        <MovieSectionSkeleton variant="grid" count={12} />
+      </PageContentWrapper>
     );
-  } else if (movies.length === 0) {
-    content = (
-      <SectionState
-        imageSource={emptySign}
-        message={emptyMessage}
-        description="Movies you add will appear here."
-      />
+  }
+
+  if (isError) {
+    return (
+      <PageContentWrapper>
+        {heading}
+        <MovieSectionSkeleton variant="grid" count={12} />
+        <SectionState
+          imageSource={errorSign}
+          buttonText="Retry"
+          message={`Couldn't load ${title.toLowerCase()}.`}
+          description="Please check your connection and try again."
+          onRetry={refetch}
+        />
+      </PageContentWrapper>
     );
-  } else {
-    content = (
-      <div className="grid grid-cols-4 gap-x-4 gap-y-4 lg:grid-cols-6">
-        {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
-      </div>
+  }
+
+  if (movies.length === 0) {
+    return (
+      <PageContentWrapper>
+        {heading}
+        <MovieSectionSkeleton variant="grid" count={12} />
+        <SectionState
+          imageSource={emptySign}
+          message={emptyMessage}
+          description="Movies you add will appear here."
+        />
+      </PageContentWrapper>
     );
   }
 
   return (
     <PageContentWrapper>
       <CollectionFilters status={status} />
-      <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
-        {title}
-      </h1>
-      {content}
+      {heading}
+      <div className="grid grid-cols-4 gap-x-4 gap-y-4 lg:grid-cols-6">
+        {movies.map((movie) => (
+          <MovieCard key={movie.id} movie={movie} />
+        ))}
+      </div>
     </PageContentWrapper>
   );
 };
