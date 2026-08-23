@@ -20,7 +20,7 @@ const CollectionFilters = ({ status }) => {
         aria-expanded={isExpanded}
         aria-controls="collection-filter-options"
         onClick={() => setIsExpanded((expanded) => !expanded)}
-        className={`flex w-full items-center justify-between  px-4  py-5 text-left text-primary hover:bg-amber-50/60 sm:px-6 ${isExpanded && " sticky top-0 hover:bg-white bg-white border-b border-gray-200 "}`}
+        className={`flex w-full items-center justify-between  px-4  py-5 text-left text-primary hover:bg-amber-50/60 sm:px-6 ${isExpanded && " sticky top-20 md:top-15 hover:bg-white bg-white border-b border-gray-200 "}`}
       >
         <span className="flex items-center gap-3 text-lg sm:text-xl">
           <LuSlidersHorizontal
