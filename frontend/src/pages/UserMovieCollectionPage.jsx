@@ -5,6 +5,7 @@ import MovieCard from "../components/ui/MovieCard";
 import MovieSectionSkeleton from "../components/ui/MovieSectionSkeleton";
 import PageContentWrapper from "../components/ui/PageContentWrapper";
 import SectionState from "../components/ui/SectionState";
+import CollectionFilters from "../components/ui/CollectionFilters";
 import emptySign from "../assets/images/reel.png";
 import errorSign from "../assets/images/errorSign.png";
 import { USER_MOVIE_COLLECTIONS } from "../constants/userMovie";
@@ -26,59 +27,45 @@ const UserMovieCollectionPage = () => {
   }));
   const { title, emptyMessage } = collection;
 
+  let content;
+
   if (isLoading) {
-    return (
-      <PageContentWrapper>
-        <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
-          {title}
-        </h1>
-        <MovieSectionSkeleton variant="grid" count={12} />
-      </PageContentWrapper>
+    content = <MovieSectionSkeleton variant="grid" count={12} />;
+  } else if (isError) {
+    content = (
+      <SectionState
+        imageSource={errorSign}
+        buttonText="Retry"
+        message={`Couldn't load ${title.toLowerCase()}.`}
+        description="Please check your connection and try again."
+        onRetry={refetch}
+      />
     );
-  }
-
-  if (isError) {
-    return (
-      <PageContentWrapper>
-        <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
-          {title}
-        </h1>
-        <SectionState
-          imageSource={errorSign}
-          buttonText="Retry"
-          message={`Couldn't load ${title.toLowerCase()}.`}
-          description="Please check your connection and try again."
-          onRetry={refetch}
-        />
-      </PageContentWrapper>
+  } else if (movies.length === 0) {
+    content = (
+      <SectionState
+        imageSource={emptySign}
+        message={emptyMessage}
+        description="Movies you add will appear here."
+      />
     );
-  }
-
-  if (movies.length === 0) {
-    return (
-      <PageContentWrapper>
-        <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
-          {title}
-        </h1>
-        <SectionState
-          imageSource={emptySign}
-          message={emptyMessage}
-          description="Movies you add will appear here."
-        />
-      </PageContentWrapper>
+  } else {
+    content = (
+      <div className="grid grid-cols-4 gap-x-4 gap-y-4 lg:grid-cols-6">
+        {movies.map((movie) => (
+          <MovieCard key={movie.id} movie={movie} />
+        ))}
+      </div>
     );
   }
 
   return (
     <PageContentWrapper>
+      <CollectionFilters status={status} />
       <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
         {title}
       </h1>
-      <div className="grid gap-x-4 gap-y-4 grid-cols-4  lg:grid-cols-6">
-        {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
-      </div>
+      {content}
     </PageContentWrapper>
   );
 };
