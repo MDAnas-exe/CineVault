@@ -4,8 +4,8 @@ import { LuSlidersHorizontal } from "react-icons/lu";
 import {
   USER_MOVIE_FILTER_GENRES,
   USER_MOVIE_FILTERS,
-} from "../../constants/userMovieFilters";
-import Button from "./Button";
+} from "../userMovieFilters";
+import Button from "../../../components/ui/Button";
 import FilterRadioGroup from "./FilterRadioGroup";
 import GenreChip from "./GenreChip";
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaCheck } from "react-icons/fa6";
 import { twMerge } from "tailwind-merge";
-import Button from "./Button";
+import Button from "../../../components/ui/Button";
 
 const GenreChip = ({ children }) => {
   const [isSelected, setIsSelected] = useState(false);

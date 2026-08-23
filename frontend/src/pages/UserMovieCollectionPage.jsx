@@ -5,7 +5,7 @@ import MovieCard from "../components/ui/MovieCard";
 import MovieSectionSkeleton from "../components/ui/MovieSectionSkeleton";
 import PageContentWrapper from "../components/ui/PageContentWrapper";
 import SectionState from "../components/ui/SectionState";
-import CollectionFilters from "../components/ui/CollectionFilters";
+import CollectionFilters from "../features/user-movie/components/CollectionFilters";
 import emptySign from "../assets/images/reel.png";
 import errorSign from "../assets/images/errorSign.png";
 import { USER_MOVIE_COLLECTIONS } from "../constants/userMovie";
