@@ -335,7 +335,7 @@ const getUserReviews = expressAsyncHandler(async (req, res) => {
   if (fromDate || toDate) {
     filter.createdAt = {};
 
-    if (fromDate) filter.createdAt.$gte = new Date(`${fromDate}T00:00:00.000Z`);
+    if (fromDate) filter.createdAt.$gte = new Date(fromDate);
     if (toDate) filter.createdAt.$lte = new Date(`${toDate}T23:59:59.999Z`);
   }
 
