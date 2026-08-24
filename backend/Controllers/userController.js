@@ -321,19 +321,33 @@ const deleteReview = expressAsyncHandler(async (req, res) => {
 });
 
 const getUserReviews = expressAsyncHandler(async (req, res) => {
-  const { page = 1 } = req.query;
+  const {
+    page = 1,
+    sortBy = "createdAt",
+    order = "desc",
+    fromDate,
+    toDate,
+  } = req.query;
   const pageNum = parseInt(page);
   const limit = 10;
+  const filter = { userId: req.user._id };
+
+  if (fromDate || toDate) {
+    filter.createdAt = {};
+
+    if (fromDate) filter.createdAt.$gte = new Date(`${fromDate}T00:00:00.000Z`);
+    if (toDate) filter.createdAt.$lte = new Date(`${toDate}T23:59:59.999Z`);
+  }
 
   const [reviews, totalResults] = await Promise.all([
     reviewModel
-      .find({ userId: req.user._id })
+      .find(filter)
       .select("movieId  review name createdAt updatedAt -_id")
-      .sort({ createdAt: -1 })
+      .sort({ [sortBy]: order === "asc" ? 1 : -1 })
       .limit(limit)
       .skip((pageNum - 1) * limit)
       .lean(),
-    reviewModel.countDocuments({ userId: req.user._id }),
+    reviewModel.countDocuments(filter),
   ]);
 
   const totalPages = Math.ceil(totalResults / limit);
