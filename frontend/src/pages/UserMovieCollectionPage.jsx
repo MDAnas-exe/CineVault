@@ -36,6 +36,10 @@ const UserMovieCollectionPage = () => {
   if (isLoading) {
     return (
       <PageContentWrapper>
+        <div
+          aria-hidden="true"
+          className="mb-6 h-16 w-full animate-pulse rounded-2xl bg-gray-100 sm:mb-10 sm:h-20"
+        />
         {heading}
         <MovieSectionSkeleton variant="grid" count={12} />
       </PageContentWrapper>
