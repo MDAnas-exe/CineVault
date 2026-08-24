@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Navigate, useParams } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
 import apiRequest from "../utils/apiRequest";
 import MovieCard from "../components/ui/MovieCard";
 import MovieSectionSkeleton from "../components/ui/MovieSectionSkeleton";
@@ -36,10 +37,9 @@ const UserMovieCollectionPage = () => {
   if (isLoading) {
     return (
       <PageContentWrapper>
-        <div
-          aria-hidden="true"
-          className="mb-6 h-16 w-full animate-pulse rounded-2xl bg-gray-100 sm:mb-10 sm:h-20"
-        />
+        <div aria-hidden="true" className="mb-6 h-16 w-full sm:mb-10 sm:h-20">
+          <Skeleton height="100%" borderRadius={16} />
+        </div>
         {heading}
         <MovieSectionSkeleton variant="grid" count={12} />
       </PageContentWrapper>
