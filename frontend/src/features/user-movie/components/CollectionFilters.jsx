@@ -8,7 +8,7 @@ import {
 import Button from "../../../components/ui/Button";
 import FilterRadioGroup from "./FilterRadioGroup";
 import GenreChip from "./GenreChip";
-
+import { useForm } from "react-hook-form";
 const COLLAPSED_GENRE_CUTOFFS = [
   { visibleUpTo: 6, className: "" },
   { visibleUpTo: 8, className: "hidden sm:flex" },
@@ -25,7 +25,12 @@ const CollectionFilters = ({ status }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [areAllGenresShown, setAreAllGenresShown] = useState(false);
   const showLikedFilter = status === "watched";
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm();
   return (
     <section className="mb-6 rounded-2xl border border-gray-200 border-l-4 border-l-accent bg-white shadow-sm sm:mb-10">
       <Button
@@ -69,6 +74,13 @@ const CollectionFilters = ({ status }) => {
                   max="2100"
                   defaultValue="1900"
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-base text-primary outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20 sm:py-2.5"
+                  {...register("fromYear", {
+                    min: { value: 1900, message: "Year can't be before 1900" },
+                    max: {
+                      value: watch("toYear"),
+                      message: `Can't be after ${watch("toYear")}`,
+                    },
+                  })}
                 />
               </label>
               <label className="font-inter text-sm text-primary">
@@ -79,6 +91,13 @@ const CollectionFilters = ({ status }) => {
                   max="2100"
                   defaultValue="2100"
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-base text-primary outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20 sm:py-2.5"
+                  {...register("toYear", {
+                    max: { value: 2100, message: "Year can't be after 2100" },
+                    min: {
+                      value: watch("fromYear"),
+                      message: `Can't be before ${watch("fromYear")}`,
+                    },
+                  })}
                 />
               </label>
             </div>
@@ -87,15 +106,18 @@ const CollectionFilters = ({ status }) => {
           <FilterRadioGroup
             section={USER_MOVIE_FILTERS.sortBy}
             name="collection-sort-by"
+            register={{ ...register("sortBy") }}
           />
           <FilterRadioGroup
             section={USER_MOVIE_FILTERS.order}
             name="collection-order"
+            register={{ ...register("order") }}
           />
           {showLikedFilter && (
             <FilterRadioGroup
               section={USER_MOVIE_FILTERS.liked}
               name="collection-liked"
+              register={{ ...register("liked") }}
             />
           )}
         </div>
@@ -147,6 +169,7 @@ const CollectionFilters = ({ status }) => {
           <Button
             type="button"
             className="w-1/2 bg-accent px-4 py-2.5 text-sm text-white shadow-sm hover:bg-[#bd8f16] sm:w-auto"
+            onClick={handleSubmit((data) => console.log(data))}
           >
             Apply Filters
           </Button>
