@@ -19,7 +19,7 @@ const PasswordInput = ({ label, placeholder, icon: Icon, register }) => {
           type={showPassword ? "text" : "password"}
           placeholder={placeholder}
           className="w-full bg-transparent text-primary placeholder:text-gray-400 focus:outline-none"
-          {...register}
+          {...rest}
           ref={(el) => {
             rhfRef(el);
             localRef.current = el;
