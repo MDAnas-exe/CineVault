@@ -1,4 +1,4 @@
-const FilterRadioGroup = ({ section, name, className = "" }) => {
+const FilterRadioGroup = ({ section, name, className = "", register }) => {
   return (
     <fieldset className={className}>
       <legend className="mb-2 font-poppins text-base font-semibold text-primary sm:mb-3 sm:text-lg">
@@ -21,6 +21,7 @@ const FilterRadioGroup = ({ section, name, className = "" }) => {
                 type="radio"
                 defaultChecked={isDefault}
                 className="appearance-none w-4.5 h-4.5 rounded-full border-2 border-gray-300 checked:border-accent checked:bg-accent checked:shadow-[inset_0_0_0_3px_white] cursor-pointer hover:border-accent transition-colors duration-200"
+                {...register}
               />
               {label}
             </label>
