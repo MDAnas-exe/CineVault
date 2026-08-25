@@ -10,6 +10,7 @@ import FilterRadioGroup from "./FilterRadioGroup";
 import GenreChip from "./GenreChip";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const COLLAPSED_GENRE_CUTOFFS = [
   { visibleUpTo: 6, className: "" },
@@ -27,6 +28,7 @@ const CollectionFilters = ({ status }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [areAllGenresShown, setAreAllGenresShown] = useState(false);
   const showLikedFilter = status === "watched";
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -34,22 +36,35 @@ const CollectionFilters = ({ status }) => {
     watch,
   } = useForm();
 
-  const [selectedGenres, setSelectedGenres] = useState(new Set());
+  const [selectedGenresIds, setSelectedGenresIds] = useState(new Set());
 
   function toggleGenres(id) {
-    if (selectedGenres.size === 3 && !selectedGenres.has(id))
+    if (selectedGenresIds.size === 3 && !selectedGenresIds.has(id))
       return toast("only 3 genres can be selected at once");
-    selectedGenres.has(id)
-      ? setSelectedGenres((genres) => {
+    selectedGenresIds.has(id)
+      ? setSelectedGenresIds((genres) => {
           let newGenres = new Set(genres);
           newGenres.delete(id);
           return newGenres;
         })
-      : setSelectedGenres((genres) => {
+      : setSelectedGenresIds((genres) => {
           let newGenres = new Set(genres);
           newGenres.add(id);
           return newGenres;
         });
+  }
+
+  function addFilters(data) {
+    let genres = [...selectedGenresIds].join(",");
+    const queries = new URLSearchParams({
+      ...data,
+      ...(selectedGenresIds.size && { genres: genres }),
+    });
+    if (
+      queries.toString() !==
+      "fromYear=1900&toYear=2100&sortBy=title&order=asc&genres=27%2C36"
+    )
+      navigate(window.location.pathname + "?" + queries);
   }
 
   return (
@@ -156,7 +171,7 @@ const CollectionFilters = ({ status }) => {
               Genres
             </h2>
             <p className="font-inter text-sm text-secondary">
-              {selectedGenres.size} of {USER_MOVIE_FILTER_GENRES.length}{" "}
+              {selectedGenresIds.size} of {USER_MOVIE_FILTER_GENRES.length}{" "}
               selected
             </p>
           </div>
@@ -170,7 +185,7 @@ const CollectionFilters = ({ status }) => {
                 className={
                   areAllGenresShown ? "" : getCollapsedGenreClass(index)
                 }
-                isSelected={selectedGenres.has(genre.id) ? true : false}
+                isSelected={selectedGenresIds.has(genre.id) ? true : false}
                 onClick={() => toggleGenres(genre.id)}
               >
                 {genre.name}
@@ -200,7 +215,7 @@ const CollectionFilters = ({ status }) => {
           <Button
             type="button"
             className="w-1/2 bg-accent px-4 py-2.5 text-sm text-white shadow-sm hover:bg-[#bd8f16] sm:w-auto"
-            onClick={handleSubmit((data) => console.log(data))}
+            onClick={handleSubmit(addFilters)}
           >
             Apply Filters
           </Button>
