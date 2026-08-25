@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FaChevronDown } from "react-icons/fa6";
 import { LuSlidersHorizontal } from "react-icons/lu";
 import {
+  DEFAULT_FILTERS,
   USER_MOVIE_FILTER_GENRES,
   USER_MOVIE_FILTERS,
 } from "../userMovieFilters";
@@ -46,11 +47,12 @@ const CollectionFilters = ({ status }) => {
     watch,
   } = useForm({
     defaultValues: {
-      sortBy: sortBy || "title",
-      order: order || "asc",
-      fromYear: fromYear || 1900,
-      toYear: toYear || 2100,
-      liked: liked || "all",
+      ...DEFAULT_FILTERS,
+      sortBy: sortBy || DEFAULT_FILTERS.sortBy,
+      order: order || DEFAULT_FILTERS.order,
+      fromYear: fromYear || DEFAULT_FILTERS.fromYear,
+      toYear: toYear || DEFAULT_FILTERS.toYear,
+      liked: liked || DEFAULT_FILTERS.liked,
     },
   });
   const [selectedGenresIds, setSelectedGenresIds] = useState(
@@ -84,7 +86,12 @@ const CollectionFilters = ({ status }) => {
       ...data,
       ...(selectedGenresIds.size && { genres: genres }),
     });
-    navigate(window.location.pathname + "?" + queries);
+    const hasDefaultFilters = Object.entries(DEFAULT_FILTERS).every(
+      ([key, value]) => String(data[key]) === String(value),
+    );
+
+    if (!hasDefaultFilters || selectedGenresIds.size)
+      navigate(window.location.pathname + "?" + queries);
   }
 
   return (

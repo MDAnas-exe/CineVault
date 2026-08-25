@@ -25,6 +25,14 @@ export const USER_MOVIE_FILTERS = {
   },
 };
 
+export const DEFAULT_FILTERS = {
+  fromYear: 1900,
+  toYear: 2100,
+  sortBy: "title",
+  order: "asc",
+  liked: "all",
+};
+
 export const USER_MOVIE_FILTER_GENRES = {
   28: "Action",
   12: "Adventure",
