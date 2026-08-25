@@ -24,6 +24,12 @@ const getCollapsedGenreClass = (index) =>
   COLLAPSED_GENRE_CUTOFFS.find(({ visibleUpTo }) => index < visibleUpTo)
     .className;
 
+const filterGenres = Object.entries(USER_MOVIE_FILTER_GENRES)
+  .map(([id, name]) => ({ id: Number(id), name }))
+  .sort((firstGenre, secondGenre) =>
+    firstGenre.name.localeCompare(secondGenre.name),
+  );
+
 const CollectionFilters = ({ status }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [areAllGenresShown, setAreAllGenresShown] = useState(false);
@@ -171,7 +177,7 @@ const CollectionFilters = ({ status }) => {
               Genres
             </h2>
             <p className="font-inter text-sm text-secondary">
-              {selectedGenresIds.size} of {USER_MOVIE_FILTER_GENRES.length}{" "}
+              {selectedGenresIds.size} of {filterGenres.length}{" "}
               selected
             </p>
           </div>
@@ -179,7 +185,7 @@ const CollectionFilters = ({ status }) => {
             id="collection-genre-options"
             className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-10"
           >
-            {USER_MOVIE_FILTER_GENRES.map((genre, index) => (
+            {filterGenres.map((genre, index) => (
               <GenreChip
                 key={genre.id}
                 className={
@@ -201,7 +207,7 @@ const CollectionFilters = ({ status }) => {
           >
             {areAllGenresShown
               ? "Show fewer genres"
-              : `Show all ${USER_MOVIE_FILTER_GENRES.length} genres`}
+              : `Show all ${filterGenres.length} genres`}
           </Button>
         </div>
 
