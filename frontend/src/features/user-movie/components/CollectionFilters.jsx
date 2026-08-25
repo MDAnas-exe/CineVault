@@ -9,6 +9,7 @@ import Button from "../../../components/ui/Button";
 import FilterRadioGroup from "./FilterRadioGroup";
 import GenreChip from "./GenreChip";
 import { useForm } from "react-hook-form";
+
 const COLLAPSED_GENRE_CUTOFFS = [
   { visibleUpTo: 6, className: "" },
   { visibleUpTo: 8, className: "hidden sm:flex" },
@@ -31,6 +32,7 @@ const CollectionFilters = ({ status }) => {
     formState: { errors },
     watch,
   } = useForm();
+
   return (
     <section className="mb-6 rounded-2xl border border-gray-200 border-l-4 border-l-accent bg-white shadow-sm sm:mb-10">
       <Button
@@ -65,7 +67,7 @@ const CollectionFilters = ({ status }) => {
             <legend className="mb-2 font-poppins text-base font-semibold text-primary sm:mb-3 sm:text-lg">
               Release year
             </legend>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-x-3">
               <label className="font-inter text-sm text-primary">
                 <span className="mb-1 block sm:mb-1.5">From</span>
                 <input
@@ -100,6 +102,13 @@ const CollectionFilters = ({ status }) => {
                   })}
                 />
               </label>
+              <p className="min-h-5 text-sm text-red-500">
+                {errors.fromYear?.message}
+              </p>
+
+              <p className="min-h-5 text-sm text-red-500">
+                {errors.toYear?.message}
+              </p>
             </div>
           </fieldset>
 
