@@ -239,7 +239,12 @@ const CollectionFilters = ({ status }) => {
           <Button
             type="button"
             className="w-1/2 bg-accent px-4 py-2.5 text-sm text-white shadow-sm hover:bg-[#bd8f16] sm:w-auto"
-            onClick={handleSubmit(addFilters)}
+            onClick={handleSubmit((data) => {
+              setIsExpanded(false);
+              toast.success("filter applied");
+              window.scrollTo(0, 0);
+              addFilters(data);
+            })}
           >
             Apply Filters
           </Button>
