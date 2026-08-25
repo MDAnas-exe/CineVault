@@ -33,7 +33,7 @@ const UserMovieCollectionPage = () => {
     ...movie,
     id: movie.movieId,
   }));
-  const { title, emptyMessage } = collection;
+  const { title, emptyMessage, emptyFilteredMessage } = collection;
 
   const header = (
     <>
@@ -75,7 +75,7 @@ const UserMovieCollectionPage = () => {
         {header}
         <SectionState
           imageSource={emptySign}
-          message={emptyMessage}
+          message={searchParams.toString ? emptyFilteredMessage : emptyMessage}
           description="Movies you add will appear here."
         />
       </PageContentWrapper>
