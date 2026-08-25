@@ -10,7 +10,7 @@ import FilterRadioGroup from "./FilterRadioGroup";
 import GenreChip from "./GenreChip";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const COLLAPSED_GENRE_CUTOFFS = [
   { visibleUpTo: 6, className: "" },
@@ -35,13 +35,22 @@ const CollectionFilters = ({ status }) => {
   const [areAllGenresShown, setAreAllGenresShown] = useState(false);
   const showLikedFilter = status === "watched";
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { sortBy, order, fromYear, toYear } = Object.fromEntries(searchParams);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm();
-
+  } = useForm({
+    defaultValues: {
+      sortBy: sortBy || "title",
+      order: order || "asc",
+      fromYear: fromYear || 1900,
+      toYear: toYear || 2100,
+    },
+  });
   const [selectedGenresIds, setSelectedGenresIds] = useState(new Set());
 
   function toggleGenres(id) {
@@ -66,11 +75,7 @@ const CollectionFilters = ({ status }) => {
       ...data,
       ...(selectedGenresIds.size && { genres: genres }),
     });
-    if (
-      queries.toString() !==
-      "fromYear=1900&toYear=2100&sortBy=title&order=asc&genres=27%2C36"
-    )
-      navigate(window.location.pathname + "?" + queries);
+    navigate(window.location.pathname + "?" + queries);
   }
 
   return (
@@ -114,7 +119,6 @@ const CollectionFilters = ({ status }) => {
                   type="number"
                   min="1900"
                   max="2100"
-                  defaultValue="1900"
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-base text-primary outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20 sm:py-2.5"
                   {...register("fromYear", {
                     min: { value: 1900, message: "Year can't be before 1900" },
@@ -131,7 +135,6 @@ const CollectionFilters = ({ status }) => {
                   type="number"
                   min="1900"
                   max="2100"
-                  defaultValue="2100"
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-base text-primary outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20 sm:py-2.5"
                   {...register("toYear", {
                     max: { value: 2100, message: "Year can't be after 2100" },
@@ -177,8 +180,7 @@ const CollectionFilters = ({ status }) => {
               Genres
             </h2>
             <p className="font-inter text-sm text-secondary">
-              {selectedGenresIds.size} of {filterGenres.length}{" "}
-              selected
+              {selectedGenresIds.size} of {filterGenres.length} selected
             </p>
           </div>
           <div
