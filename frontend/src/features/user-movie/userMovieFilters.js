@@ -2,7 +2,7 @@ export const USER_MOVIE_FILTERS = {
   sortBy: {
     title: "Sort by",
     options: [
-      { label: "Title", value: "title", isDefault: true },
+      { label: "Title", value: "title" },
       { label: "Release date", value: "releaseDate" },
       { label: "Popularity", value: "popularity" },
       { label: "Date added", value: "dateAdded" },
@@ -11,14 +11,14 @@ export const USER_MOVIE_FILTERS = {
   order: {
     title: "Order",
     options: [
-      { label: "Ascending", value: "asc", isDefault: true },
+      { label: "Ascending", value: "asc" },
       { label: "Descending", value: "desc" },
     ],
   },
   liked: {
     title: "Liked",
     options: [
-      { label: "All", value: "all", isDefault: true },
+      { label: "All", value: "all" },
       { label: "Liked", value: "liked" },
       { label: "Not liked", value: "notLiked" },
     ],
