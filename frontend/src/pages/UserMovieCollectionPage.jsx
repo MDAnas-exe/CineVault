@@ -35,19 +35,19 @@ const UserMovieCollectionPage = () => {
   }));
   const { title, emptyMessage } = collection;
 
-  const heading = (
-    <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
-      {title}
-    </h1>
+  const header = (
+    <>
+      <CollectionFilters status={status} />
+      <h1 className="mb-5 border-l-4 border-accent px-2 font-poppins text-2xl font-bold text-primary lg:text-4xl">
+        {title}
+      </h1>
+    </>
   );
 
   if (isLoading) {
     return (
       <PageContentWrapper>
-        <div aria-hidden="true" className="mb-6 h-16 w-full sm:mb-10 sm:h-20">
-          <Skeleton height="100%" borderRadius={16} />
-        </div>
-        {heading}
+        {header}
         <MovieSectionSkeleton variant="grid" count={12} />
       </PageContentWrapper>
     );
@@ -56,7 +56,7 @@ const UserMovieCollectionPage = () => {
   if (isError) {
     return (
       <PageContentWrapper>
-        {heading}
+        {header}
         <MovieSectionSkeleton variant="grid" count={12} />
         <SectionState
           imageSource={errorSign}
@@ -72,8 +72,7 @@ const UserMovieCollectionPage = () => {
   if (movies.length === 0) {
     return (
       <PageContentWrapper>
-        {heading}
-        <MovieSectionSkeleton variant="grid" count={12} />
+        {header}
         <SectionState
           imageSource={emptySign}
           message={emptyMessage}
@@ -85,8 +84,7 @@ const UserMovieCollectionPage = () => {
 
   return (
     <PageContentWrapper>
-      <CollectionFilters status={status} />
-      {heading}
+      {header}
       <div className="grid grid-cols-4 gap-x-4 gap-y-4 lg:grid-cols-6">
         {movies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
