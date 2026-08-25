@@ -3,15 +3,13 @@ import { FaCheck } from "react-icons/fa6";
 import { twMerge } from "tailwind-merge";
 import Button from "../../../components/ui/Button";
 
-const GenreChip = ({ children, className = "" }) => {
-  const [isSelected, setIsSelected] = useState(false);
-
+const GenreChip = ({ children, className = "", isSelected, ...rest }) => {
   // Future three-genre limit classes: cursor-not-allowed border-gray-200 bg-gray-100 text-gray-400.
   return (
     <Button
       type="button"
       aria-pressed={isSelected}
-      onClick={() => setIsSelected((selected) => !selected)}
+      {...rest}
       className={twMerge(
         "flex min-h-10 items-center justify-center gap-2 rounded-lg border px-3 py-2 font-inter text-sm font-medium active:scale-100",
         isSelected
