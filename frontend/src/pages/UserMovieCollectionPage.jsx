@@ -10,13 +10,20 @@ import CollectionFilters from "../features/user-movie/components/CollectionFilte
 import emptySign from "../assets/images/reel.png";
 import errorSign from "../assets/images/errorSign.png";
 import { USER_MOVIE_COLLECTIONS } from "../constants/userMovie";
-
+import { useSearchParams } from "react-router-dom";
 const UserMovieCollectionPage = () => {
   const { status } = useParams();
+  const [searchParams] = useSearchParams();
+
   const collection = USER_MOVIE_COLLECTIONS[status];
+
   const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: ["user-movies", status],
-    queryFn: () => apiRequest({ endpoint: `users/${status}`, method: "GET" }),
+    queryKey: ["user-movies", status + searchParams.toString()],
+    queryFn: () =>
+      apiRequest({
+        endpoint: `users/${status}?${searchParams.toString()}`,
+        method: "GET",
+      }),
     enabled: Boolean(collection),
   });
 
