@@ -7,6 +7,7 @@ export const USER_MOVIE_COLLECTIONS = {
     shortLabel: "Liked",
     navLabel: "Liked Movies",
     emptyMessage: "You haven't liked any movies yet.",
+    emptyFilteredMessage: "No liked movies match your filters.",
   },
   watched: {
     path: "/users/watched",
@@ -14,6 +15,7 @@ export const USER_MOVIE_COLLECTIONS = {
     shortLabel: "Watched",
     navLabel: "Watched Movies",
     emptyMessage: "You haven't marked any movies as watched yet.",
+    emptyFilteredMessage: "No watched movies match your filters.",
   },
   watchlisted: {
     path: "/users/watchlisted",
@@ -21,6 +23,7 @@ export const USER_MOVIE_COLLECTIONS = {
     shortLabel: "Watchlist",
     navLabel: "Watchlist",
     emptyMessage: "Your watchlist is empty.",
+    emptyFilteredMessage: "No watchlisted movies match your filters.",
   },
 };
 
