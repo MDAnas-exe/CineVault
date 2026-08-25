@@ -19,8 +19,8 @@ export const USER_MOVIE_FILTERS = {
     title: "Liked",
     options: [
       { label: "All", value: "all" },
-      { label: "Liked", value: "liked" },
-      { label: "Not liked", value: "notLiked" },
+      { label: "Liked", value: true },
+      { label: "Not liked", value: false },
     ],
   },
 };
