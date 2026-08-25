@@ -36,7 +36,8 @@ const CollectionFilters = ({ status }) => {
   const showLikedFilter = status === "watched";
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { sortBy, order, fromYear, toYear } = Object.fromEntries(searchParams);
+  const { sortBy, order, fromYear, toYear, genres, liked } =
+    Object.fromEntries(searchParams);
 
   const {
     register,
@@ -49,9 +50,17 @@ const CollectionFilters = ({ status }) => {
       order: order || "asc",
       fromYear: fromYear || 1900,
       toYear: toYear || 2100,
+      liked: liked || "all",
     },
   });
-  const [selectedGenresIds, setSelectedGenresIds] = useState(new Set());
+  const [selectedGenresIds, setSelectedGenresIds] = useState(
+    new Set(
+      genres
+        ?.split(",")
+        .map(Number)
+        .filter((genre) => USER_MOVIE_FILTER_GENRES[genre]),
+    ),
+  );
 
   function toggleGenres(id) {
     if (selectedGenresIds.size === 3 && !selectedGenresIds.has(id))
