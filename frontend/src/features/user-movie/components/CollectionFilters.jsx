@@ -45,6 +45,7 @@ const CollectionFilters = ({ status }) => {
     handleSubmit,
     formState: { errors },
     watch,
+    setValues,
   } = useForm({
     defaultValues: {
       ...DEFAULT_FILTERS,
@@ -55,6 +56,7 @@ const CollectionFilters = ({ status }) => {
       liked: liked || DEFAULT_FILTERS.liked,
     },
   });
+
   const [selectedGenresIds, setSelectedGenresIds] = useState(
     new Set(
       genres
@@ -233,6 +235,10 @@ const CollectionFilters = ({ status }) => {
           <Button
             type="button"
             className="w-1/2 border border-accent bg-white px-4 py-2.5 text-sm text-accent hover:bg-amber-50 sm:w-auto"
+            onClick={() => {
+              setValues({ ...DEFAULT_FILTERS });
+              setSelectedGenresIds(new Set());
+            }}
           >
             Clear filters
           </Button>
