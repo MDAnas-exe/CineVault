@@ -75,7 +75,9 @@ const UserMovieCollectionPage = () => {
         {header}
         <SectionState
           imageSource={emptySign}
-          message={searchParams.toString ? emptyFilteredMessage : emptyMessage}
+          message={
+            searchParams.toString() ? emptyFilteredMessage : emptyMessage
+          }
           description="Movies you add will appear here."
         />
       </PageContentWrapper>
