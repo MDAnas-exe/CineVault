@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { Navigate, useParams } from "react-router-dom";
 import apiRequest from "../utils/apiRequest";
 import MovieCard from "../components/ui/MovieCard";
@@ -16,22 +16,37 @@ const UserMovieCollectionPage = () => {
 
   const collection = USER_MOVIE_COLLECTIONS[status];
 
-  const { data, isLoading, isError, refetch } = useQuery({
+  const {
+    data,
+    isLoading,
+    isError,
+    refetch,
+    fetchNextPage,
+    hasNextPage,
+    isFetchNextPageError,
+    isFetchingNextPage,
+    is,
+  } = useInfiniteQuery({
     queryKey: ["user-movies", status + searchParams.toString()],
-    queryFn: () =>
+    queryFn: ({ pageParam }) =>
       apiRequest({
-        endpoint: `users/${status}?${searchParams.toString()}`,
+        endpoint: `users/${status}?${searchParams.toString()}&page=${pageParam}`,
         method: "GET",
       }),
     enabled: Boolean(collection),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined,
+    select: (data) => data.pages.flatMap((page) => page.movies),
   });
 
   if (!collection) return <Navigate to="/users/liked" replace />;
 
-  const movies = (data?.movies ?? []).map((movie) => ({
+  const movies = (data ?? []).map((movie) => ({
     ...movie,
     id: movie.movieId,
   }));
+
   const {
     title,
     emptyMessage,
