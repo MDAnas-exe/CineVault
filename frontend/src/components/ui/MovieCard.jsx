@@ -11,7 +11,13 @@ const getImageUrl = (path) => {
   return `${TMDB_IMAGE_BASE}${path.startsWith("/") ? path : `/${path}`}`;
 };
 
-const MovieCard = ({ movie, index, className = "", showActions = true }) => {
+const MovieCard = ({
+  movie,
+  index,
+  className = "",
+  showActions = true,
+  ...rest
+}) => {
   const navigate = useNavigate();
 
   const {
@@ -56,6 +62,7 @@ const MovieCard = ({ movie, index, className = "", showActions = true }) => {
           "group relative h-32 w-18 xs:w-22 shrink-0 cursor-pointer overflow-hidden rounded-xl bg-cover bg-center shadow-sm transition-shadow duration-300 hover:shadow-lg sm:h-56 sm:w-36",
           className,
         )}
+        {...rest}
       >
         <div className="absolute inset-x-0 bottom-0 sm:flex translate-y-2 flex-col gap-2 bg-linear-to-t from-black/95 via-black/75 to-transparent px-2 pb-2 pt-8 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 hidden ">
           {showActions && (
