@@ -8,7 +8,7 @@ import useAuth from "../../../hooks/useAuth";
 import Skeleton from "react-loading-skeleton";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import UserMenuLinks from "./UserMenuLinks";
 import { twMerge } from "tailwind-merge";
 import Button from "../../ui/Button";
@@ -16,6 +16,7 @@ import LogoutButton from "./LogoutButton";
 import { USER_MENU_LINKS } from "./userMenuConfig";
 const MobileNavbar = () => {
   const { isLoading, isLoggedIn, user } = useAuth();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const name = user?.name;
   const email = user?.email;
@@ -72,10 +73,10 @@ const MobileNavbar = () => {
             </Button>
 
             <UserInfoHeader name={name} email={email} className="pt-0" />
-            {USER_MENU_LINKS.map(({ to, label, className }) => (
+            {USER_MENU_LINKS.map(({ to, label, className, preserveQuery }) => (
               <NavLink
                 key={to}
-                to={to}
+                to={preserveQuery ? to + location.search : to}
                 className={({ isActive }) =>
                   twMerge(
                     "block px-4 py-3 font-inter text-primary transition-colors duration-200 hover:bg-gray-100 text-left",

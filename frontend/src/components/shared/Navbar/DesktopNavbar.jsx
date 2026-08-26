@@ -5,7 +5,7 @@ import UserInfoHeader from "./UserInfoHeader";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../ui/Logo";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import Button from "../../ui/Button";
 import { FaChevronDown } from "react-icons/fa6";
 import { twMerge } from "tailwind-merge";
@@ -19,6 +19,7 @@ import {
 
 const DesktopNavbar = () => {
   const { isLoading, isLoggedIn, user } = useAuth();
+  const location = useLocation();
 
   const name = user?.name;
   const email = user?.email;
@@ -65,10 +66,10 @@ const DesktopNavbar = () => {
 
       {isLoggedIn && (
         <div className="hidden md:flex gap-5 items-center">
-          {PRIMARY_USER_MENU_LINKS.map(({ to, label }) => (
+          {PRIMARY_USER_MENU_LINKS.map(({ to, label, preserveQuery }) => (
             <NavLink
               key={to}
-              to={to}
+              to={preserveQuery ? to + location.search : to}
               className={({ isActive }) =>
                 twMerge(
                   "hidden lg:block rounded-lg px-3 py-2 font-inter font-medium text-gray-700 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2",
@@ -111,10 +112,10 @@ const DesktopNavbar = () => {
             <UserInfoHeader name={name} email={email} />
 
             <div>
-              {USER_MENU_LINKS.map(({ to, label, className }) => (
+              {USER_MENU_LINKS.map(({ to, label, className, preserveQuery }) => (
                 <NavLink
                   key={to}
-                  to={to}
+                  to={preserveQuery ? to + location.search : to}
                   className={({ isActive }) =>
                     twMerge(
                       "block px-4 py-3 font-inter text-primary transition-colors duration-200 hover:bg-gray-100 text-left",

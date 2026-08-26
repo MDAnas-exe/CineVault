@@ -4,11 +4,13 @@ const getCollectionLink = (status, className = "") => ({
   to: USER_MOVIE_COLLECTIONS[status].path,
   label: USER_MOVIE_COLLECTIONS[status].navLabel,
   className,
+  preserveQuery: true,
 });
 
 const getPrimaryCollectionLink = (status) => ({
   to: USER_MOVIE_COLLECTIONS[status].path,
   label: USER_MOVIE_COLLECTIONS[status].shortLabel,
+  preserveQuery: true,
 });
 
 export const USER_MENU_LINKS = [
