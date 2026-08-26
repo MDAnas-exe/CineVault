@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { Navigate, useParams } from "react-router-dom";
-import Skeleton from "react-loading-skeleton";
 import apiRequest from "../utils/apiRequest";
 import MovieCard from "../components/ui/MovieCard";
 import MovieSectionSkeleton from "../components/ui/MovieSectionSkeleton";
@@ -33,7 +32,14 @@ const UserMovieCollectionPage = () => {
     ...movie,
     id: movie.movieId,
   }));
-  const { title, emptyMessage, emptyFilteredMessage } = collection;
+  const {
+    title,
+    emptyMessage,
+    emptyFilteredMessage,
+    emptyDescription,
+    emptyFilteredDescription,
+  } = collection;
+  const hasAppliedFilters = Boolean(searchParams.toString());
 
   const header = (
     <>
@@ -75,10 +81,10 @@ const UserMovieCollectionPage = () => {
         {header}
         <SectionState
           imageSource={emptySign}
-          message={
-            searchParams.toString() ? emptyFilteredMessage : emptyMessage
+          message={hasAppliedFilters ? emptyFilteredMessage : emptyMessage}
+          description={
+            hasAppliedFilters ? emptyFilteredDescription : emptyDescription
           }
-          description="Movies you add will appear here."
         />
       </PageContentWrapper>
     );
