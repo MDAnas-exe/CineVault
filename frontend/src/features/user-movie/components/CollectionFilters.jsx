@@ -67,8 +67,7 @@ const CollectionFilters = ({ status }) => {
   );
 
   function toggleGenres(id) {
-    if (selectedGenresIds.size === 3 && !selectedGenresIds.has(id))
-      return toast("only 3 genres can be selected at once");
+    if (selectedGenresIds.size === 3 && !selectedGenresIds.has(id)) return;
     selectedGenresIds.has(id)
       ? setSelectedGenresIds((genres) => {
           let newGenres = new Set(genres);
@@ -197,8 +196,10 @@ const CollectionFilters = ({ status }) => {
             <h2 className="font-poppins text-base font-semibold text-primary sm:text-lg">
               Genres
             </h2>
-            <p className="font-inter text-sm text-secondary">
-              {selectedGenresIds.size} of {filterGenres.length} selected
+            <p
+              className={`font-inter text-sm ${selectedGenresIds.size === 3 ? "text-accent" : "text-secondary"}`}
+            >
+              {selectedGenresIds.size} of 3 selected
             </p>
           </div>
           <div
@@ -208,10 +209,8 @@ const CollectionFilters = ({ status }) => {
             {filterGenres.map((genre, index) => (
               <GenreChip
                 key={genre.id}
-                className={
-                  areAllGenresShown ? "" : getCollapsedGenreClass(index)
-                }
-                isSelected={selectedGenresIds.has(genre.id) ? true : false}
+                className={` ${areAllGenresShown ? "" : getCollapsedGenreClass(index)} ${!selectedGenresIds.has(genre.id) && selectedGenresIds.size == 3 && "cursor-not-allowed border-gray-200 bg-gray-100 text-gray-400 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-400"}`}
+                isSelected={selectedGenresIds.has(genre.id)}
                 onClick={() => toggleGenres(genre.id)}
               >
                 {genre.name}
