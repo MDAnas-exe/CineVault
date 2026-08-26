@@ -91,8 +91,7 @@ const CollectionFilters = ({ status }) => {
       ([key, value]) => String(data[key]) === String(value),
     );
 
-    if (!hasDefaultFilters || selectedGenresIds.size)
-      navigate(window.location.pathname + "?" + queries);
+    navigate(window.location.pathname + "?" + queries.toString());
   }
 
   return (
