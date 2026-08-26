@@ -1,3 +1,4 @@
+import { useRef, useCallback } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Navigate, useParams } from "react-router-dom";
 import apiRequest from "../utils/apiRequest";
@@ -10,11 +11,13 @@ import emptySign from "../assets/images/reel.png";
 import errorSign from "../assets/images/errorSign.png";
 import { USER_MOVIE_COLLECTIONS } from "../constants/userMovie";
 import { useSearchParams } from "react-router-dom";
+import Reel from "../assets/images/reel.svg?react";
 const UserMovieCollectionPage = () => {
   const { status } = useParams();
   const [searchParams] = useSearchParams();
 
   const collection = USER_MOVIE_COLLECTIONS[status];
+  if (!collection) return <Navigate to="/users/liked" replace />;
 
   const {
     data,
@@ -25,7 +28,6 @@ const UserMovieCollectionPage = () => {
     hasNextPage,
     isFetchNextPageError,
     isFetchingNextPage,
-    is,
   } = useInfiniteQuery({
     queryKey: ["user-movies", status + searchParams.toString()],
     queryFn: ({ pageParam }) =>
@@ -40,7 +42,22 @@ const UserMovieCollectionPage = () => {
     select: (data) => data.pages.flatMap((page) => page.movies),
   });
 
-  if (!collection) return <Navigate to="/users/liked" replace />;
+  const observerRef = useRef(null);
+  const sentinelRef = useCallback(
+    (node) => {
+      if (observerRef.current) observerRef.current.disconnect();
+      if (node) {
+        observerRef.current = new IntersectionObserver(
+          (entries) => {
+            if (entries[0].isIntersecting && hasNextPage) fetchNextPage();
+          },
+          { threshold: 0.2 },
+        );
+        observerRef.current.observe(node);
+      }
+    },
+    [hasNextPage, fetchNextPage],
+  );
 
   const movies = (data ?? []).map((movie) => ({
     ...movie,
@@ -109,10 +126,25 @@ const UserMovieCollectionPage = () => {
     <PageContentWrapper>
       {header}
       <div className="grid grid-cols-4 gap-x-4 gap-y-4 lg:grid-cols-6">
-        {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+        {movies.map((movie, i) => (
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            ref={i === movies.length - 1 ? sentinelRef : null}
+          />
         ))}
       </div>
+      {isFetchingNextPage && (
+        <Reel className="size-8  lg:size-15 animate-spin  self-center text-accent" />
+      )}
+
+      {isFetchNextPageError && (
+        <SectionState
+          message="Failed to load more movies."
+          buttonText={"Retry"}
+          onRetry={fetchNextPage}
+        />
+      )}
     </PageContentWrapper>
   );
 };
