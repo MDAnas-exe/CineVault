@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import {
   FaRegHeart,
@@ -81,15 +81,13 @@ const UserActionButton = ({
 
   const { isLoggedIn } = useAuth();
 
-  const [isActive, setIsActive] = useState(initialIsActive);
+  const [isActive, setIsActive] = useState(Boolean(initialIsActive));
 
   const btnLabel = {
     watchlisted: isActive ? "Remove from Watchlist" : "Add to Watchlist",
     watched: isActive ? "Mark as Unwatched" : "Mark as Watched",
     liked: isActive ? "Unlike" : "Like",
   };
-
-  const controllerRef = useRef(null);
 
   const movieInfo = {};
 
@@ -103,44 +101,51 @@ const UserActionButton = ({
 
   if (popularity) movieInfo.popularity = popularity.toFixed(2);
 
-  const { mutateAsync } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: apiRequest,
-    onMutate: () => ({ wasActive: isActive }),
-    onSuccess: () => {
+    onMutate: (variables) => {
+      const previousValue = isActive;
+      const nextValue = variables.data.value;
+
+      setIsActive(nextValue);
+
+      return { previousValue, nextValue };
+    },
+    onSuccess: (data) => {
+      const confirmedValue = data[status];
+
+      setIsActive(confirmedValue);
+      toast.success(
+        confirmedValue ? messages[status].add : messages[status].remove,
+      );
       queryClient.setQueryData(["movie-status", id], null);
       queryClient.invalidateQueries({ queryKey: ["movie-status", id] });
       queryClient.invalidateQueries({ queryKey: ["user-movies"] });
     },
-    onError: (err, variables, context) => {
-      if (err.name === "AbortError") return;
-      setIsActive(context.wasActive);
+    onError: (...errorArgs) => {
+      const mutationContext = errorArgs[2];
+
+      setIsActive(mutationContext.previousValue);
       toast.error(
-        context.wasActive
-          ? messages[status].removeError
-          : messages[status].addError,
+        mutationContext.nextValue
+          ? messages[status].addError
+          : messages[status].removeError,
       );
     },
   });
 
-  const handleClick = async (e) => {
+  const handleClick = (e) => {
     e.stopPropagation();
 
     if (!isLoggedIn) return toast.error("login required");
+    if (isPending) return;
 
-    const wasActive = isActive;
+    const nextValue = !isActive;
 
-    setIsActive((prev) => !prev);
-
-    toast.success(wasActive ? messages[status].remove : messages[status].add);
-
-    controllerRef.current?.abort();
-    controllerRef.current = new AbortController();
-
-    await mutateAsync({
+    mutate({
       endpoint,
       method: "PATCH",
-      data: { movieInfo },
-      signal: controllerRef.current.signal,
+      data: { value: nextValue, movieInfo },
     });
   };
 
@@ -149,6 +154,8 @@ const UserActionButton = ({
       type="button"
       className={twMerge(`flex items-center md:gap-2 `, className)}
       onClick={handleClick}
+      disabled={isPending}
+      aria-busy={isPending}
     >
       <CrossFadeIcon status={status} isActive={isActive} label={label} />
       {label && <span>{btnLabel[status]}</span>}

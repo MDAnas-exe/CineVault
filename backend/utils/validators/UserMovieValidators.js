@@ -1,11 +1,18 @@
 import { body, param, query } from "express-validator";
 import { GENRES } from "../../constants/genres.js";
 
-const movieInfoValidator = [
+const movieStatusUpdateValidator = [
   param("id")
     .toInt()
     .isInt({ min: 1 })
     .withMessage("Movie id must be a positive integer"),
+
+  body("value")
+    .exists()
+    .withMessage("value is required")
+    .bail()
+    .isBoolean({ strict: true })
+    .withMessage("value must be a boolean"),
 
   body("movieInfo")
     .optional()
@@ -85,4 +92,4 @@ const movieStatusValidator = [
     .custom((arr) => arr.every((a) => Number(a) > 0)),
 ];
 
-export { movieInfoValidator, queryValidators, movieStatusValidator };
+export { movieStatusUpdateValidator, queryValidators, movieStatusValidator };

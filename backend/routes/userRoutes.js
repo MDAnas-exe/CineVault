@@ -16,7 +16,7 @@ import {
   getUserReviewForMovie,
 } from "../controllers/userController.js";
 import {
-  movieInfoValidator,
+  movieStatusUpdateValidator,
   queryValidators,
   movieStatusValidator,
 } from "../utils/validators/userMovieValidators.js";
@@ -41,7 +41,7 @@ router.patch(
   "/liked/:id",
   protect,
   userWriteLimiter,
-  movieInfoValidator,
+  movieStatusUpdateValidator,
   validate,
   manageLiked,
 );
@@ -49,7 +49,7 @@ router.patch(
   "/watched/:id",
   protect,
   userWriteLimiter,
-  movieInfoValidator,
+  movieStatusUpdateValidator,
   validate,
   manageWatched,
 );
@@ -57,7 +57,7 @@ router.patch(
   "/watchlisted/:id",
   protect,
   userWriteLimiter,
-  movieInfoValidator,
+  movieStatusUpdateValidator,
   validate,
   manageWatchlisted,
 );

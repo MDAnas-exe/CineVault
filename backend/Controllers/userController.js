@@ -18,34 +18,33 @@ const fieldTimestamps = {
   watchlisted: "watchlistedAt",
 };
 
-const manageMovieState = (field) =>
+const manageMovieStatus = (field) =>
   expressAsyncHandler(async (req, res) => {
     const { id } = req.params;
-    const { movieInfo = {} } = req.body || {};
+    const { value, movieInfo = {} } = req.body;
 
     const existingDoc = await userMovieModel
       .findOne({ userId: req.user._id, movieId: id })
       .select("liked watched watchlisted")
       .lean();
 
-    let finalValue;
-
     const fieldTimestamp = fieldTimestamps[field];
-    if (existingDoc) {
-      const setFields = {
-        $set: {
-          [field]: !existingDoc[field],
-          [fieldTimestamp]: !existingDoc[field] ? new Date() : null,
-        },
-      };
+    let finalValue = value;
 
-      const updated = await userMovieModel.findOneAndUpdate(
+    if (existingDoc && existingDoc[field] !== value) {
+      const updatedDoc = await userMovieModel.findOneAndUpdate(
         { userId: req.user._id, movieId: id },
-        setFields,
+        {
+          $set: {
+            [field]: value,
+            [fieldTimestamp]: value ? new Date() : null,
+          },
+        },
         { returnDocument: "after" },
       );
-      finalValue = updated[field];
-    } else {
+
+      finalValue = updatedDoc[field];
+    } else if (!existingDoc && value) {
       if (!movieInfo?.title) {
         res.status(400);
         throw new Error("Movie title is required");
@@ -63,7 +62,7 @@ const manageMovieState = (field) =>
             movieId: id,
             movieInfo: { ...movieInfo, genres: resolvedGenres },
             [fieldTimestamp]: new Date(),
-            [field]: true,
+            [field]: value,
           },
         },
         { upsert: true, returnDocument: "after" },
@@ -79,9 +78,9 @@ const manageMovieState = (field) =>
     });
   });
 
-const manageLiked = manageMovieState("liked");
-const manageWatched = manageMovieState("watched");
-const manageWatchlisted = manageMovieState("watchlisted");
+const manageLiked = manageMovieStatus("liked");
+const manageWatched = manageMovieStatus("watched");
+const manageWatchlisted = manageMovieStatus("watchlisted");
 
 export { manageLiked, manageWatched, manageWatchlisted };
 
