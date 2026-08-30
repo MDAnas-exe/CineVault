@@ -33,10 +33,14 @@ const filterGenres = Object.entries(USER_MOVIE_FILTER_GENRES)
 
 const CollectionFilters = ({ status }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+
   const [areAllGenresShown, setAreAllGenresShown] = useState(false);
+
   const showLikedFilter = status === "watched";
+
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+
+  const [searchParams, setSearchParams] = useSearchParams();
   const { sortBy, order, fromYear, toYear, genres, liked } =
     Object.fromEntries(searchParams);
 
@@ -231,8 +235,10 @@ const CollectionFilters = ({ status }) => {
             type="button"
             className="w-1/2 border border-accent bg-white px-4 py-2.5 text-sm text-accent hover:bg-amber-50 sm:w-auto"
             onClick={() => {
+              setIsExpanded(false);
               setValues({ ...DEFAULT_FILTERS });
               setSelectedGenresIds(new Set());
+              setSearchParams({});
             }}
           >
             Clear filters
