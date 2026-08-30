@@ -87,9 +87,6 @@ const CollectionFilters = ({ status }) => {
       ...data,
       ...(selectedGenresIds.size && { genres: genres }),
     });
-    const hasDefaultFilters = Object.entries(DEFAULT_FILTERS).every(
-      ([key, value]) => String(data[key]) === String(value),
-    );
 
     navigate(window.location.pathname + "?" + queries.toString());
   }
