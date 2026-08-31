@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { FaChevronDown } from "react-icons/fa6";
 import { LuSlidersHorizontal } from "react-icons/lu";
+import FilterActionButtons from "../../../components/ui/FilterActionButtons";
 import {
   DEFAULT_FILTERS,
   USER_MOVIE_FILTER_GENRES,
   USER_MOVIE_FILTERS,
 } from "../userMovieFilters";
-import Button from "../../../components/ui/Button";
 import FilterRadioGroup from "./FilterRadioGroup";
 import GenreChip from "./GenreChip";
 import { useForm } from "react-hook-form";
@@ -231,30 +231,20 @@ const CollectionFilters = ({ status }) => {
         </div>
 
         <div className="flex gap-3 border-t border-gray-200 pt-4 sm:justify-end">
-          <Button
-            type="button"
-            className="w-1/2 border border-accent bg-white px-4 py-2.5 text-sm text-accent hover:bg-amber-50 sm:w-auto"
-            onClick={() => {
+          <FilterActionButtons
+            onClear={() => {
               setIsExpanded(false);
               setValues({ ...DEFAULT_FILTERS });
               setSelectedGenresIds(new Set());
               setSearchParams({});
             }}
-          >
-            Clear filters
-          </Button>
-          <Button
-            type="button"
-            className="w-1/2 bg-accent px-4 py-2.5 text-sm text-white shadow-sm hover:bg-accent-hover sm:w-auto"
-            onClick={handleSubmit((data) => {
+            onApply={handleSubmit((data) => {
               setIsExpanded(false);
               toast.success("filter applied");
               window.scrollTo(0, 0);
               addFilters(data);
             })}
-          >
-            Apply Filters
-          </Button>
+          />
         </div>
       </div>
     </section>
