@@ -22,7 +22,7 @@ const GuestReviewCTA = () => {
       <Button
         type="button"
         onClick={handleSignIn}
-        className="shrink-0 rounded-lg bg-accent px-4 py-2 text-xs text-primary hover:bg-[#c89412] md:text-sm"
+        className="shrink-0 rounded-lg bg-accent px-4 py-2 text-xs text-primary hover:bg-accent-hover md:text-sm"
       >
         Sign in to review
       </Button>

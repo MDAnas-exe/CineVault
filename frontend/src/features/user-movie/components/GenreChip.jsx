@@ -13,7 +13,7 @@ const GenreChip = ({ children, className = "", isSelected, ...rest }) => {
       className={twMerge(
         "flex min-h-10 items-center justify-center gap-2 rounded-lg border px-3 py-2 font-inter text-sm font-medium active:scale-100",
         isSelected
-          ? "border-accent bg-accent text-white shadow-sm hover:bg-[#bd8f16]"
+          ? "border-accent bg-accent text-white shadow-sm hover:bg-accent-hover"
           : "border-gray-200 bg-white text-primary hover:border-accent/60 hover:bg-amber-50",
         className,
       )}
