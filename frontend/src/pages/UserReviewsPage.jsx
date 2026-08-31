@@ -40,12 +40,12 @@ const UserReviewsPage = () => {
 
   const header = (
     <>
-      <header className="mb-6 md:mb-7">
-        <h1 className="border-l-4 border-accent pl-4 font-poppins text-3xl font-bold text-primary md:text-4xl lg:text-5xl">
+      <header className="mb-5 sm:mb-6">
+        <h1 className="border-l-4 border-accent pl-3 font-poppins text-2xl font-bold text-primary sm:pl-4 sm:text-3xl md:text-4xl">
           Reviews
         </h1>
         <div
-          className="mt-3 font-inter text-sm text-secondary md:text-base"
+          className="mt-1.5 font-inter text-xs text-secondary sm:mt-2 sm:text-sm md:text-base"
           aria-live="polite"
         >
           {isLoading && (
@@ -64,10 +64,10 @@ const UserReviewsPage = () => {
 
   if (isLoading) {
     return (
-      <PageContentWrapper className="max-w-400 px-4 py-6 md:px-8 md:py-8 lg:w-full xl:px-10">
+      <PageContentWrapper className="max-w-400 px-4 py-5 sm:py-6 md:px-6 md:py-8 lg:w-full xl:px-8">
         {header}
         <section className="mt-4" aria-label="Your reviews" aria-busy="true">
-          <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 items-start gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
             {Array.from({ length: 6 }).map((_, index) => (
               <UserReviewCardSkeleton key={index} />
             ))}
@@ -79,7 +79,7 @@ const UserReviewsPage = () => {
 
   if (isError) {
     return (
-      <PageContentWrapper className="max-w-400 px-4 py-6 md:px-8 md:py-8 lg:w-full xl:px-10">
+      <PageContentWrapper className="max-w-400 px-4 py-5 sm:py-6 md:px-6 md:py-8 lg:w-full xl:px-8">
         {header}
         <div className="py-10 md:py-14">
           <SectionState
@@ -96,7 +96,7 @@ const UserReviewsPage = () => {
 
   if (reviews.length === 0) {
     return (
-      <PageContentWrapper className="max-w-400 px-4 py-6 md:px-8 md:py-8 lg:w-full xl:px-10">
+      <PageContentWrapper className="max-w-400 px-4 py-5 sm:py-6 md:px-6 md:py-8 lg:w-full xl:px-8">
         {header}
         <div className="py-10 md:py-14">
           <SectionState
@@ -110,10 +110,10 @@ const UserReviewsPage = () => {
   }
 
   return (
-    <PageContentWrapper className="max-w-400 px-4 py-6 md:px-8 md:py-8 lg:w-full xl:px-10">
+    <PageContentWrapper className="max-w-400 px-4 py-5 sm:py-6 md:px-6 md:py-8 lg:w-full xl:px-8">
       {header}
       <section className="mt-4" aria-label="Your reviews">
-        <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 items-start gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
           {reviews.map((review) => (
             <UserReviewCard key={review.movieId} reviewInfo={review} />
           ))}
