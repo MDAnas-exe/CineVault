@@ -7,6 +7,7 @@ import {
   USER_MOVIE_FILTER_GENRES,
   USER_MOVIE_FILTERS,
 } from "../userMovieFilters";
+import Button from "../../../components/ui/Button";
 import FilterRadioGroup from "./FilterRadioGroup";
 import GenreChip from "./GenreChip";
 import { useForm } from "react-hook-form";
