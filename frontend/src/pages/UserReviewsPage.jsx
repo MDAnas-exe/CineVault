@@ -32,11 +32,14 @@ const UserReviewsPage = () => {
     initialPageParam: 1,
     getNextPageParam: (lastPage) =>
       lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined,
-    select: (data) => data.pages.flatMap((page) => page.reviews),
+    select: (data) => ({
+      totalResults: data?.pages?.[0]?.totalResults,
+      reviews: data.pages.flatMap((page) => page.reviews),
+    }),
   });
 
-  const reviews = data ?? [];
-  const totalResults = data?.pages?.[0]?.totalResults;
+  const reviews = data.reviews ?? [];
+  const totalResults = data?.totalResults;
 
   const header = (
     <>
@@ -53,9 +56,10 @@ const UserReviewsPage = () => {
               <Skeleton width={90} />
             </span>
           )}
-          {data && !isLoading && !isError && (
-            `${totalResults ?? 0} ${totalResults === 1 ? "review" : "reviews"}`
-          )}
+          {data &&
+            !isLoading &&
+            !isError &&
+            `${totalResults ?? 0} ${totalResults === 1 ? "review" : "reviews"}`}
         </div>
       </header>
       <ReviewFilters />
