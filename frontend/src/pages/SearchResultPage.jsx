@@ -29,6 +29,7 @@ const SearchResultsPage = () => {
     refetch,
     fetchNextPage,
     hasNextPage,
+    isFetching,
     isFetchingNextPage,
     isFetchNextPageError,
   } = useInfiniteQuery({
@@ -59,9 +60,24 @@ const SearchResultsPage = () => {
     }
   });
 
+  const filteredMovieCount = filteredMovies.length;
+
   useEffect(() => {
-    if (filteredMovies.length === 0 && hasNextPage) fetchNextPage();
-  }, [filteredMovies, hasNextPage, fetchNextPage]);
+    if (
+      filteredMovieCount === 0 &&
+      hasNextPage &&
+      !isFetching &&
+      !isFetchNextPageError
+    ) {
+      fetchNextPage();
+    }
+  }, [
+    filteredMovieCount,
+    hasNextPage,
+    isFetching,
+    isFetchNextPageError,
+    fetchNextPage,
+  ]);
 
   const queryClient = useQueryClient();
 
