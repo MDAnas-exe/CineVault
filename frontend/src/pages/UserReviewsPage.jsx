@@ -19,7 +19,6 @@ const UserReviewsPage = () => {
     isError,
     refetch,
     fetchNextPage,
-    hasNextPage,
     isFetchingNextPage,
     isFetchNextPageError,
   } = useInfiniteQuery({
