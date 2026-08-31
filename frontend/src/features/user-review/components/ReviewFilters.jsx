@@ -34,7 +34,10 @@ const ReviewFilters = () => {
         params.set(key, value);
       }
     });
-    navigate(window.location.pathname + (params.toString() ? "?" + params.toString() : ""));
+    navigate(
+      window.location.pathname +
+        (params.toString() ? "?" + params.toString() : ""),
+    );
     toast.success("filter applied");
   }
 
@@ -47,7 +50,7 @@ const ReviewFilters = () => {
     <form
       onSubmit={handleSubmit(applyFilters)}
       aria-labelledby={`${id}-title`}
-      className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm sm:p-6 lg:rounded-xl lg:p-7 xl:rounded-lg xl:p-5"
+      className="mb-6 rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm sm:p-6 md:mb-8 lg:rounded-xl lg:p-7 xl:rounded-lg xl:p-5"
     >
       <h2
         id={`${id}-title`}
@@ -55,7 +58,7 @@ const ReviewFilters = () => {
       >
         Filter reviews
       </h2>
-      <fieldset className="grid min-w-0 grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-x-7 lg:gap-y-6 xl:grid-cols-[repeat(4,minmax(0,1fr))_auto] xl:items-end xl:gap-x-8">
+      <fieldset className="grid min-w-0 grid-cols-1 gap-5 md:grid-cols-2 md:gap-x-6 md:gap-y-5 lg:grid-cols-[repeat(4,minmax(0,1fr))_auto] lg:items-end lg:gap-x-4 xl:gap-x-6">
         <legend className="sr-only">Review filters</legend>
         <div className="min-w-0">
           <label htmlFor={`${id}-from`} className={labelClassName}>
@@ -129,7 +132,7 @@ const ReviewFilters = () => {
             />
           </div>
         </div>
-        <div className="mt-3 grid grid-cols-2 gap-3 sm:gap-5 lg:col-span-2 lg:mt-1 lg:flex lg:justify-between xl:col-span-1 xl:mt-0 xl:ml-8 xl:gap-4">
+        <div className="mt-3 grid grid-cols-2 gap-3 md:col-span-2 md:mt-1 md:flex md:justify-between lg:col-span-1 lg:mt-0 lg:flex lg:items-end lg:gap-3 xl:gap-4">
           <FilterActionButtons onClear={clearFilters} />
         </div>
       </fieldset>
@@ -138,4 +141,3 @@ const ReviewFilters = () => {
 };
 
 export default ReviewFilters;
-
