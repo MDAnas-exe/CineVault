@@ -31,40 +31,63 @@ const UserReviewSection = () => {
   if (isAuthLoading) return <ReviewCardSkeleton />;
   if (!isLoggedIn) return <GuestReviewCTA />;
 
-  const movieInfo = movie && {
-    title: movie.title,
-    posterPath: movie.poster_path || null,
-    releaseDate: movie.release_date || null,
-  };
+  const header = <SectionSubheading>Your Review</SectionSubheading>;
 
-  return (
-    <div>
-      <SectionSubheading>Your Review</SectionSubheading>
+  if (isLoading || isFetching || isMovieLoading) {
+    return (
+      <div>
+        {header}
+        <ReviewCardSkeleton />
+      </div>
+    );
+  }
 
-      {(isLoading || isFetching || isMovieLoading) && <ReviewCardSkeleton />}
-
-      {isMovieError && (
+  if (isMovieError) {
+    return (
+      <div>
+        {header}
         <SectionState
           message="Couldn't load movie information."
           description="Retry to write or edit your review."
           buttonText="Retry"
           onRetry={refetchMovie}
         />
-      )}
+      </div>
+    );
+  }
 
-      {isError && error.status !== 404 && (
+  if (isError && error.status !== 404) {
+    return (
+      <div>
+        {header}
         <SectionState
           message="Failed to load your review"
           description="Something went wrong. Please try again."
           buttonText="Try Again"
           onRetry={refetch}
         />
-      )}
+      </div>
+    );
+  }
 
-      {isError && error.status === 404 && movieInfo && (
+  const movieInfo = movie && {
+    title: movie.title,
+    posterPath: movie.poster_path || null,
+    releaseDate: movie.release_date || null,
+  };
+
+  if (isError && error.status === 404 && movieInfo) {
+    return (
+      <div>
+        {header}
         <ReviewForm movieInfo={movieInfo} />
-      )}
+      </div>
+    );
+  }
 
+  return (
+    <div>
+      {header}
       {data?.review && movieInfo && (
         <ReviewCard reviewInfo={data.review} movieInfo={movieInfo} isOwner />
       )}
