@@ -38,7 +38,7 @@ const UserReviewsPage = () => {
     }),
   });
 
-  const reviews = data.reviews ?? [];
+  const reviews = data?.reviews ?? [];
   const totalResults = data?.totalResults;
 
   const header = (
