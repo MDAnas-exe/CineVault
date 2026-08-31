@@ -12,10 +12,14 @@ import errorHandler from "./middlewares/errorMiddleware.js";
 connectDB();
 
 const app = express();
-const port = 3000;
+const port = Number(process.env.PORT || 3000);
+const clientUrl = (process.env.CLIENT_URL || "http://localhost:5173").replace(
+  /\/+$/,
+  "",
+);
 app.use(cookieParser());
 app.use(helmet());
-app.use(cors({ origin: `http://localhost:5173`, credentials: true }));
+app.use(cors({ origin: clientUrl, credentials: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -33,5 +37,5 @@ app.use((req, res, next) => {
 app.use(errorHandler);
 
 app.listen(port, "0.0.0.0", () => {
-  console.log(`Backend server is running on http://localhost:${port}`);
+  console.log("Backend server is running");
 });
