@@ -23,6 +23,7 @@ const ReviewForm = () => {
     onSuccess: () => {
       toast.success("review submitted successfully");
       queryClient.invalidateQueries({ queryKey: ["user-review", id] });
+      queryClient.invalidateQueries({ queryKey: ["user-reviews"] });
     },
     onError: () => toast.error("failed to submit review"),
   });

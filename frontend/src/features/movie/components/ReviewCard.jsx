@@ -41,6 +41,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
         toast.success("review deleted successfully!!");
         queryClient.invalidateQueries({ queryKey: ["user-review", id] });
         queryClient.setQueryData(["user-review", id], null);
+        queryClient.invalidateQueries({ queryKey: ["user-reviews"] });
       },
       onError: () => toast.error("Failed to delete review."),
     });
@@ -51,6 +52,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
       onSuccess: () => {
         toast.success("review edited successfully!!");
         queryClient.invalidateQueries({ queryKey: ["user-review", id] });
+        queryClient.invalidateQueries({ queryKey: ["user-reviews"] });
       },
       onError: () => toast.error("Failed to edit review."),
     });
