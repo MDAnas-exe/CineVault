@@ -43,8 +43,8 @@ const UserReviewsPage = () => {
         {header}
         <section className="mt-4" aria-label="Your reviews" aria-busy="true">
           <p role="status" className="sr-only">Loading reviews...</p>
-          <div className="grid grid-cols-1 items-start gap-4 xl:grid-cols-2">
-            {Array.from({ length: 4 }).map((_, index) => (
+          <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, index) => (
               <UserReviewCardSkeleton key={index} />
             ))}
           </div>
@@ -89,7 +89,7 @@ const UserReviewsPage = () => {
     <PageContentWrapper className="max-w-400 px-4 py-6 md:px-8 md:py-8 lg:w-full xl:px-10">
       {header}
       <section className="mt-4" aria-label="Your reviews">
-        <div className="grid grid-cols-1 items-start gap-4 xl:grid-cols-2">
+        <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 lg:grid-cols-3">
           {reviews.map((review) => (
             <UserReviewCard key={review.movieId} reviewInfo={review} />
           ))}

@@ -27,9 +27,9 @@ const UserReviewCard = ({ reviewInfo, ...rest }) => {
   return (
     <article
       {...rest}
-      className="grid min-w-0 grid-cols-[4.5rem_minmax(0,1fr)] content-start gap-x-4 gap-y-3 rounded-xl border border-neutral-200 bg-white p-4 font-inter shadow-sm transition-shadow duration-200 hover:shadow-md focus-within:ring-2 focus-within:ring-accent/30 md:grid-cols-[9rem_minmax(0,1fr)] md:grid-rows-[auto_1fr_auto] md:gap-x-6 md:gap-y-3 md:p-5 2xl:grid-cols-[11rem_minmax(0,1fr)]"
+      className="grid min-w-0 grid-cols-[5rem_minmax(0,1fr)] content-start gap-4 rounded-xl border border-neutral-200 bg-white p-4 font-inter shadow-sm transition-shadow duration-200 hover:shadow-md focus-within:ring-2 focus-within:ring-accent/30 xl:grid-cols-[6rem_minmax(0,1fr)] xl:p-5"
     >
-      <div className="relative aspect-2/3 self-start overflow-hidden rounded-lg bg-neutral-100 md:row-span-3">
+      <div className="relative aspect-2/3 self-start overflow-hidden rounded-lg bg-neutral-100">
         {posterPath && failedPoster !== posterPath ? (
           <img
             src={`https://image.tmdb.org/t/p/w342${posterPath}`}
@@ -46,23 +46,23 @@ const UserReviewCard = ({ reviewInfo, ...rest }) => {
         )}
       </div>
 
-      <div className="min-w-0 self-start pt-1 md:col-start-2">
-        <h2 className="wrap-break-word font-poppins text-base font-semibold leading-snug text-primary md:inline md:text-xl">
+      <div className="min-w-0 self-start pt-1">
+        <h2 className="wrap-anywhere font-poppins text-lg font-semibold leading-snug text-primary xl:text-xl">
           {title}
         </h2>
         {releaseYear && (
-          <span className="mt-1 block text-sm text-secondary md:ml-2 md:mt-0 md:inline">
-            <span className="hidden md:inline">(</span>{releaseYear}<span className="hidden md:inline">)</span>
+          <span className="mt-1 block text-sm text-secondary">
+            {releaseYear}
           </span>
         )}
       </div>
 
-      <p className="col-span-2 whitespace-pre-wrap wrap-anywhere text-sm leading-relaxed text-primary/90 md:col-span-1 md:col-start-2 md:text-[15px]">
+      <p className="col-span-2 whitespace-pre-wrap wrap-anywhere text-sm leading-relaxed text-primary/90 xl:text-[15px]">
         {review}
       </p>
 
-      <footer className="col-span-2 min-w-0 md:col-span-1 md:col-start-2 md:flex md:items-center md:justify-between md:gap-4 md:border-t md:border-neutral-200 md:pt-3 xl:block">
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-neutral-200 pb-3 text-xs leading-relaxed text-secondary md:border-0 md:pb-0">
+      <footer className="col-span-2 min-w-0">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-neutral-200 pb-3 text-xs leading-relaxed text-secondary">
           {writtenDate && (
             <span className="inline-flex items-center gap-2">
               <HiOutlineCalendarDays className="hidden size-4 shrink-0 md:block" aria-hidden="true" />
@@ -79,7 +79,7 @@ const UserReviewCard = ({ reviewInfo, ...rest }) => {
         </div>
         <Link
           to={`/movies/${movieId}/reviews`}
-          className="group mt-2 inline-flex min-h-10 items-center gap-1 rounded-sm font-medium text-accent transition-colors duration-200 hover:text-accent-hover hover:underline hover:underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent md:mt-0 md:min-h-8 md:shrink-0 xl:mt-2"
+          className="group mt-2 inline-flex min-h-10 items-center gap-1 rounded-sm font-medium text-accent transition-colors duration-200 hover:text-accent-hover hover:underline hover:underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
           aria-label={`View movie: ${movieInfo?.title || `movie ${movieId}`}`}
         >
           View movie
