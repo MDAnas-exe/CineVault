@@ -10,7 +10,7 @@ import Reel from "../../../assets/images/reel.svg?react";
 import { useForm } from "react-hook-form";
 import Textarea from "./Textarea";
 
-const ReviewCard = ({ reviewInfo, isOwner = false }) => {
+const ReviewCard = ({ reviewInfo, isOwner = false, movieInfo }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -181,7 +181,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false }) => {
               }
               editMutateAsync({
                 endpoint: `users/reviews/${id}`,
-                data,
+                data: { ...data, movieInfo },
                 method: "PUT",
               });
             })}

@@ -6,6 +6,36 @@ export const upsertReviewValidator = [
     .isInt({ min: 1 })
     .withMessage("Movie ID must be a positive integer"),
 
+  body("movieInfo")
+    .isObject({ strict: true })
+    .withMessage("Movie information is required"),
+
+  body("movieInfo.title")
+    .isString()
+    .bail()
+    .trim()
+    .notEmpty()
+    .withMessage("Movie title is required")
+    .isLength({ max: 200 })
+    .withMessage("Movie title must be 200 characters or fewer"),
+
+  body("movieInfo.posterPath")
+    .optional({ values: "null" })
+    .isString()
+    .bail()
+    .trim()
+    .matches(/^\/[a-zA-Z0-9_-]+\.(jpg|jpeg|png|webp)$/i)
+    .withMessage("Poster path must be a TMDB image path"),
+
+  body("movieInfo.releaseDate")
+    .optional({ values: "null" })
+    .isString()
+    .bail()
+    .matches(/^\d{4}-\d{2}-\d{2}$/)
+    .bail()
+    .isISO8601({ strict: true, strictSeparator: true })
+    .withMessage("Release date must be a valid YYYY-MM-DD date"),
+
   body("review")
     .isString()
     .trim()

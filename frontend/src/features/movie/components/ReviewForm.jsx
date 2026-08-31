@@ -7,7 +7,7 @@ import Button from "../../../components/ui/Button";
 import Reel from "../../../assets/images/reel.svg?react";
 import Textarea from "./Textarea";
 
-const ReviewForm = () => {
+const ReviewForm = ({ movieInfo }) => {
   const { id } = useParams();
   const queryClient = useQueryClient();
   const {
@@ -31,7 +31,11 @@ const ReviewForm = () => {
   return (
     <form
       onSubmit={handleSubmit((data) =>
-        mutateAsync({ method: "PUT", data, endpoint: `users/reviews/${id}` }),
+        mutateAsync({
+          method: "PUT",
+          data: { ...data, movieInfo },
+          endpoint: `users/reviews/${id}`,
+        }),
       )}
       className="w-full md:max-w-2xl"
     >

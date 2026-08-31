@@ -8,10 +8,17 @@ import ReviewCardSkeleton from "./ReviewCardSkeleton";
 import SectionState from "../../../components/ui/SectionState";
 import ReviewForm from "./ReviewForm";
 import ReviewCard from "./ReviewCard";
+import useMovieDetails from "../hooks/useMovieDetails";
 
 const UserReviewSection = () => {
   const { isLoggedIn, isLoading: isAuthLoading } = useAuth();
   const { id } = useParams();
+  const {
+    data: movie,
+    isLoading: isMovieLoading,
+    isError: isMovieError,
+    refetch: refetchMovie,
+  } = useMovieDetails(id);
 
   const { data, isLoading, isFetching, isError, error, refetch } = useQuery({
     queryKey: ["user-review", id],
@@ -24,11 +31,26 @@ const UserReviewSection = () => {
   if (isAuthLoading) return <ReviewCardSkeleton />;
   if (!isLoggedIn) return <GuestReviewCTA />;
 
+  const movieInfo = movie && {
+    title: movie.title,
+    posterPath: movie.poster_path || null,
+    releaseDate: movie.release_date || null,
+  };
+
   return (
     <div>
       <SectionSubheading>Your Review</SectionSubheading>
 
-      {(isLoading || isFetching) && <ReviewCardSkeleton />}
+      {(isLoading || isFetching || isMovieLoading) && <ReviewCardSkeleton />}
+
+      {isMovieError && (
+        <SectionState
+          message="Couldn't load movie information."
+          description="Retry to write or edit your review."
+          buttonText="Retry"
+          onRetry={refetchMovie}
+        />
+      )}
 
       {isError && error.status !== 404 && (
         <SectionState
@@ -39,9 +61,13 @@ const UserReviewSection = () => {
         />
       )}
 
-      {isError && error.status === 404 && <ReviewForm />}
+      {isError && error.status === 404 && movieInfo && (
+        <ReviewForm movieInfo={movieInfo} />
+      )}
 
-      {data && <ReviewCard reviewInfo={data.review} isOwner />}
+      {data?.review && movieInfo && (
+        <ReviewCard reviewInfo={data.review} movieInfo={movieInfo} isOwner />
+      )}
     </div>
   );
 };

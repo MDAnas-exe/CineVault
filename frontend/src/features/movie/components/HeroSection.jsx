@@ -17,6 +17,7 @@ import UserActionButton from "../../../components/ui/UserActionButton";
 import HeroButtonSkeleton from "../../../components/ui/HeroButtonSkeleton";
 import useAuth from "../../../hooks/useAuth.js";
 import { getUserMovieActions } from "../../../constants/userMovie";
+import useMovieDetails from "../hooks/useMovieDetails";
 
 const HeroSection = () => {
   const { id } = useParams();
@@ -28,12 +29,7 @@ const HeroSection = () => {
     isLoading,
     isError,
     refetch,
-  } = useQuery({
-    queryKey: ["movie-details", id],
-    queryFn: () => apiRequest({ endpoint: `movies/${id}`, method: "GET" }),
-    enabled: !!id,
-    staleTime: 60 * 60 * 1000,
-  });
+  } = useMovieDetails(id);
 
   const {
     data: userMovieStatus,
