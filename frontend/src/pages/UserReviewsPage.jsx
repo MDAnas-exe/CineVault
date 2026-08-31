@@ -10,6 +10,7 @@ import SectionState from "../components/ui/SectionState";
 import Reel from "../assets/images/reel.svg?react";
 import emptySign from "../assets/images/reel.png";
 import errorSign from "../assets/images/errorSign.png";
+import { useCallback, useRef } from "react";
 
 const UserReviewsPage = () => {
   const [searchParams] = useSearchParams();
@@ -20,6 +21,7 @@ const UserReviewsPage = () => {
     isError,
     refetch,
     fetchNextPage,
+    hasNextPage,
     isFetchingNextPage,
     isFetchNextPageError,
   } = useInfiniteQuery({
@@ -37,6 +39,23 @@ const UserReviewsPage = () => {
       reviews: data.pages.flatMap((page) => page.reviews),
     }),
   });
+
+  const observerRef = useRef(null);
+  const sentinelRef = useCallback(
+    (node) => {
+      if (observerRef.current) observerRef.current.disconnect();
+      if (node) {
+        observerRef.current = new IntersectionObserver(
+          (entries) => {
+            if (entries[0].isIntersecting && hasNextPage) fetchNextPage();
+          },
+          { threshold: 0.2 },
+        );
+        observerRef.current.observe(node);
+      }
+    },
+    [hasNextPage, fetchNextPage],
+  );
 
   const reviews = data?.reviews ?? [];
   const totalResults = data?.totalResults;
@@ -118,8 +137,12 @@ const UserReviewsPage = () => {
       {header}
       <section className="mt-4" aria-label="Your reviews">
         <div className="grid grid-cols-1 items-start gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-          {reviews.map((review) => (
-            <UserReviewCard key={review.movieId} reviewInfo={review} />
+          {reviews.map((review, i) => (
+            <UserReviewCard
+              key={review.movieId}
+              reviewInfo={review}
+              ref={i === reviews.length - 1 ? sentinelRef : null}
+            />
           ))}
         </div>
       </section>
