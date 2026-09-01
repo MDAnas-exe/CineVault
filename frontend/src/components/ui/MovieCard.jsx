@@ -59,7 +59,7 @@ const MovieCard = ({
         }
         onClick={() => navigate(`/movies/${id}`)}
         className={twMerge(
-          "group relative h-32 w-18 xs:w-22 shrink-0 cursor-pointer overflow-hidden rounded-xl bg-cover bg-center shadow-sm transition-shadow duration-300 hover:shadow-lg sm:h-56 sm:w-36",
+          "group relative  shrink-0 cursor-pointer overflow-hidden rounded-xl bg-cover bg-center shadow-sm transition-shadow duration-300 hover:shadow-lg h-56 w-36",
           className,
         )}
         {...rest}
