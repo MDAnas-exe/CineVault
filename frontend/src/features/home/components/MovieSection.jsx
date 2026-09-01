@@ -1,14 +1,12 @@
-import { useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import apiRequest from "../../../utils/apiRequest";
 import MovieCard from "../../../components/ui/MovieCard";
 import MovieSectionSkeleton from "../../../components/ui/MovieSectionSkeleton";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import emptySign from "../../../assets/images/reel.png";
 import errorSign from "../../../assets/images/errorSign.png";
 import SectionState from "../../../components/ui/SectionState";
+import HorizontalScroller from "../../../components/ui/HorizontalScroller";
 const HomeMovieSection = ({ title, endpoint }) => {
-  const ref = useRef(null);
   const {
     data: movies = [],
     isLoading,
@@ -85,20 +83,8 @@ const HomeMovieSection = ({ title, endpoint }) => {
       <p className="md:text-xl lg:text-3xl font-bold text-primary  border-l-4 border-accent px-2 md:ml-10">
         {title}
       </p>
-      <div className="flex">
-        <div
-          className="hidden md:flex self-center px-3  cursor-pointer rounded-full shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105 "
-          onClick={() => {
-            ref.current.scrollLeft = ref.current.scrollLeft - 300;
-          }}
-        >
-          <FaChevronLeft className="self-center h-10" />
-        </div>
-        <div
-          className="flex items-center gap-4  overflow-x-scroll py-3 md:px-3"
-          style={{ scrollbarWidth: "none" }}
-          ref={ref}
-        >
+      <HorizontalScroller ariaLabel={`${title} movies`}>
+        <div className="flex items-center gap-4">
           {movies.map((movie, index) => (
             <MovieCard
               key={movie.id}
@@ -109,15 +95,7 @@ const HomeMovieSection = ({ title, endpoint }) => {
             />
           ))}
         </div>
-        <div
-          className="hidden md:flex self-center px-3 ml-2 cursor-pointer rounded-full shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105 "
-          onClick={() => {
-            ref.current.scrollLeft = ref.current.scrollLeft + 300;
-          }}
-        >
-          <FaChevronRight className="self-center h-10" />
-        </div>
-      </div>
+      </HorizontalScroller>
     </section>
   );
 };
