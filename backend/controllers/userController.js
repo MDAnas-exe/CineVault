@@ -2,6 +2,7 @@ import expressAsyncHandler from "express-async-handler";
 import userMovieModel from "../models/userMovieModel.js";
 import reviewModel from "../models/reviewModel.js";
 import { GENRES } from "../constants/genres.js";
+import { ResultWithContextImpl } from "express-validator/lib/chain/context-runner-impl.js";
 
 const FIELD_MESSAGES = {
   liked: { onTrue: "Liked Movie", onFalse: "Unliked Movie" },
@@ -190,11 +191,9 @@ const getUserMovieStatus = expressAsyncHandler(async (req, res) => {
 });
 
 const getUserMe = expressAsyncHandler(async (req, res) => {
+  const userInfo = req.user;
   res.status(200).json({
-    _id: req.user._id,
-    name: req.user.name,
-    email: req.user.email,
-    isVerified: req.user.isVerified,
+    ...userInfo,
   });
 });
 
