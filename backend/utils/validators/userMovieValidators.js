@@ -83,6 +83,9 @@ const queryValidators = [
   query("order").optional().toLowerCase().isIn(["desc", "asc"]),
 
   query("page").optional().toInt().isInt({ min: 1 }),
+
+  query("limit").optional.default(20),
+  toInt().isInt({ min: 1, max: 20 }),
 ];
 
 const movieStatusValidator = [
