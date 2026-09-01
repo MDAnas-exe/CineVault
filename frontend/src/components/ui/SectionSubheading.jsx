@@ -4,7 +4,7 @@ const SectionSubheading = ({ children, className = "" }) => {
   return (
     <h3
       className={twMerge(
-        "mb-5 font-poppins text-xl font-semibold text-primary md:text-3xl",
+        "mb-5 font-poppins text-xl font-semibold text-primary sm:text-2xl lg:text-3xl",
         className,
       )}
     >

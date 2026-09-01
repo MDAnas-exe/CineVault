@@ -43,9 +43,9 @@ const DesktopNavbar = () => {
       {!isLoading && !isLoggedIn && (
         <Link
           to="/signup"
-          className="hidden md:flex items-center gap-2 px-2 md:px-6 py-1 border border-accent rounded-xl text-xs md:text-sm text-accent font-inter font-medium cursor-pointer transition-all duration-500 hover:bg-accent hover:text-white"
+          className="hidden cursor-pointer items-center gap-2 rounded-xl border border-accent px-4 py-1.5 font-inter text-sm font-medium text-accent transition-all duration-500 hover:bg-accent hover:text-white md:flex md:px-5"
         >
-          <MdOutlinePersonOutline className=" md:text-2xl" />
+          <MdOutlinePersonOutline className="text-xl" />
           Sign Up
         </Link>
       )}
@@ -72,7 +72,7 @@ const DesktopNavbar = () => {
               to={preserveQuery ? to + location.search : to}
               className={({ isActive }) =>
                 twMerge(
-                  "hidden lg:block rounded-lg px-3 py-2 font-inter font-medium text-gray-700 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2",
+                  "hidden rounded-lg px-3 py-2 font-inter text-sm font-medium text-gray-700 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 lg:block lg:text-base",
                   isActive &&
                     "text-accent relative after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:rounded-full after:bg-accent",
                 )
@@ -84,12 +84,12 @@ const DesktopNavbar = () => {
           <Button
             onClick={() => setIsOpen((prev) => !prev)}
             type="button"
-            className={`hidden md:flex relative items-center gap-1.5 rounded-lg bg-transparent px-3 py-2 font-medium text-primary hover:bg-gray-100 hover:text-primary ${isOpen && "ring-2 ring-accent/40"} active:scale-100 z-50`}
+            className={`relative z-50 hidden items-center gap-1.5 rounded-lg bg-transparent px-3 py-2 text-sm font-medium text-primary hover:bg-gray-100 hover:text-primary active:scale-100 md:flex md:text-base ${isOpen && "ring-2 ring-accent/40"}`}
           >
             <span>{name.split(" ")[name.split(" ").length - 1]}</span>
 
             <FaChevronDown
-              size={14}
+              size={16}
               strokeWidth={2.2}
               className="text-gray-700"
             />

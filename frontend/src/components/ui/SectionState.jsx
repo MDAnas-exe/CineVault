@@ -7,30 +7,30 @@ const SectionState = ({
   onRetry,
 }) => {
   return (
-    <div className="flex  flex-col items-center justify-center  gap-1.5 md:gap-3 md:px-4 text-center">
+    <div className="flex flex-col items-center justify-center gap-2 px-3 text-center sm:gap-3 md:px-4">
       {imageSource && (
         <img
           src={imageSource}
           alt={message}
-          className="h-30 md:w-1/5 w-full min-w-30 object-contain"
+          className="h-32 w-32 object-contain sm:h-36 sm:w-36 lg:h-40 lg:w-40"
         />
       )}
 
       {message && (
-        <p className="font-poppins text-md font-bold text-primary md:text-3xl">
+        <p className="font-poppins text-lg font-bold text-primary sm:text-xl lg:text-2xl">
           {message}
         </p>
       )}
 
       {description && (
-        <p className=" font-inter text-sm text-secondary md:text-xl">
+        <p className="font-inter text-sm text-secondary sm:text-base lg:text-lg">
           {description}
         </p>
       )}
 
       {buttonText && (
         <button
-          className="text-primary cursor-pointer rounded-lg bg-accent px-3 py-1 font-inter text-sm font-bold  transition-colors duration-300 hover:bg-accent-hover md:px-5 md:text-lg flex items-center gap-2"
+          className="flex cursor-pointer items-center gap-2 rounded-lg bg-accent px-4 py-2 font-inter text-sm font-bold text-primary transition-colors duration-300 hover:bg-accent-hover sm:text-base lg:px-5 lg:text-lg"
           onClick={onRetry}
         >
           <IoReload />

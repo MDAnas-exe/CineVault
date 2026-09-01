@@ -1,4 +1,3 @@
-import Skeleton from "react-loading-skeleton";
 import { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
@@ -31,19 +30,19 @@ const SearchBar = ({ className = "" }) => {
   return (
     <div
       className={twMerge(
-        "bg-white  md:w-2/5 outline-1 outline-gray-300 rounded-xl p-2 relative hover:outline-accent focus-within:outline-accent transition-all duration-500  items-center",
+        "relative items-center rounded-xl bg-white p-2 outline-1 outline-gray-300 transition-all duration-500 hover:outline-accent focus-within:outline-accent md:w-2/5 md:p-2.5",
         className,
       )}
     >
       <FaSearch
-        className=" text-sm text-gray-400 cursor-pointer"
+        className="cursor-pointer text-base text-gray-400 sm:text-lg"
         onClick={(e) => searchMovies(e)}
       />
       <input
         type="text"
         placeholder="Search Movies..."
         enterKeyHint="search"
-        className="w-full ml-2 placeholder:text-gray-400 placeholder:text-sm font-inter font-medium text-primary outline-0 "
+        className="ml-2 w-full font-inter text-sm font-medium text-primary outline-0 placeholder:text-sm placeholder:text-gray-400 sm:text-base sm:placeholder:text-base"
         onKeyDown={(e) => searchMovies(e)}
         ref={ref}
       />

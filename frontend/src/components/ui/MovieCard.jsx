@@ -38,7 +38,7 @@ const MovieCard = ({
     <div className="flex gap-0.5">
       {index !== undefined && (
         <p
-          className="text-3xl text-transparent text-stroke-2 text-stroke-accent lg:text-6xl"
+          className="text-3xl text-transparent text-stroke-2 text-stroke-accent sm:text-4xl lg:text-5xl"
           style={{
             color: "transparent",
             WebkitTextStroke: "2px #d4a017",
@@ -59,7 +59,7 @@ const MovieCard = ({
         }
         onClick={() => navigate(`/movies/${id}`)}
         className={twMerge(
-          "group relative  shrink-0 cursor-pointer overflow-hidden rounded-xl bg-cover bg-center shadow-sm transition-shadow duration-300 hover:shadow-lg h-56 w-36",
+          "group relative h-44 w-28 shrink-0 cursor-pointer overflow-hidden rounded-xl bg-cover bg-center shadow-sm transition-shadow duration-300 hover:shadow-lg xs:h-48 xs:w-30 sm:h-56 sm:w-36",
           className,
         )}
         {...rest}
@@ -77,13 +77,13 @@ const MovieCard = ({
                   releaseDate={releaseDate}
                   genres={genres}
                   popularity={popularity}
-                  className="size-8 justify-center rounded-full border border-white/25 bg-black/30 p-0 text-white shadow-none hover:bg-white/15 hover:text-accent focus:ring-0"
+                  className="size-7 justify-center rounded-full border border-white/25 bg-black/30 p-0 text-white shadow-none hover:bg-white/15 hover:text-accent focus:ring-0 sm:size-8"
                 />
               ))}
             </div>
           )}
 
-          <p className="line-clamp-2 text-center font-poppins text-xs font-semibold text-white">
+          <p className="line-clamp-2 text-center font-poppins text-xs font-semibold text-white sm:text-sm">
             {title}
           </p>
         </div>

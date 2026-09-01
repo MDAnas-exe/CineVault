@@ -28,7 +28,7 @@ const CrossFadeIcon = ({ status, isActive, label }) => {
     <span
       className={twMerge(
         "relative grid place-items-center",
-        label ? "size-3 lg:size-4" : "size-full",
+        label ? "size-4 sm:size-4 lg:size-5" : "size-full",
       )}
     >
       <Outline

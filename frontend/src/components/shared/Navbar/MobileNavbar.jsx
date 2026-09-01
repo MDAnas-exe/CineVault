@@ -37,9 +37,9 @@ const MobileNavbar = () => {
       {!isLoading && !isLoggedIn && (
         <Link
           to="/signup"
-          className="flex md:hidden items-center gap-2 px-2 md:px-6 py-1 border border-accent rounded-xl text-xs md:text-sm text-accent font-inter font-medium cursor-pointer transition-all duration-500 hover:bg-accent hover:text-white"
+          className="flex cursor-pointer items-center gap-2 rounded-xl border border-accent px-3 py-1.5 font-inter text-sm font-medium text-accent transition-all duration-500 hover:bg-accent hover:text-white md:hidden"
         >
-          <MdOutlinePersonOutline className=" md:text-2xl" />
+          <MdOutlinePersonOutline className="text-xl" />
           Sign Up
         </Link>
       )}
@@ -54,9 +54,9 @@ const MobileNavbar = () => {
         <div className="md:hidden">
           <Button
             onClick={() => setIsOpen((prev) => !prev)}
-            className="bg-transparent"
+            className="bg-transparent p-1"
           >
-            <GiHamburgerMenu />
+            <GiHamburgerMenu className="size-6" />
           </Button>
           <div
             className={`fixed  h-screen w-full  -right-full top-0 transition-all duration-500 ${isOpen && "right-0"}`}
@@ -94,7 +94,7 @@ const MobileNavbar = () => {
         </div>
       )}
 
-      <SearchBar className="flex md:hidden w-full bg-gray-100 p-1 mt-2" />
+      <SearchBar className="mt-2 flex w-full bg-gray-100 md:hidden" />
     </>
   );
 };
