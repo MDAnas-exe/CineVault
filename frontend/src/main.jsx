@@ -13,6 +13,7 @@ import Login from "./pages/Login.jsx";
 import EmailVerification from "./pages/EmailVerification.jsx";
 import UserMovieCollectionPage from "./pages/UserMovieCollectionPage.jsx";
 import UserReviewsPage from "./pages/UserReviewsPage.jsx";
+import UserProfilePage from "./pages/UserProfilePage.jsx";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthProvider.jsx";
 const queryClient = new QueryClient();
@@ -59,7 +60,7 @@ const router = createBrowserRouter([
   {
     element: <UserLayout />,
     children: [
-      { path: "/users/profile", element: <div>user profile</div> },
+      { path: "/users/profile", element: <UserProfilePage /> },
       { path: "/users/reviews", element: <UserReviewsPage /> },
       { path: "/users/:status", element: <UserMovieCollectionPage /> },
     ],

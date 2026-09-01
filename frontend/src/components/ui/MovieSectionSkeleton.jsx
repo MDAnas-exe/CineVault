@@ -1,7 +1,11 @@
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const MovieSectionSkeleton = ({ variant = "row", count = 20 }) => {
+const MovieSectionSkeleton = ({
+  variant = "row",
+  count = 20,
+  showTitle = true,
+}) => {
   if (variant === "grid") {
     return (
       <div className="grid gap-x-4 gap-y-4 grid-cols-4  lg:grid-cols-6">
@@ -16,7 +20,7 @@ const MovieSectionSkeleton = ({ variant = "row", count = 20 }) => {
 
   return (
     <div className="flex flex-col gap-3 px-3 md:px-6">
-      <Skeleton width={250} height={40} />
+      {showTitle && <Skeleton width={250} height={40} />}
 
       <div
         className="flex h-56 gap-4 overflow-x-scroll"
