@@ -125,7 +125,7 @@ const UserMovieCollectionPage = () => {
   return (
     <PageContentWrapper>
       {header}
-      <div className="grid grid-cols-4 gap-x-4 gap-y-4 lg:grid-cols-6">
+      <div className="grid grid-cols-3 md:grid-cols-5 gap-x-4 gap-y-4 lg:grid-cols-6">
         {movies.map((movie, i) => (
           <MovieCard
             key={movie.id}
