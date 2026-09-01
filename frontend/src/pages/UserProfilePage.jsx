@@ -161,7 +161,7 @@ const UserProfilePage = () => {
   });
 
   return (
-    <PageContentWrapper className="max-w-400 px-4 py-5 sm:px-6 sm:py-8 lg:w-full xl:px-8">
+    <PageContentWrapper className=" w-full md:w-[90%] xl:px-8">
       <header className="flex flex-col justify-between gap-6 border-b border-neutral-200 pb-6 md:flex-row md:items-center sm:pb-8">
         <div>
           {isUserLoading ? (
