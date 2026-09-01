@@ -93,10 +93,10 @@ const getUserMovies = (field, buildExtraFilter = () => ({})) =>
       sortBy = "title",
       order = "asc",
       page = 1,
+      limit,
     } = req.query;
 
     page = parseInt(page);
-    const limit = 20;
 
     const filter = {
       userId: req.user._id,
