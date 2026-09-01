@@ -84,8 +84,7 @@ const queryValidators = [
 
   query("page").optional().toInt().isInt({ min: 1 }),
 
-  query("limit").optional.default(20),
-  toInt().isInt({ min: 1, max: 20 }),
+  query("limit").optional().default(20).toInt().isInt({ min: 1, max: 20 }),
 ];
 
 const movieStatusValidator = [
