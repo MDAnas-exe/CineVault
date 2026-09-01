@@ -4,22 +4,17 @@ import { FaHeart, FaBookmark, FaEye } from "react-icons/fa";
 import { FaMessage } from "react-icons/fa6";
 import apiRequest from "../../../utils/apiRequest";
 import SectionState from "../../../components/ui/SectionState";
-import emptySign from "../../../assets/images/reel.png";
-import errorSign from "../../../assets/images/errorSign.png";
 
 const ProfileStats = () => {
-  const profileQuery = useQuery({
+  const { isLoading, data, isError, refetch } = useQuery({
     queryKey: ["user-profile"],
     queryFn: () => apiRequest({ endpoint: "users/profile", method: "GET" }),
     select: (data) => data.stats,
   });
 
-  if (profileQuery.isLoading) {
+  if (isLoading) {
     return (
-      <section
-        aria-labelledby="profile-stats-heading"
-        className="w-full md:w-auto"
-      >
+      <section aria-labelledby="profile-stats-heading" className="w-full ">
         <h2 id="profile-stats-heading" className="sr-only">
           Profile statistics
         </h2>
@@ -32,7 +27,7 @@ const ProfileStats = () => {
     );
   }
 
-  if (profileQuery.isError) {
+  if (isError) {
     return (
       <section
         aria-labelledby="profile-stats-heading"
@@ -42,17 +37,16 @@ const ProfileStats = () => {
           Profile statistics
         </h2>
         <SectionState
-          imageSource={errorSign}
           message="Couldn't load profile statistics."
           description="Please check your connection and try again."
           buttonText="Retry"
-          onRetry={profileQuery.refetch}
+          onRetry={refetch}
         />
       </section>
     );
   }
 
-  const stats = profileQuery.data;
+  const stats = data;
   if (!stats) {
     return (
       <section
@@ -63,7 +57,6 @@ const ProfileStats = () => {
           Profile statistics
         </h2>
         <SectionState
-          imageSource={emptySign}
           message="No profile statistics yet."
           description="Your movie activity will appear here."
         />
