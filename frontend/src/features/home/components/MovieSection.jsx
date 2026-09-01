@@ -91,7 +91,6 @@ const HomeMovieSection = ({ title, endpoint }) => {
               movie={movie}
               index={index}
               showActions={true}
-              className="h-40 w-24 lg:h-50 lg:w-30"
             />
           ))}
         </div>
