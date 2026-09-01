@@ -11,7 +11,8 @@ import UserReviewCardSkeleton from "../features/user-review/components/UserRevie
 import ProfileActivitySection from "../features/user-profile/components/ProfileActivitySection";
 import emptySign from "../assets/images/reel.png";
 import errorSign from "../assets/images/errorSign.png";
-
+import { FaRegHeart, FaRegBookmark, FaRegEye } from "react-icons/fa";
+import { FaRegMessage } from "react-icons/fa6";
 const formatJoinDate = (value) => {
   if (!value) return null;
 
@@ -168,10 +169,10 @@ const UserProfilePage = () => {
 
   const stats = profileQuery.data;
   const statItems = [
-    { label: "Watched", value: stats?.watchedCount },
-    { label: "Liked", value: stats?.likedCount },
-    { label: "Watchlisted", value: stats?.watchlistedCount },
-    { label: "Reviews", value: stats?.reviewCount },
+    { label: "Watched", value: stats?.watchedCount, icon: FaRegHeart },
+    { label: "Liked", value: stats?.likedCount, icon: FaRegBookmark },
+    { label: "Watchlisted", value: stats?.watchlistedCount, icon: FaRegEye },
+    { label: "Reviews", value: stats?.reviewCount, icon: FaRegMessage },
   ];
 
   return (
@@ -221,15 +222,18 @@ const UserProfilePage = () => {
         )}
         {stats && !profileQuery.isLoading && !profileQuery.isError && (
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
-            {statItems.map(({ label, value }) => (
+            {statItems.map(({ label, value, icon: Icon }) => (
               <div
                 key={label}
-                className="rounded-xl border border-neutral-200 bg-white px-4 py-5 text-center shadow-sm"
+                className="rounded-xl border border-neutral-200 bg-white px-4 py-5 text-center shadow-sm flex items-center flex-col justify-center"
               >
-                <p className="font-poppins text-2xl font-bold text-accent sm:text-3xl">
+                <Icon className="text-2xl text-accent mb-1" />
+                <span className="font-poppins text-2xl font-bold text-accent sm:text-3xl">
                   {value ?? 0}
-                </p>
-                <p className="mt-1 font-inter text-sm text-secondary">{label}</p>
+                </span>
+                <span className="font-inter text-sm text-secondary">
+                  {label}
+                </span>
               </div>
             ))}
           </div>
@@ -246,7 +250,10 @@ const UserProfilePage = () => {
           })}
         </ProfileActivitySection>
 
-        <ProfileActivitySection title="Last 10 watched" viewAllTo="/users/watched">
+        <ProfileActivitySection
+          title="Last 10 watched"
+          viewAllTo="/users/watched"
+        >
           {getMovieActivityContent({
             ...watchedQuery,
             emptyMessage: "No watched movies yet.",
@@ -262,12 +269,16 @@ const UserProfilePage = () => {
           {getMovieActivityContent({
             ...watchlistedQuery,
             emptyMessage: "Your watchlist is empty.",
-            emptyDescription: "Movies you add to your watchlist will appear here.",
+            emptyDescription:
+              "Movies you add to your watchlist will appear here.",
             errorMessage: "Couldn't load watchlisted movies.",
           })}
         </ProfileActivitySection>
 
-        <ProfileActivitySection title="Last 10 reviews" viewAllTo="/users/reviews">
+        <ProfileActivitySection
+          title="Last 10 reviews"
+          viewAllTo="/users/reviews"
+        >
           {getReviewActivityContent(reviewsQuery)}
         </ProfileActivitySection>
       </div>
