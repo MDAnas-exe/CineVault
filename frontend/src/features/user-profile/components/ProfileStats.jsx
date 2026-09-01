@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
-import { FaRegHeart, FaRegBookmark, FaRegEye } from "react-icons/fa";
-import { FaRegMessage } from "react-icons/fa6";
+import { FaHeart, FaBookmark, FaEye } from "react-icons/fa";
+import { FaMessage } from "react-icons/fa6";
 import apiRequest from "../../../utils/apiRequest";
 import SectionState from "../../../components/ui/SectionState";
 import emptySign from "../../../assets/images/reel.png";
@@ -16,7 +16,10 @@ const ProfileStats = () => {
 
   if (profileQuery.isLoading) {
     return (
-      <section aria-labelledby="profile-stats-heading" className="w-full md:w-auto">
+      <section
+        aria-labelledby="profile-stats-heading"
+        className="w-full md:w-auto"
+      >
         <h2 id="profile-stats-heading" className="sr-only">
           Profile statistics
         </h2>
@@ -31,7 +34,10 @@ const ProfileStats = () => {
 
   if (profileQuery.isError) {
     return (
-      <section aria-labelledby="profile-stats-heading" className="w-full md:w-auto">
+      <section
+        aria-labelledby="profile-stats-heading"
+        className="w-full md:w-auto"
+      >
         <h2 id="profile-stats-heading" className="sr-only">
           Profile statistics
         </h2>
@@ -49,7 +55,10 @@ const ProfileStats = () => {
   const stats = profileQuery.data;
   if (!stats) {
     return (
-      <section aria-labelledby="profile-stats-heading" className="w-full md:w-auto">
+      <section
+        aria-labelledby="profile-stats-heading"
+        className="w-full md:w-auto"
+      >
         <h2 id="profile-stats-heading" className="sr-only">
           Profile statistics
         </h2>
@@ -63,14 +72,17 @@ const ProfileStats = () => {
   }
 
   const statItems = [
-    { label: "Watched", value: stats.watchedCount, icon: FaRegHeart },
-    { label: "Liked", value: stats.likedCount, icon: FaRegBookmark },
-    { label: "Watchlisted", value: stats.watchlistedCount, icon: FaRegEye },
-    { label: "Reviews", value: stats.reviewCount, icon: FaRegMessage },
+    { label: "Watched", value: stats.watchedCount, icon: FaHeart },
+    { label: "Liked", value: stats.likedCount, icon: FaBookmark },
+    { label: "Watchlisted", value: stats.watchlistedCount, icon: FaEye },
+    { label: "Reviews", value: stats.reviewCount, icon: FaMessage },
   ];
 
   return (
-    <section aria-labelledby="profile-stats-heading" className="w-full md:w-auto">
+    <section
+      aria-labelledby="profile-stats-heading"
+      className="w-full md:w-auto"
+    >
       <h2 id="profile-stats-heading" className="sr-only">
         Profile statistics
       </h2>
