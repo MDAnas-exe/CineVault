@@ -203,45 +203,13 @@ export { getUserMovieStatus, getUserMe };
 const getUserProfile = expressAsyncHandler(async (req, res) => {
   const userId = req.user._id;
 
-  const [
-    likedCount,
-    watchedCount,
-    watchlistedCount,
-    reviewCount,
-    recentLiked,
-    recentWatched,
-    recentWatchlisted,
-    recentReviews,
-  ] = await Promise.all([
-    userMovieModel.countDocuments({ userId, liked: true }),
-    userMovieModel.countDocuments({ userId, watched: true }),
-    userMovieModel.countDocuments({ userId, watchlisted: true }),
-    reviewModel.countDocuments({ userId }),
-    userMovieModel
-      .find({ userId, liked: true })
-      .select("movieId movieInfo.title -_id")
-      .sort({ updatedAt: -1 })
-      .limit(10)
-      .lean(),
-    userMovieModel
-      .find({ userId, watched: true })
-      .select("movieId movieInfo.title -_id")
-      .sort({ updatedAt: -1 })
-      .limit(10)
-      .lean(),
-    userMovieModel
-      .find({ userId, watchlisted: true })
-      .select("movieId movieInfo.title -_id")
-      .sort({ updatedAt: -1 })
-      .limit(10)
-      .lean(),
-    reviewModel
-      .find({ userId })
-      .select("movieId  review createdAt -_id")
-      .sort({ createdAt: -1 })
-      .limit(10)
-      .lean(),
-  ]);
+  const [likedCount, watchedCount, watchlistedCount, reviewCount] =
+    await Promise.all([
+      userMovieModel.countDocuments({ userId, liked: true }),
+      userMovieModel.countDocuments({ userId, watched: true }),
+      userMovieModel.countDocuments({ userId, watchlisted: true }),
+      reviewModel.countDocuments({ userId }),
+    ]);
 
   res.status(200).json({
     user: {
@@ -256,25 +224,6 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
       watchedCount,
       watchlistedCount,
       reviewCount,
-    },
-    recent: {
-      liked: recentLiked.map((item) => ({
-        movieId: item.movieId,
-        title: item.movieInfo?.title,
-      })),
-      watched: recentWatched.map((item) => ({
-        movieId: item.movieId,
-        title: item.movieInfo?.title,
-      })),
-      watchlisted: recentWatchlisted.map((item) => ({
-        movieId: item.movieId,
-        title: item.movieInfo?.title,
-      })),
-      reviews: recentReviews.map((item) => ({
-        movieId: item.movieId,
-        review: item.review,
-        createdAt: item.createdAt,
-      })),
     },
   });
 });
