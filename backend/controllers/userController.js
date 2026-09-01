@@ -279,9 +279,11 @@ const getUserReviews = expressAsyncHandler(async (req, res) => {
     order = "desc",
     fromDate,
     toDate,
+    limit,
   } = req.query;
+
   const pageNum = parseInt(page);
-  const limit = 10;
+
   const filter = { userId: req.user._id };
 
   if (fromDate || toDate) {
