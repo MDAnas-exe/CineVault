@@ -54,6 +54,8 @@ export const deleteReviewValidator = [
 ];
 
 export const getMovieReviewValidator = [
+  query("limit").optional().default(20).toInt().isInt({ min: 1, max: 20 }),
+
   param("movieId")
     .toInt()
     .isInt({ min: 1 })
