@@ -131,6 +131,7 @@ const UserMovieCollectionPage = () => {
             key={movie.id}
             movie={movie}
             ref={i === movies.length - 1 ? sentinelRef : null}
+            className="h-32 w-20 sm:h-56 sm:w-32 xl:w-36"
           />
         ))}
       </div>
