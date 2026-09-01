@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { HiOutlineCalendarDays, HiOutlinePencil, HiChevronRight } from "react-icons/hi2";
+import {
+  HiOutlineCalendarDays,
+  HiOutlinePencil,
+  HiChevronRight,
+} from "react-icons/hi2";
 import Reel from "../../../assets/images/reel.svg?react";
 
 const formatDate = (value) => {
@@ -55,25 +59,38 @@ const UserReviewCard = ({ reviewInfo, ...rest }) => {
             {releaseYear}
           </span>
         )}
+        <p className="col-span-2 whitespace-pre-wrap wrap-anywhere text-sm leading-relaxed text-primary/90 line-clamp-3">
+          {review}
+        </p>
       </div>
-
-      <p className="col-span-2 whitespace-pre-wrap wrap-anywhere text-sm leading-relaxed text-primary/90">
-        {review}
-      </p>
 
       <footer className="col-span-2 min-w-0">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 border-b border-neutral-200 pb-2.5 text-xs leading-relaxed text-secondary">
           {writtenDate && (
             <span className="inline-flex items-center gap-1.5">
-              <HiOutlineCalendarDays className="hidden size-4 shrink-0 md:block" aria-hidden="true" />
-              <span>Written <time dateTime={createdAt}>{writtenDate}</time></span>
+              <HiOutlineCalendarDays
+                className="hidden size-4 shrink-0 md:block"
+                aria-hidden="true"
+              />
+              <span>
+                Written <time dateTime={createdAt}>{writtenDate}</time>
+              </span>
             </span>
           )}
           {updatedDate && (
             <span className="inline-flex items-center gap-1.5">
-              {writtenDate && <span className="mr-0.5" aria-hidden="true">·</span>}
-              <HiOutlinePencil className="hidden size-4 shrink-0 md:block" aria-hidden="true" />
-              <span>Updated <time dateTime={updatedAt}>{updatedDate}</time></span>
+              {writtenDate && (
+                <span className="mr-0.5" aria-hidden="true">
+                  ·
+                </span>
+              )}
+              <HiOutlinePencil
+                className="hidden size-4 shrink-0 md:block"
+                aria-hidden="true"
+              />
+              <span>
+                Updated <time dateTime={updatedAt}>{updatedDate}</time>
+              </span>
             </span>
           )}
         </div>
@@ -83,7 +100,10 @@ const UserReviewCard = ({ reviewInfo, ...rest }) => {
           aria-label={`View movie: ${movieInfo?.title || `movie ${movieId}`}`}
         >
           View movie
-          <HiChevronRight className="size-4 transition-transform duration-200 motion-safe:group-hover:translate-x-0.5" aria-hidden="true" />
+          <HiChevronRight
+            className="size-4 transition-transform duration-200 motion-safe:group-hover:translate-x-0.5"
+            aria-hidden="true"
+          />
         </Link>
       </footer>
     </article>
