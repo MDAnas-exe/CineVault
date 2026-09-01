@@ -9,10 +9,9 @@ import SectionState from "../components/ui/SectionState";
 import UserReviewCard from "../features/user-review/components/UserReviewCard";
 import UserReviewCardSkeleton from "../features/user-review/components/UserReviewCardSkeleton";
 import ProfileActivitySection from "../features/user-profile/components/ProfileActivitySection";
+import ProfileStats from "../features/user-profile/components/ProfileStats";
 import emptySign from "../assets/images/reel.png";
 import errorSign from "../assets/images/errorSign.png";
-import { FaRegHeart, FaRegBookmark, FaRegEye } from "react-icons/fa";
-import { FaRegMessage } from "react-icons/fa6";
 const formatJoinDate = (value) => {
   if (!value) return null;
 
@@ -125,12 +124,6 @@ const UserProfilePage = () => {
   const { user, isLoading: isUserLoading } = useAuth();
   const joinedDate = formatJoinDate(user?.createdAt);
 
-  const profileQuery = useQuery({
-    queryKey: ["user-profile"],
-    queryFn: () => apiRequest({ endpoint: "users/profile", method: "GET" }),
-    select: (data) => data.stats,
-  });
-
   const likedQuery = useQuery({
     queryKey: ["profile-activity", "liked"],
     queryFn: () =>
@@ -167,78 +160,33 @@ const UserProfilePage = () => {
       }),
   });
 
-  const stats = profileQuery.data;
-  const statItems = [
-    { label: "Watched", value: stats?.watchedCount, icon: FaRegHeart },
-    { label: "Liked", value: stats?.likedCount, icon: FaRegBookmark },
-    { label: "Watchlisted", value: stats?.watchlistedCount, icon: FaRegEye },
-    { label: "Reviews", value: stats?.reviewCount, icon: FaRegMessage },
-  ];
-
   return (
     <PageContentWrapper className="max-w-400 px-4 py-5 sm:px-6 sm:py-8 lg:w-full xl:px-8">
-      <header className="border-b border-neutral-200 pb-6 sm:pb-8">
-        {isUserLoading ? (
-          <>
-            <Skeleton width={180} height={40} />
-            <Skeleton width={250} height={20} className="mt-2" />
-          </>
-        ) : (
-          <>
-            <h1 className="font-poppins text-3xl font-bold text-primary sm:text-4xl">
-              {user?.name}
-            </h1>
-            <p className="mt-1 font-inter text-sm text-secondary sm:text-base">
-              {user?.email}
-            </p>
-            {joinedDate && (
-              <p className="mt-1 font-inter text-sm text-secondary">
-                Member since {joinedDate}
+      <header className="flex flex-col justify-between gap-6 border-b border-neutral-200 pb-6 md:flex-row md:items-center sm:pb-8">
+        <div>
+          {isUserLoading ? (
+            <>
+              <Skeleton width={180} height={40} />
+              <Skeleton width={250} height={20} className="mt-2" />
+            </>
+          ) : (
+            <>
+              <h1 className="font-poppins text-3xl font-bold text-primary sm:text-4xl">
+                {user?.name}
+              </h1>
+              <p className="mt-1 font-inter text-sm text-secondary sm:text-base">
+                {user?.email}
               </p>
-            )}
-          </>
-        )}
+              {joinedDate && (
+                <p className="mt-1 font-inter text-sm text-secondary">
+                  Member since {joinedDate}
+                </p>
+              )}
+            </>
+          )}
+        </div>
+        <ProfileStats />
       </header>
-
-      <section className="mt-6" aria-labelledby="profile-stats-heading">
-        <h2 id="profile-stats-heading" className="sr-only">
-          Profile statistics
-        </h2>
-        {profileQuery.isLoading && (
-          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
-            {Array.from({ length: 4 }).map((_, index) => (
-              <Skeleton key={index} height={104} borderRadius={12} />
-            ))}
-          </div>
-        )}
-        {profileQuery.isError && (
-          <SectionState
-            imageSource={errorSign}
-            message="Couldn't load profile statistics."
-            description="Please check your connection and try again."
-            buttonText="Retry"
-            onRetry={profileQuery.refetch}
-          />
-        )}
-        {stats && !profileQuery.isLoading && !profileQuery.isError && (
-          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
-            {statItems.map(({ label, value, icon: Icon }) => (
-              <div
-                key={label}
-                className="rounded-xl border border-neutral-200 bg-white px-4 py-5 text-center shadow-sm flex items-center flex-col justify-center"
-              >
-                <Icon className="text-2xl text-accent mb-1" />
-                <span className="font-poppins text-2xl font-bold text-accent sm:text-3xl">
-                  {value ?? 0}
-                </span>
-                <span className="font-inter text-sm text-secondary">
-                  {label}
-                </span>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
 
       <div className="mt-8 sm:mt-10">
         <ProfileActivitySection title="Last 10 liked" viewAllTo="/users/liked">
