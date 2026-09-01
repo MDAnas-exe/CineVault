@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { HiChevronRight } from "react-icons/hi2";
+import HorizontalScroller from "../../../components/ui/HorizontalScroller";
 
 const ProfileActivitySection = ({ title, viewAllTo, children }) => {
   const headingId = `profile-${title.toLowerCase().replaceAll(" ", "-")}-heading`;
@@ -24,9 +25,9 @@ const ProfileActivitySection = ({ title, viewAllTo, children }) => {
           />
         </Link>
       </div>
-      <div className="overflow-x-auto pb-2" style={{ scrollbarWidth: "thin" }}>
+      <HorizontalScroller ariaLabel={title}>
         {children}
-      </div>
+      </HorizontalScroller>
     </section>
   );
 };
