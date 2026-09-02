@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import apiRequest from "../utils/apiRequest";
-import PageContentWrapper from "../components/ui/PageContentWrapper";
+import PageContentWrapper from "../components/layout/PageContentWrapper";
 import UserReviewCard from "../features/user-review/components/UserReviewCard";
 import UserReviewCardSkeleton from "../features/user-review/components/UserReviewCardSkeleton";
 import { useEffect } from "react";

@@ -4,7 +4,7 @@ import { Navigate, useParams } from "react-router-dom";
 import apiRequest from "../utils/apiRequest";
 import MovieCard from "../components/ui/MovieCard";
 import MovieSectionSkeleton from "../components/ui/MovieSectionSkeleton";
-import PageContentWrapper from "../components/ui/PageContentWrapper";
+import PageContentWrapper from "../components/layout/PageContentWrapper";
 import SectionState from "../components/ui/SectionState";
 import CollectionFilters from "../features/user-movie/components/CollectionFilters";
 import emptySign from "../assets/images/reel.avif";

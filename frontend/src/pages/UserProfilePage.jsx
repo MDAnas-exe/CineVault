@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
 import apiRequest from "../utils/apiRequest";
 import useAuth from "../hooks/useAuth";
-import PageContentWrapper from "../components/ui/PageContentWrapper";
+import PageContentWrapper from "../components/layout/PageContentWrapper";
 import MovieCard from "../components/ui/MovieCard";
 import MovieSectionSkeleton from "../components/ui/MovieSectionSkeleton";
 import SectionState from "../components/ui/SectionState";
