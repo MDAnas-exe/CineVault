@@ -14,13 +14,16 @@ const ProfileStats = () => {
 
   if (isLoading) {
     return (
-      <section aria-labelledby="profile-stats-heading" className="w-full ">
+      <section
+        aria-labelledby="profile-stats-heading"
+        className="w-full md:w-1/2"
+      >
         <h2 id="profile-stats-heading" className="sr-only">
           Profile statistics
         </h2>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4 ">
           {Array.from({ length: 4 }).map((_, index) => (
-            <Skeleton key={index} height={104} borderRadius={12} />
+            <Skeleton key={index} height={104} width="100%" borderRadius={12} />
           ))}
         </div>
       </section>
