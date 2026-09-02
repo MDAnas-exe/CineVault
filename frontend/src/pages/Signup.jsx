@@ -1,6 +1,6 @@
 import AuthCard from "../features/auth/components/AuthCard";
 import Logo from "../components/ui/Logo";
-import authBg from "../assets/images/AuthPageLeftSideBGImg.png";
+import authBg from "../assets/images/AuthPageLeftSideBGImg.avif";
 
 const Signup = () => {
   return (

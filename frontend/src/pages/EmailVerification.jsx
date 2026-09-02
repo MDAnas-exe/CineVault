@@ -4,9 +4,9 @@ import { useMutation } from "@tanstack/react-query";
 import apiRequest from "../utils/apiRequest";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import pendingImg from "../assets/images/EmailVerificationPending.png";
-import successImg from "../assets/images/EmailVerificationSuccess.png";
-import failureImg from "../assets/images/EmailVerificationFailure.png";
+import pendingImg from "../assets/images/EmailVerificationPending.avif";
+import successImg from "../assets/images/EmailVerificationSuccess.avif";
+import failureImg from "../assets/images/EmailVerificationFailure.avif";
 
 function EmailVerification() {
   const [searchParams] = useSearchParams();

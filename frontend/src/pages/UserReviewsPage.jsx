@@ -8,8 +8,8 @@ import UserReviewCardSkeleton from "../features/user-review/components/UserRevie
 import ReviewFilters from "../features/user-review/components/ReviewFilters";
 import SectionState from "../components/ui/SectionState";
 import Reel from "../assets/images/reel.svg?react";
-import emptySign from "../assets/images/reel.png";
-import errorSign from "../assets/images/errorSign.png";
+import emptySign from "../assets/images/reel.avif";
+import errorSign from "../assets/images/errorSign.avif";
 import { useCallback, useRef } from "react";
 
 const UserReviewsPage = () => {

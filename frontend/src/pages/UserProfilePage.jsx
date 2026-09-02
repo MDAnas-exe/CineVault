@@ -10,8 +10,8 @@ import UserReviewCard from "../features/user-review/components/UserReviewCard";
 import UserReviewCardSkeleton from "../features/user-review/components/UserReviewCardSkeleton";
 import ProfileActivitySection from "../features/user-profile/components/ProfileActivitySection";
 import ProfileStats from "../features/user-profile/components/ProfileStats";
-import emptySign from "../assets/images/reel.png";
-import errorSign from "../assets/images/errorSign.png";
+import emptySign from "../assets/images/reel.avif";
+import errorSign from "../assets/images/errorSign.avif";
 const formatJoinDate = (value) => {
   if (!value) return null;
 

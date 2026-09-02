@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import apiRequest from "../../../utils/apiRequest";
 import MovieCard from "../../../components/ui/MovieCard";
 import MovieSectionSkeleton from "../../../components/ui/MovieSectionSkeleton";
-import emptySign from "../../../assets/images/reel.png";
-import errorSign from "../../../assets/images/errorSign.png";
+import emptySign from "../../../assets/images/reel.avif";
+import errorSign from "../../../assets/images/errorSign.avif";
 import SectionState from "../../../components/ui/SectionState";
 import HorizontalScroller from "../../../components/ui/HorizontalScroller";
 const HomeMovieSection = ({ title, endpoint }) => {

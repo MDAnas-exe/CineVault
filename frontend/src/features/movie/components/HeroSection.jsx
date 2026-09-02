@@ -11,7 +11,7 @@ import apiRequest from "../../../utils/apiRequest";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import SectionState from "../../../components/ui/SectionState";
-import errorBg from "../../../assets/images/heroError.png";
+import errorBg from "../../../assets/images/heroError.avif";
 import UserBtnSection from "../../../components/ui/UserBtnSection";
 import UserActionButton from "../../../components/ui/UserActionButton";
 import HeroButtonSkeleton from "../../../components/ui/HeroButtonSkeleton";
@@ -24,12 +24,7 @@ const HeroSection = () => {
 
   const { isLoggedIn } = useAuth();
 
-  const {
-    data: movie,
-    isLoading,
-    isError,
-    refetch,
-  } = useMovieDetails(id);
+  const { data: movie, isLoading, isError, refetch } = useMovieDetails(id);
 
   const {
     data: userMovieStatus,

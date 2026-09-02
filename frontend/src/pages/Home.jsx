@@ -1,5 +1,5 @@
 import HomeMovieSection from "../features/home/components/MovieSection";
-import heroImg from "../assets/images/hero.png";
+import heroImg from "../assets/images/hero.avif";
 import useAuth from "../hooks/useAuth.js";
 import Skeleton from "react-loading-skeleton";
 import { Link } from "react-router-dom";
