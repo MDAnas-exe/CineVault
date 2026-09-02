@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import apiRequest from "../../../utils/apiRequest";
 import MovieCard from "../../../components/ui/MovieCard";
-import MovieSectionSkeleton from "../../../components/ui/MovieSectionSkeleton";
+import MovieSectionSkeleton from "../../../components/ui/skeletons/MovieSectionSkeleton";
 import emptySign from "../../../assets/images/reel.avif";
 import errorSign from "../../../assets/images/errorSign.avif";
 import SectionState from "../../../components/ui/SectionState";

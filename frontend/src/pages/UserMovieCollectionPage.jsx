@@ -3,7 +3,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { Navigate, useParams } from "react-router-dom";
 import apiRequest from "../utils/apiRequest";
 import MovieCard from "../components/ui/MovieCard";
-import MovieSectionSkeleton from "../components/ui/MovieSectionSkeleton";
+import MovieSectionSkeleton from "../components/ui/skeletons/MovieSectionSkeleton";
 import PageContentWrapper from "../components/layout/PageContentWrapper";
 import SectionState from "../components/ui/SectionState";
 import CollectionFilters from "../features/user-movie/components/CollectionFilters";

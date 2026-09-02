@@ -7,7 +7,7 @@ import SearchResultMovieCard from "../features/search/components/SearchResultMov
 import ErrorSign from "../assets/images/SearchResultErrorSign.avif";
 import EmptySign from "../assets/images/reel.avif";
 import SectionState from "../components/ui/SectionState";
-import SearchButtonSkeleton from "../components/ui/SearchButtonSkeleton";
+import SearchButtonSkeleton from "../components/ui/skeletons/SearchButtonSkeleton";
 import Reel from "../assets/images/reel.svg?react";
 import {
   useInfiniteQuery,

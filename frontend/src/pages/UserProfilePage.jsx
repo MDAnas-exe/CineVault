@@ -4,7 +4,7 @@ import apiRequest from "../utils/apiRequest";
 import useAuth from "../hooks/useAuth";
 import PageContentWrapper from "../components/layout/PageContentWrapper";
 import MovieCard from "../components/ui/MovieCard";
-import MovieSectionSkeleton from "../components/ui/MovieSectionSkeleton";
+import MovieSectionSkeleton from "../components/ui/skeletons/MovieSectionSkeleton";
 import SectionState from "../components/ui/SectionState";
 import UserReviewCard from "../features/user-review/components/UserReviewCard";
 import UserReviewCardSkeleton from "../features/user-review/components/UserReviewCardSkeleton";
