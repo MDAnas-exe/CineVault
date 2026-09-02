@@ -4,9 +4,9 @@ const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
-    secure: process.env.NODE_ENV === "production",
     pass: process.env.EMAIL_PASS,
   },
+  secure: process.env.NODE_ENV === "production",
   connectionTimeout: 5000,
   greetingTimeout: 5000,
   socketTimeout: 5000,
