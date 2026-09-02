@@ -6,13 +6,11 @@ import { Suspense } from "react";
 
 const RootLayout = () => {
   return (
-    <div>
+    <Suspense fallback={null}>
       <Navbar />
-      <Suspense fallback={null}>
-        <Outlet />
-      </Suspense>
+      <Outlet />
       <Footer />
-    </div>
+    </Suspense>
   );
 };
 export default RootLayout;
