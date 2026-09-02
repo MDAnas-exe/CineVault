@@ -49,7 +49,9 @@ const AuthCard = ({ type }) => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col items-center gap-2 text-center sm:gap-1.5">
-          <Logo />
+          <Link to="/">
+            <Logo />
+          </Link>
           <h1 className="font-poppins text-2xl font-bold text-primary sm:text-3xl">
             {isSignup ? "Create your account" : "Welcome back"}
           </h1>
