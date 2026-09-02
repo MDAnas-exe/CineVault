@@ -7,6 +7,9 @@ const transporter = nodemailer.createTransport({
     secure: process.env.NODE_ENV === "production",
     pass: process.env.EMAIL_PASS,
   },
+  connectionTimeout: 5000,
+  greetingTimeout: 5000,
+  socketTimeout: 5000,
 });
 transporter.verify((error, success) => {
   if (error) {
