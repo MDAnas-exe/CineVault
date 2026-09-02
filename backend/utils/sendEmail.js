@@ -8,7 +8,13 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS,
   },
 });
-
+transporter.verify((error, success) => {
+  if (error) {
+    console.error("CRITICAL SMTP FAILURE:", error);
+  } else {
+    console.log("SMTP IS READY TO SEND");
+  }
+});
 const sendMail = async (to, subject, html) => {
   await transporter.sendMail({
     from: process.env.EMAIL_USER,
