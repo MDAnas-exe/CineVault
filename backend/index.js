@@ -12,6 +12,8 @@ import errorHandler from "./middlewares/errorMiddleware.js";
 connectDB();
 
 const app = express();
+app.set("trust proxy", 1);
+
 const port = Number(process.env.PORT || 3000);
 
 app.use(cookieParser());
