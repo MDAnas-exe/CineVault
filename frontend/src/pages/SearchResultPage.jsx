@@ -22,6 +22,12 @@ const SearchResultsPage = () => {
   const name = searchParams.get("name");
   const queryParams = new URLSearchParams({ name });
 
+  useEffect(() => {
+    document.title = name
+      ? `Search: ${name} | CineVault`
+      : "Search | CineVault";
+  }, [name]);
+
   const {
     data,
     isLoading,

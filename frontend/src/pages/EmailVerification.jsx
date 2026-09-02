@@ -30,6 +30,10 @@ function EmailVerification() {
   const hasTriggered = useRef(false);
 
   useEffect(() => {
+    document.title = "Verify Your Email | CineVault";
+  }, []);
+
+  useEffect(() => {
     if (!token || hasTriggered.current) return;
 
     const timer = setTimeout(() => {

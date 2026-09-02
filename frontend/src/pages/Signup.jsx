@@ -1,8 +1,13 @@
 import AuthCard from "../features/auth/components/AuthCard";
 import Logo from "../components/ui/Logo";
 import authBg from "../assets/images/AuthPageLeftSideBGImg.avif";
+import { useEffect } from "react";
 
 const Signup = () => {
+  useEffect(() => {
+    document.title = "Sign Up | CineVault";
+  }, []);
+
   return (
     <main className="min-h-screen bg-white lg:grid lg:grid-cols-2">
       <section

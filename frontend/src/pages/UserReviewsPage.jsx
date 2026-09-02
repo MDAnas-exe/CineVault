@@ -5,16 +5,23 @@ import apiRequest from "../utils/apiRequest";
 import PageContentWrapper from "../components/ui/PageContentWrapper";
 import UserReviewCard from "../features/user-review/components/UserReviewCard";
 import UserReviewCardSkeleton from "../features/user-review/components/UserReviewCardSkeleton";
+import { useEffect } from "react";
 import ReviewFilters from "../features/user-review/components/ReviewFilters";
 import SectionState from "../components/ui/SectionState";
 import Reel from "../assets/images/reel.svg?react";
 import emptySign from "../assets/images/reel.avif";
 import errorSign from "../assets/images/errorSign.avif";
 import { useCallback, useRef } from "react";
+import useAuth from "../hooks/useAuth";
 
 const UserReviewsPage = () => {
   const [searchParams] = useSearchParams();
-
+  const { user } = useAuth();
+  useEffect(() => {
+    document.title = user?.name
+      ? `${user.name.split(" ")[0]}'s Reviews | CineVault`
+      : "User's Reviews | CineVault";
+  }, [user]);
   const {
     data,
     isLoading,

@@ -3,9 +3,14 @@ import heroImg from "../assets/images/hero.avif";
 import useAuth from "../hooks/useAuth.js";
 import Skeleton from "react-loading-skeleton";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Home = () => {
   const { isLoading, isLoggedIn } = useAuth();
+
+  useEffect(() => {
+    document.title = "Home | CineVault";
+  }, []);
 
   return (
     <>

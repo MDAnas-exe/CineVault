@@ -12,6 +12,8 @@ import ProfileActivitySection from "../features/user-profile/components/ProfileA
 import ProfileStats from "../features/user-profile/components/ProfileStats";
 import emptySign from "../assets/images/reel.avif";
 import errorSign from "../assets/images/errorSign.avif";
+import { useEffect } from "react";
+
 const formatJoinDate = (value) => {
   if (!value) return null;
 
@@ -123,6 +125,12 @@ const getReviewActivityContent = ({ data, isLoading, isError, refetch }) => {
 const UserProfilePage = () => {
   const { user, isLoading: isUserLoading } = useAuth();
   const joinedDate = formatJoinDate(user?.createdAt);
+
+  useEffect(() => {
+    document.title = user?.name
+      ? `${user.name.split(" ")[0]}'s Profile | CineVault`
+      : "User's Profile | CineVault";
+  }, [user]);
 
   const likedQuery = useQuery({
     queryKey: ["profile-activity", "liked"],

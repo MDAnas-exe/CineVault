@@ -1,4 +1,4 @@
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Navigate, useParams } from "react-router-dom";
 import apiRequest from "../utils/apiRequest";
@@ -12,12 +12,19 @@ import errorSign from "../assets/images/errorSign.avif";
 import { USER_MOVIE_COLLECTIONS } from "../constants/userMovie";
 import { useSearchParams } from "react-router-dom";
 import Reel from "../assets/images/reel.svg?react";
+import useAuth from "../hooks/useAuth.js";
 const UserMovieCollectionPage = () => {
   const { status } = useParams();
   const [searchParams] = useSearchParams();
-
+  const { user } = useAuth();
   const collection = USER_MOVIE_COLLECTIONS[status];
   if (!collection) return <Navigate to="/users/liked" replace />;
+
+  useEffect(() => {
+    document.title = user?.name
+      ? `${user.name.split(" ")[0]}'s ${collection.title} Collection | CineVault`
+      : `User's ${collection.title} Collection | CineVault`;
+  }, [user, status]);
 
   const {
     data,
