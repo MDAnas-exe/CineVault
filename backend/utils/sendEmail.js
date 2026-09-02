@@ -1,30 +1,19 @@
-import nodemailer from "nodemailer";
+import sgMail from "@sendgrid/mail";
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  secure: process.env.NODE_ENV === "production",
-  connectionTimeout: 5000,
-  greetingTimeout: 5000,
-  socketTimeout: 5000,
-});
-transporter.verify((error, success) => {
-  if (error) {
-    console.error("CRITICAL SMTP FAILURE:", error);
-  } else {
-    console.log("SMTP IS READY TO SEND");
-  }
-});
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 const sendMail = async (to, subject, html) => {
-  await transporter.sendMail({
-    from: process.env.EMAIL_USER,
-    to,
-    subject,
-    html,
-  });
+  try {
+    await sgMail.send({
+      to,
+      from: process.env.EMAIL_FROM,
+      subject,
+      html,
+    });
+  } catch (err) {
+    console.error("SENDGRID FAILURE:", err.response?.body || err.message);
+    throw new Error("Failed to send email");
+  }
 };
 
 export default sendMail;

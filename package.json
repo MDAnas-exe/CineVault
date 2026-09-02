@@ -4,5 +4,8 @@
   },
   "scripts": {
     "dev": "concurrently -n FE,BE -c blue,green \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\""
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^8.1.6"
   }
 }
