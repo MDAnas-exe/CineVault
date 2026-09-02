@@ -21,7 +21,12 @@ export default function ReleaseInfo() {
 
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["movie-release-info", id],
-    queryFn: () => apiRequest({ endpoint: `movies/${id}/releaseinfo`, method: "GET" }),
+    queryFn: ({ signal }) =>
+      apiRequest({
+        endpoint: `movies/${id}/releaseinfo`,
+        method: "GET",
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
+      }),
     enabled: !!id,
   });
 

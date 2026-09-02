@@ -14,10 +14,11 @@ const HomeMovieSection = ({ title, endpoint }) => {
     refetch,
   } = useQuery({
     queryKey: [endpoint],
-    queryFn: async () => {
+    queryFn: async ({ signal }) => {
       const data = await apiRequest({
         endpoint: `movies/${endpoint}`,
         method: "GET",
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
       });
       return data.results
         .filter((movie) => movie.id && movie.title)

@@ -33,10 +33,11 @@ const UserReviewsPage = () => {
     isFetchNextPageError,
   } = useInfiniteQuery({
     queryKey: ["user-reviews", searchParams.toString()],
-    queryFn: ({ pageParam }) =>
+    queryFn: ({ pageParam, signal }) =>
       apiRequest({
         endpoint: `users/reviews?${searchParams.toString()}&page=${pageParam}`,
         method: "GET",
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
       }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) =>

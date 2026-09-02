@@ -146,6 +146,7 @@ const UserActionButton = ({
       endpoint,
       method: "PATCH",
       data: { value: nextValue, movieInfo },
+      signal: AbortSignal.timeout(8000),
     });
   };
 

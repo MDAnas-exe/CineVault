@@ -37,10 +37,11 @@ const UserMovieCollectionPage = () => {
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: ["user-movies", status + searchParams.toString()],
-    queryFn: ({ pageParam }) =>
+    queryFn: ({ pageParam, signal }) =>
       apiRequest({
         endpoint: `users/${status}?${searchParams.toString()}&page=${pageParam}`,
         method: "GET",
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
       }),
     enabled: Boolean(collection),
     initialPageParam: 1,

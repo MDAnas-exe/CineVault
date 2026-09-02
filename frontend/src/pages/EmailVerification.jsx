@@ -38,7 +38,10 @@ function EmailVerification() {
 
     const timer = setTimeout(() => {
       hasTriggered.current = true;
-      mutateAsync({ endpoint: `auth/verify-email?token=${token}` });
+      mutateAsync({
+        endpoint: `auth/verify-email?token=${token}`,
+        signal: AbortSignal.timeout(8000),
+      });
     }, 2000);
 
     return () => clearTimeout(timer);

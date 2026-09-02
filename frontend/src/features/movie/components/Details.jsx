@@ -46,9 +46,19 @@ const InfoCard = ({
 export default function Details() {
   const { id } = useParams();
 
-  const { data: movie, isLoading, isError, refetch } = useQuery({
+  const {
+    data: movie,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery({
     queryKey: ["movie-details", id],
-    queryFn: () => apiRequest({ endpoint: `movies/${id}`, method: "GET" }),
+    queryFn: ({ signal }) =>
+      apiRequest({
+        endpoint: `movies/${id}`,
+        method: "GET",
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
+      }),
     enabled: !!id,
     staleTime: 60 * 60 * 1000,
   });

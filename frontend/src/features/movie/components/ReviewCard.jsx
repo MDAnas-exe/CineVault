@@ -124,6 +124,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false, movieInfo }) => {
                   delMutateAsync({
                     method: "DELETE",
                     endpoint: `users/reviews/${id}`,
+                    signal: AbortSignal.timeout(8000),
                   })
                 }
               >
@@ -183,6 +184,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false, movieInfo }) => {
                 endpoint: `users/reviews/${id}`,
                 data: { ...data, movieInfo },
                 method: "PUT",
+                signal: AbortSignal.timeout(8000),
               });
             })}
             className={`rounded-lg bg-accent px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm text-primary hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50 ${isEditPending && "flex gap-2 items-center"}`}

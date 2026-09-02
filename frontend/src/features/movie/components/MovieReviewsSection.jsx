@@ -24,10 +24,11 @@ const MovieReviewsSection = () => {
     isFetchNextPageError,
   } = useInfiniteQuery({
     queryKey: ["movie-reviews", id],
-    queryFn: ({ pageParam }) =>
+    queryFn: ({ pageParam, signal }) =>
       apiRequest({
         method: "GET",
         endpoint: `movies/${id}/reviews?page=${pageParam}`,
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
       }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) =>
@@ -36,8 +37,12 @@ const MovieReviewsSection = () => {
 
   const { data: userReview } = useQuery({
     queryKey: ["user-review", id],
-    queryFn: () =>
-      apiRequest({ method: "GET", endpoint: `users/reviews/${id}` }),
+    queryFn: ({ signal }) =>
+      apiRequest({
+        method: "GET",
+        endpoint: `users/reviews/${id}`,
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
+      }),
     enabled: isLoggedIn && !!id,
     retry: false,
   });

@@ -11,7 +11,12 @@ export const AuthProvider = ({ children }) => {
     error,
   } = useQuery({
     queryKey: ["auth", "me"],
-    queryFn: async () => apiRequest({ method: "GET", endpoint: "users/me" }),
+    queryFn: async ({ signal }) =>
+      apiRequest({
+        method: "GET",
+        endpoint: "users/me",
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
+      }),
     retry: false,
     staleTime: Infinity,
     refetchOnWindowFocus: false,

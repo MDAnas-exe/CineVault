@@ -23,8 +23,12 @@ export default function Crew() {
     refetch,
   } = useQuery({
     queryKey: ["movie-credits", id, "crew"],
-    queryFn: async () => {
-      const data = await apiRequest({ endpoint: `movies/${id}/credits`, method: "GET" });
+    queryFn: async ({ signal }) => {
+      const data = await apiRequest({
+        endpoint: `movies/${id}/credits`,
+        method: "GET",
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
+      });
       return data.crew;
     },
     enabled: !!id,

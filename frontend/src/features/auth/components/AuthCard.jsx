@@ -39,7 +39,11 @@ const AuthCard = ({ type }) => {
   });
 
   async function onSubmit(data) {
-    mutateAsync({ data, endpoint: `auth/${isSignup ? "signup" : "login"}` });
+    mutateAsync({
+      data,
+      endpoint: `auth/${isSignup ? "signup" : "login"}`,
+      signal: AbortSignal.timeout(8000),
+    });
   }
 
   return (

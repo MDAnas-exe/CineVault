@@ -40,10 +40,11 @@ const SearchResultsPage = () => {
     isFetchNextPageError,
   } = useInfiniteQuery({
     queryKey: ["search-movies", queryParams.toString()],
-    queryFn: ({ pageParam }) =>
+    queryFn: ({ pageParam, signal }) =>
       apiRequest({
         endpoint: "movies/search?" + queryParams + "&page=" + pageParam,
         method: "GET",
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
       }),
     staleTime: 15 * 60 * 1000,
     initialPageParam: 1,

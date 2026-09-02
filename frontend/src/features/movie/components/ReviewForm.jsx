@@ -35,6 +35,7 @@ const ReviewForm = ({ movieInfo }) => {
           method: "PUT",
           data: { ...data, movieInfo },
           endpoint: `users/reviews/${id}`,
+          signal: AbortSignal.timeout(8000),
         }),
       )}
       className="w-full md:max-w-2xl"

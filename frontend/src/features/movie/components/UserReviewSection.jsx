@@ -22,8 +22,12 @@ const UserReviewSection = () => {
 
   const { data, isLoading, isFetching, isError, error, refetch } = useQuery({
     queryKey: ["user-review", id],
-    queryFn: () =>
-      apiRequest({ method: "GET", endpoint: `users/reviews/${id}` }),
+    queryFn: ({ signal }) =>
+      apiRequest({
+        method: "GET",
+        endpoint: `users/reviews/${id}`,
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
+      }),
     enabled: isLoggedIn && !!id,
     retry: false,
   });

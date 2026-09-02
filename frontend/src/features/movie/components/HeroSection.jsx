@@ -32,10 +32,11 @@ const HeroSection = () => {
     isError: isUserMovieStatusError,
   } = useQuery({
     queryKey: ["movie-status", id],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       apiRequest({
         method: "GET",
         endpoint: `users/movie-status?ids=${id}`,
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
       }),
     enabled: !!id && isLoggedIn,
     retry: isLoggedIn,

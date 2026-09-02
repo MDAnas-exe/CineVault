@@ -15,8 +15,12 @@ export default function Cast() {
     refetch,
   } = useQuery({
     queryKey: ["movie-credits", id, "cast"],
-    queryFn: async () => {
-      const data = await apiRequest({ endpoint: `movies/${id}/credits`, method: "GET" });
+    queryFn: async ({ signal }) => {
+      const data = await apiRequest({
+        endpoint: `movies/${id}/credits`,
+        method: "GET",
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
+      });
       return data.cast;
     },
     enabled: !!id,

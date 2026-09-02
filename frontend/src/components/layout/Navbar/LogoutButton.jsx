@@ -27,7 +27,12 @@ const LogoutButton = ({ className = "" }) => {
         "w-full rounded-b-2xl rounded-t-none px-4 py-3 text-left font-inter font-normal text-red-600 bg-white hover:bg-red-50 flex items-center gap-2 active:scale-100 focus:ring-0 focus:ring-offset-0",
         className,
       )}
-      onClick={() => mutateAsync({ endpoint: "auth/logout" })}
+      onClick={() =>
+        mutateAsync({
+          endpoint: "auth/logout",
+          signal: AbortSignal.timeout(8000),
+        })
+      }
     >
       <IoExitOutline />
       Logout

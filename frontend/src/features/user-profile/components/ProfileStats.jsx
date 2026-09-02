@@ -8,7 +8,12 @@ import SectionState from "../../../components/ui/SectionState";
 const ProfileStats = () => {
   const { isLoading, data, isError, refetch } = useQuery({
     queryKey: ["user-profile"],
-    queryFn: () => apiRequest({ endpoint: "users/profile", method: "GET" }),
+    queryFn: ({ signal }) =>
+      apiRequest({
+        endpoint: "users/profile",
+        method: "GET",
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
+      }),
     select: (data) => data.stats,
   });
 

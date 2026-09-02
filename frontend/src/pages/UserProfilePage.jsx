@@ -134,37 +134,41 @@ const UserProfilePage = () => {
 
   const likedQuery = useQuery({
     queryKey: ["profile-activity", "liked"],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       apiRequest({
         endpoint: "users/liked?sortBy=dateAdded&order=desc&limit=10",
         method: "GET",
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
       }),
   });
 
   const watchedQuery = useQuery({
     queryKey: ["profile-activity", "watched"],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       apiRequest({
         endpoint: "users/watched?sortBy=dateAdded&order=desc&limit=10",
         method: "GET",
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
       }),
   });
 
   const watchlistedQuery = useQuery({
     queryKey: ["profile-activity", "watchlisted"],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       apiRequest({
         endpoint: "users/watchlisted?sortBy=dateAdded&order=desc&limit=10",
         method: "GET",
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
       }),
   });
 
   const reviewsQuery = useQuery({
     queryKey: ["profile-activity", "reviews"],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       apiRequest({
         endpoint: "users/reviews?page=1&limit=10&sortBy=createdAt&order=desc",
         method: "GET",
+        signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
       }),
   });
 
