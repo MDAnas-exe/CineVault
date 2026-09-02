@@ -1,11 +1,14 @@
 import { Outlet } from "react-router-dom";
-import "../../App.css";
 import GuestRoute from "../routes/GuestRoute";
+import { Suspense } from "react";
+import "../../App.css";
 
 const AuthLayout = () => {
   return (
     <GuestRoute>
-      <Outlet />
+      <Suspense fallback={null}>
+        <Outlet />
+      </Suspense>
     </GuestRoute>
   );
 };
