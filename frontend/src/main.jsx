@@ -16,6 +16,7 @@ const EmailVerification = lazy(() => import("./pages/EmailVerification.jsx"));
 const UserMovieCollectionPage = lazy(
   () => import("./pages/UserMovieCollectionPage.jsx"),
 );
+const ErrorPage = lazy(() => import("./pages/ErrorPage.jsx"));
 const UserReviewsPage = lazy(() => import("./pages/UserReviewsPage.jsx"));
 const UserProfilePage = lazy(() => import("./pages/UserProfilePage.jsx"));
 
@@ -26,6 +27,7 @@ const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
     element: <RootLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -47,6 +49,7 @@ const router = createBrowserRouter([
   },
   {
     element: <AuthLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/login",
@@ -64,6 +67,7 @@ const router = createBrowserRouter([
   },
   {
     element: <UserLayout />,
+    errorElement: <ErrorPage />,
     children: [
       { path: "/users/profile", element: <UserProfilePage /> },
       { path: "/users/reviews", element: <UserReviewsPage /> },
