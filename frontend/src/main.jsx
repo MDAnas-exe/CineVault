@@ -1,19 +1,24 @@
-import { StrictMode } from "react";
+import { StrictMode, lazy } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import AuthLayout from "./components/layout/AuthLayout.jsx";
 import RootLayout from "./components/layout/RootLayout.jsx";
 import UserLayout from "./components/layout/UserLayout.jsx";
-import Home from "./pages/Home.jsx";
-import SearchResultsPage from "./pages/SearchResultPage.jsx";
-import MovieDetailsPage from "./pages/MovieDetailsPage.jsx";
-import Signup from "./pages/Signup.jsx";
-import Login from "./pages/Login.jsx";
-import EmailVerification from "./pages/EmailVerification.jsx";
-import UserMovieCollectionPage from "./pages/UserMovieCollectionPage.jsx";
-import UserReviewsPage from "./pages/UserReviewsPage.jsx";
-import UserProfilePage from "./pages/UserProfilePage.jsx";
+
+const Home = lazy(() => import("./pages/Home.jsx"));
+const SearchResultsPage = lazy(() => import("./pages/SearchResultPage.jsx"));
+const MovieDetailsPage = lazy(() => import("./pages/MovieDetailsPage.jsx"));
+const Signup = lazy(() => import("./pages/Signup.jsx"));
+const Login = lazy(() => import("./pages/Login.jsx"));
+const EmailVerification = lazy(() => import("./pages/EmailVerification.jsx"));
+const UserMovieCollectionPage = lazy(
+  () => import("./pages/UserMovieCollectionPage.jsx"),
+);
+const UserReviewsPage = lazy(() => import("./pages/UserReviewsPage.jsx"));
+const UserProfilePage = lazy(() => import("./pages/UserProfilePage.jsx"));
+
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthProvider.jsx";
 const queryClient = new QueryClient();
