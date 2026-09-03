@@ -49,7 +49,7 @@ const loginController = expressAsyncHandler(async (req, res) => {
     res.cookie("token", generateToken(user._id), {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      sameSite: "lax",
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
     res.status(200).json({
@@ -101,7 +101,7 @@ const logoutController = expressAsyncHandler(async (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    sameSite: "lax",
   });
 
   res.sendStatus(204);
