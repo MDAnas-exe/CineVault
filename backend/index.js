@@ -26,9 +26,9 @@ app.get("/", (req, res, next) => {
   res.json({ message: "API endpoint is connected and working!" });
 });
 
-app.use(`/api/auth`, authRouter);
-app.use(`/api/movies`, movieRouter);
-app.use("/api/users", userRouter);
+app.use(`/auth`, authRouter);
+app.use(`/movies`, movieRouter);
+app.use("/users", userRouter);
 app.use((req, res, next) => {
   res.status(404).json({ message: "Route not found" });
 });
