@@ -55,6 +55,7 @@ const SearchResultMovieCard = ({ movie, ref }) => {
       }}
     >
       <img
+        loading="lazy"
         src={`https://image.tmdb.org/t/p/w300/${poster_path}`}
         alt={title}
         className="size-40 sm:w-30 sm:h-40 lg:w-37.5 lg:h-50 rounded-xl self-center"

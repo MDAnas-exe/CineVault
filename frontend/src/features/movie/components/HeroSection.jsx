@@ -166,6 +166,7 @@ const HeroSection = () => {
     <div className="relative w-full h-full min-h-[70vh] font-inter">
       <div className="absolute inset-0">
         <img
+          loading="lazy"
           src={`https://image.tmdb.org/t/p/original${backdrop_path || poster_path}`}
           alt={title}
           className="w-full h-full object-cover object-center"
@@ -176,6 +177,7 @@ const HeroSection = () => {
 
       <div className="relative z-10 flex gap-5 md:gap-10 p-2 md:p-10 items-start md:flex-row flex-col">
         <img
+          loading="lazy"
           src={`https://image.tmdb.org/t/p/w500${poster_path || backdrop_path}`}
           alt={title}
           className="w-50 lg:w-64 rounded-xl shadow-lg shrink-0 lg:self-auto md:self-end self-center"

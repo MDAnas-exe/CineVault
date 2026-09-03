@@ -194,6 +194,7 @@ export default function Details() {
               >
                 {company.logo_path ? (
                   <img
+                    loading="lazy"
                     src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
                     alt={company.name}
                     className="h-10 object-contain"

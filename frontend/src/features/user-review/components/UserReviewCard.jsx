@@ -36,6 +36,7 @@ const UserReviewCard = ({ reviewInfo, ...rest }) => {
       <div className="relative aspect-2/3 self-start overflow-hidden rounded-lg bg-neutral-100">
         {posterPath && failedPoster !== posterPath ? (
           <img
+            loading="lazy"
             src={`https://image.tmdb.org/t/p/w342${posterPath}`}
             alt={`${title} poster`}
             loading="lazy"

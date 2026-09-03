@@ -65,6 +65,7 @@ const ReleaseInfoSection = ({ section }) => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <img
+                    loading="lazy"
                     src={`https://flagcdn.com/${release.iso_3166_1.toLowerCase()}.svg`}
                     alt=""
                     className="size-4"
@@ -123,6 +124,7 @@ const ReleaseInfoSection = ({ section }) => {
                 <td className="px-6 py-4 font-inter text-sm text-primary">
                   <div className="flex items-center gap-2">
                     <img
+                      loading="lazy"
                       src={`https://flagcdn.com/${release.iso_3166_1.toLowerCase()}.svg`}
                       alt=""
                       className="size-4"

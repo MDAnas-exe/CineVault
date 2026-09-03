@@ -39,6 +39,7 @@ export default function CrewDepartment({ title, icon: Icon, members }) {
             >
               {member.profile_path ? (
                 <img
+                  loading="lazy"
                   src={`https://image.tmdb.org/t/p/w185${member.profile_path}`}
                   alt={member.name}
                   className="h-12 w-12 rounded-full object-top md:object-cover"

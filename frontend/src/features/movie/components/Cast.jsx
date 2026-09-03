@@ -101,6 +101,7 @@ export default function Cast() {
           >
             {member.profile_path ? (
               <img
+                loading="lazy"
                 src={`https://image.tmdb.org/t/p/w500${member.profile_path}`}
                 alt={member.name}
                 className=" aspect-square md:aspect-3/4 w-full md:object-cover object-top"
