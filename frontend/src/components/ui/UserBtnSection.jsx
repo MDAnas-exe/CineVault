@@ -2,9 +2,19 @@ import { FaExclamationCircle } from "react-icons/fa";
 import HeroButtonSkeleton from "./skeletons/HeroButtonSkeleton";
 import SearchButtonSkeleton from "./skeletons/SearchButtonSkeleton";
 
-const UserBtnSection = ({ className = "", isLoading, isError, variant, children }) => {
+const UserBtnSection = ({
+  className = "",
+  isLoading,
+  isError,
+  variant,
+  children,
+}) => {
   if (isLoading) {
-    return variant === "hero" ? <HeroButtonSkeleton /> : <SearchButtonSkeleton />;
+    return variant === "hero" ? (
+      <HeroButtonSkeleton />
+    ) : (
+      <SearchButtonSkeleton />
+    );
   }
 
   if (isError) {
