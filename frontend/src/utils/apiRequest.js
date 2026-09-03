@@ -4,17 +4,14 @@ export default async function apiRequest({
   method = "POST",
   signal,
 }) {
-  const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/api/${endpoint}`,
-    {
-      method,
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      ...(method !== "GET" &&
-        method !== "DELETE" && { body: JSON.stringify(data) }),
-      signal,
-    },
-  );
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/${endpoint}`, {
+    method,
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    ...(method !== "GET" &&
+      method !== "DELETE" && { body: JSON.stringify(data) }),
+    signal,
+  });
 
   if (!response.ok) {
     const err = await response.json();
