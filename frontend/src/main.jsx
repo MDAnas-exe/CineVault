@@ -22,6 +22,24 @@ const UserProfilePage = lazy(() => import("./pages/UserProfilePage.jsx"));
 
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthProvider.jsx";
+
+window.addEventListener("vite:preloadError", (event) => {
+  const storageKey = "vite_chunk_reload_lock";
+  const lastReload = sessionStorage.getItem(storageKey);
+  const now = Date.now();
+
+  if (!lastReload || now - parseInt(lastReload, 10) > 10000) {
+    event.preventDefault();
+    sessionStorage.setItem(storageKey, now.toString());
+    window.location.reload();
+  } else {
+    console.error(
+      "Dynamic import failed repeatedly. Stopping reload loop.",
+      event.payload,
+    );
+  }
+});
+
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
