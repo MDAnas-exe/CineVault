@@ -33,7 +33,7 @@ const registerController = expressAsyncHandler(async (req, res) => {
 
   res
     .status(201)
-    .json({ message: "Please check your email to verify your account" });
+    .json({ message: "Check email (spam folder too) to verify account." });
 });
 
 const loginController = expressAsyncHandler(async (req, res) => {
@@ -60,7 +60,7 @@ const loginController = expressAsyncHandler(async (req, res) => {
 
     res.status(401).json({
       message:
-        "Account not verified.Please check your email to verify your account",
+        "Account not verified. Check email (spam folder too) to verify account.",
     });
   }
 });
