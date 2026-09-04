@@ -24,7 +24,7 @@ const AuthCard = ({ type }) => {
   const { mutateAsync, isPending } = useMutation({
     mutationFn: apiRequest,
     onSuccess: (data) => {
-      toast.success(data.message);
+      toast.success(data.message, { className: "lg:left-1/4 relative" });
       if (!isSignup)
         queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
       setTimeout(() => {
@@ -33,7 +33,7 @@ const AuthCard = ({ type }) => {
     },
     onError: (err) => {
       toast.error(err.message, {
-        className: "left-1/4 relative",
+        className: "lg:left-1/4 relative",
       });
     },
   });
