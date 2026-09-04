@@ -26,6 +26,10 @@ app.get("/", (req, res, next) => {
   res.json({ message: "API endpoint is connected and working!" });
 });
 
+app.use("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 app.use(`/auth`, authRouter);
 app.use(`/movies`, movieRouter);
 app.use("/users", userRouter);
