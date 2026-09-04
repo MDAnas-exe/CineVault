@@ -201,7 +201,7 @@ const UserProfilePage = () => {
       </header>
 
       <div className="mt-8 sm:mt-10">
-        <ProfileActivitySection title="Recently liked" viewAllTo="/users/liked">
+        <ProfileActivitySection title="Recently Liked" viewAllTo="/users/liked">
           {getMovieActivityContent({
             ...likedQuery,
             emptyMessage: "No liked movies yet.",
@@ -211,7 +211,7 @@ const UserProfilePage = () => {
         </ProfileActivitySection>
 
         <ProfileActivitySection
-          title="Recently watched"
+          title="Recently Watched"
           viewAllTo="/users/watched"
         >
           {getMovieActivityContent({
@@ -223,7 +223,7 @@ const UserProfilePage = () => {
         </ProfileActivitySection>
 
         <ProfileActivitySection
-          title="Recently watchlisted"
+          title="Recently Watchlisted"
           viewAllTo="/users/watchlisted"
         >
           {getMovieActivityContent({
@@ -236,7 +236,7 @@ const UserProfilePage = () => {
         </ProfileActivitySection>
 
         <ProfileActivitySection
-          title="Last 10 reviews"
+          title="Recently Reviewed"
           viewAllTo="/users/reviews"
         >
           {getReviewActivityContent(reviewsQuery)}
