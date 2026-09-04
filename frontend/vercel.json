@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://remarkable-benevolence-production-7293.up.railway.app/:path*"
+      "destination": "https://cinevault-0sg3.onrender.com/:path*"
     },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
