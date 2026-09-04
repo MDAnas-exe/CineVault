@@ -10,27 +10,8 @@
 
 CineVault is a solo, full-stack MERN movie-tracking project inspired by Letterboxd. It uses [TMDB](https://www.themoviedb.org/) data to help users discover films, track personal collections, and write reviews.
 
-- Demo preview: [ADD DEMO GIF/SCREENSHOT]
-- Live demo: [ADD DEPLOY URL]
-- Screenshots: [ADD SCREENSHOTS]
-- License: [ADD LICENSE]
-
----
-
-## Table of Contents
-
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Install dependencies](#install-dependencies)
-  - [Configure environment variables](#configure-environment-variables)
-  - [Run locally](#run-locally)
-- [Available Commands](#available-commands)
-- [Architecture](#architecture)
-
----
+- Live demo: [CineVault](https://cine-vault-pink.vercel.app/)
+- Screenshots: see [Screenshots](#screenshots)
 
 ## Features
 
@@ -68,44 +49,31 @@ CineVault is a solo, full-stack MERN movie-tracking project inspired by Letterbo
 
 ---
 
-## Tech Stack
+## Screenshots
 
-| Area              | Technologies                                                                               |
-| ----------------- | ------------------------------------------------------------------------------------------ |
-| Frontend          | React 19.2.5, Vite 8.0.10, React Router 7.11.0, TanStack Query 5.101.1, Tailwind CSS 4.2.4 |
-| Frontend tooling  | ESLint 10.2.1, Vite SVGR 5.2.0                                                             |
-| Backend           | Express 5.2.1, Mongoose 9.7.4, JSON Web Token 9.0.3, Nodemailer 9.0.3                      |
-| Data and services | MongoDB, TMDB API, Gmail email transport                                                   |
-| Root development  | concurrently 9.2.4                                                                         |
+**Home**
+<img src="./docs/screenshots/home.png" alt="Home page" width="800">
+
+**Movie Details**
+<img src="./docs/screenshots/movie-details.png" alt="Movie details page" width="800">
+
+**Collection**
+<img src="./docs/screenshots/collection.png" alt="Collection page with filters" width="800">
+
+**Profile**
+<img src="./docs/screenshots/profile.png" alt="Profile page" width="800">
 
 ---
 
-## Project Structure
+## Tech Stack
 
-```text
-.
-├── frontend/
-│   ├── src/
-│   │   ├── components/       # Layouts, route guards, navbar, and shared UI
-│   │   ├── context/          # Authentication provider and context
-│   │   ├── features/         # Auth, home, movie, search, collections, profile, reviews
-│   │   ├── hooks/            # Shared hooks
-│   │   ├── pages/            # Routed page components
-│   │   ├── utils/            # Credentialed API request helper
-│   │   └── main.jsx          # Router and provider setup
-│   ├── package.json
-│   └── vite.config.js
-├── backend/
-│   ├── config/               # Database connection
-│   ├── controllers/          # Auth, movie, and user handlers
-│   ├── middlewares/          # Auth, validation, rate limiting, and errors
-│   ├── models/               # User, user-movie, and review schemas
-│   ├── routes/               # Auth, movie, and user endpoints
-│   ├── utils/                # Email and request validators
-│   ├── index.js              # Express entry point
-│   └── package.json
-└── package.json              # Concurrent development script
-```
+| Area         | Technologies                                                                                 |
+| ------------ | -------------------------------------------------------------------------------------------- |
+| Frontend     | React, React Router, TanStack Query, Tailwind CSS, Vite                                     |
+| Backend      | Node.js, Express, MongoDB/Mongoose, JWT authentication, TMDB response caching               |
+| API security | bcrypt, HTTP-only cookies, CORS, Helmet, rate limiting, request validation                  |
+| Services     | TMDB API, Gmail API/OAuth2                                                                   |
+| Tooling      | ESLint, Nodemon, concurrently                                                                |
 
 ---
 
@@ -113,10 +81,10 @@ CineVault is a solo, full-stack MERN movie-tracking project inspired by Letterbo
 
 ### Prerequisites
 
-- Node.js and npm
+- Node.js LTS and npm
 - MongoDB
 - TMDB API access token
-- Gmail credentials for verification emails
+- Gmail API OAuth2 credentials for verification emails
 
 ### Install dependencies
 
@@ -134,26 +102,7 @@ npm install
 
 ### Configure environment variables
 
-Create `.env` files in `frontend/` and `backend/`. Keep all credentials out of source control.
-
-#### `frontend/.env`
-
-| Variable       | Purpose                                           |
-| -------------- | ------------------------------------------------- |
-| `VITE_API_URL` | API base URL used by the frontend request helper. |
-
-#### `backend/.env`
-
-| Variable     | Purpose                                                                        |
-| ------------ | ------------------------------------------------------------------------------ |
-| `MONGO_URI`  | MongoDB connection string.                                                     |
-| `JWT_SECRET` | Secret for signing and verifying authentication and email-verification tokens. |
-| `TMDBtoken`  | TMDB API access token used by movie-data requests.                             |
-| `CLIENT_URL` | Allowed credentialed-CORS origin and base URL for verification links.          |
-| `EMAIL_USER` | Gmail account used to send verification messages.                              |
-| `EMAIL_PASS` | Password or app password for the email account.                                |
-| `PORT`       | Optional backend listening port; the server falls back to `3000`.              |
-| `NODE_ENV`   | Optional runtime environment used by cookie and error handling.                |
+Create `.env` files in `frontend/` and `backend/`. Set `VITE_API_URL` in the frontend, then configure the backend's MongoDB connection, JWT secret, TMDB token, client origin, Gmail OAuth credentials, and sender identity. Keep credentials out of source control.
 
 ### Run locally
 
@@ -163,23 +112,4 @@ From the repository root, start both applications:
 npm run dev
 ```
 
-The backend listens on `PORT` or falls back to `3000`. `vite.config.js` does not configure `server.port`; use the Vite development-server URL printed when the frontend starts, and align `VITE_API_URL` and `CLIENT_URL` with your local addresses.
-
----
-
-## Available Commands
-
-| Location    | Command           | Description                              |
-| ----------- | ----------------- | ---------------------------------------- |
-| Root        | `npm run dev`     | Start frontend and backend concurrently. |
-| `frontend/` | `npm run dev`     | Start the Vite development server.       |
-| `frontend/` | `npm run build`   | Build the frontend for production.       |
-| `frontend/` | `npm run lint`    | Run frontend ESLint checks.              |
-| `frontend/` | `npm run preview` | Preview the frontend production build.   |
-| `backend/`  | `npm run dev`     | Start the Express API with Nodemon.      |
-
----
-
-## Architecture
-
-The frontend is a feature-organized React SPA with React Router separating public, authentication, and protected user routes. TanStack Query manages API state and infinite data flows; a shared request helper sends credentialed requests to the Express REST API. The backend proxies and caches TMDB responses, protects user endpoints with JWT cookies, and persists users, movie-status records, and review snapshots in MongoDB through Mongoose.
+Use the Vite development-server URL printed at startup and align the frontend API URL and backend client origin with your local addresses.
