@@ -4,14 +4,9 @@ import useTheme from "../../hooks/useTheme";
 const ThemeToggle = () => {
   const { isDark, setIsDark } = useTheme();
 
-  const toggleTheme = () => {
-    setIsDark((prev) => !prev);
-    document.documentElement.classList.toggle("dark");
-  };
-
   return (
     <button
-      onClick={toggleTheme}
+      onClick={() => setIsDark((prev) => !prev)}
       className={`relative size-10 flex items-center justify-center hover:bg-gray-400 duration-200 rounded-full cursor-pointer`}
     >
       <FaSun
