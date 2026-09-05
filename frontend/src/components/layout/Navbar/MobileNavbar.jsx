@@ -35,6 +35,10 @@ const MobileNavbar = () => {
         <Logo />
       </Link>
 
+      <ThemeToggle
+        className={`hidden md:block ${!isLoading && !isLoggedIn && "ml-auto mr-5"}`}
+      />
+
       {!isLoading && !isLoggedIn && (
         <Link
           to="/signup"
@@ -44,8 +48,6 @@ const MobileNavbar = () => {
           Sign Up
         </Link>
       )}
-
-      <ThemeToggle className="block md:hidden ml-auto" />
 
       {isLoading && (
         <div className="w-8 lg:hidden  ">

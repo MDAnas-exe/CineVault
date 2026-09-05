@@ -36,7 +36,17 @@ const DesktopNavbar = () => {
       <Link to="/" className="hidden md:block">
         <Logo />
       </Link>
-      <SearchBar className="hidden md:flex" />
+      <SearchBar className="hidden md:flex mx-auto" />
+
+      <ThemeToggle
+        className={`hidden md:block ${!isLoading && !isLoggedIn && "ml-auto mr-5"}`}
+      />
+
+      {isLoading && (
+        <div className="w-20 lg:hidden">
+          <Skeleton width="100%" height={24} />
+        </div>
+      )}
 
       {!isLoading && !isLoggedIn && (
         <Link
@@ -55,14 +65,6 @@ const DesktopNavbar = () => {
           <Skeleton width={72} height={24} />
         </div>
       )}
-
-      {isLoading && (
-        <div className="w-20 lg:hidden">
-          <Skeleton width="100%" height={24} />
-        </div>
-      )}
-
-      <ThemeToggle className="hidden md:block" />
 
       {isLoggedIn && (
         <div className="hidden md:flex gap-5 items-center">
@@ -120,8 +122,7 @@ const DesktopNavbar = () => {
                     className={({ isActive }) =>
                       twMerge(
                         "block px-4 py-3 text-left font-inter text-primary transition-colors duration-200 hover:bg-primary/5",
-                        isActive &&
-                          "bg-accent/10 text-accent",
+                        isActive && "bg-accent/10 text-accent",
                         className,
                       )
                     }
