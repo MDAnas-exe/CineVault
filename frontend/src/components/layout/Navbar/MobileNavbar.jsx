@@ -36,7 +36,7 @@ const MobileNavbar = () => {
       </Link>
 
       <ThemeToggle
-        className={`hidden md:block ${!isLoading && !isLoggedIn && "ml-auto mr-5"}`}
+        className={`block md:hidden ${!isLoading && !isLoggedIn && "ml-auto mr-5"}`}
       />
 
       {!isLoading && !isLoggedIn && (
