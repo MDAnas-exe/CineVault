@@ -21,7 +21,8 @@ const UserReviewsPage = lazy(() => import("./pages/UserReviewsPage.jsx"));
 const UserProfilePage = lazy(() => import("./pages/UserProfilePage.jsx"));
 
 import { Toaster } from "react-hot-toast";
-import { AuthProvider } from "./context/AuthProvider.jsx";
+import AuthProvider from "./context/auth/AuthProvider.jsx";
+import ThemeProvider from "./context/theme/ThemeProvider.jsx";
 
 window.addEventListener("vite:preloadError", (event) => {
   const storageKey = "vite_chunk_reload_lock";
@@ -98,9 +99,11 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <Toaster />
-        <Analytics />
-        <RouterProvider router={router} />
+        <ThemeProvider>
+          <Toaster />
+          <Analytics />
+          <RouterProvider router={router} />
+        </ThemeProvider>
       </AuthProvider>
     </QueryClientProvider>
   </StrictMode>,
