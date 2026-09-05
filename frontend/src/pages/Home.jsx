@@ -33,7 +33,7 @@ const Home = () => {
           {!isLoggedIn && !isLoading && (
             <Link
               to="/signup"
-              className="bg-accent text-xs md:text-base p-2 md:px-12 md:py-2 rounded-xl self-start cursor-pointer transition-all duration-300 hover:bg-accent-hover"
+              className="bg-accent text-xs md:text-base p-2 md:px-12 md:py-2 rounded-xl self-start cursor-pointer transition-colors duration-200 hover:bg-accent-hover"
             >
               Get Started
             </Link>
@@ -44,7 +44,7 @@ const Home = () => {
           {isLoggedIn && (
             <a
               href="#movie-sections"
-              className="bg-accent text-xs md:text-base p-2 md:px-12 md:py-2 rounded-xl self-start cursor-pointer transition-all duration-300 hover:bg-accent-hover"
+              className="bg-accent text-xs md:text-base p-2 md:px-12 md:py-2 rounded-xl self-start cursor-pointer transition-colors duration-200 hover:bg-accent-hover"
             >
               Browse Movies
             </a>

@@ -9,7 +9,7 @@ const Signup = () => {
   }, []);
 
   return (
-    <main className="min-h-screen bg-white lg:grid lg:grid-cols-2">
+    <main className="min-h-screen bg-background lg:grid lg:grid-cols-2">
       <section
         className=" hidden min-h-screen overflow-hidden bg-cover bg-center lg:block"
         style={{ backgroundImage: `url(${authBg})` }}

@@ -49,7 +49,7 @@ const AuthCard = ({ type }) => {
   return (
     <>
       <form
-        className={`flex h-full w-full max-w-112.5 flex-col justify-center  rounded-2xl border border-[#E5E7EB] bg-white p-5 shadow-[0_18px_50px_rgba(17,24,39,0.12)] sm:px-8 sm:py-8  ${isSignup ? "gap-2 lg:py-3" : "gap-6 lg:py-5"}`}
+        className={`flex h-full w-full max-w-112.5 flex-col justify-center  rounded-2xl border border-border bg-surface p-5 shadow-[0_18px_50px_rgba(17,24,39,0.12)] sm:px-8 sm:py-8  ${isSignup ? "gap-2 lg:py-3" : "gap-6 lg:py-5"}`}
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col items-center gap-2 text-center sm:gap-1.5">
@@ -59,7 +59,7 @@ const AuthCard = ({ type }) => {
           <h1 className="font-poppins text-2xl font-bold text-primary sm:text-3xl">
             {isSignup ? "Create your account" : "Welcome back"}
           </h1>
-          <p className="font-inter text-sm text-[#6B7280] sm:text-base">
+          <p className="font-inter text-sm text-secondary sm:text-base">
             {isSignup
               ? "Start building your movie collection."
               : "Sign in to continue your movie journey."}
@@ -159,7 +159,7 @@ const AuthCard = ({ type }) => {
         <Button
           type="submit"
           disabled={isPending}
-          className="flex h-12 w-full items-center justify-center gap-2 bg-accent text-primary shadow-sm hover:bg-accent-hover disabled:opacity-70"
+          className="flex h-12 w-full items-center justify-center gap-2 bg-accent text-gray-900 shadow-sm hover:bg-accent-hover disabled:opacity-70"
         >
           {isPending ? (
             <>
@@ -177,7 +177,7 @@ const AuthCard = ({ type }) => {
           {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
           <Link
             to={isSignup ? "/login" : "/signup"}
-            className="font-semibold text-accent transition-colors duration-200 hover:text-[#000000]"
+            className="font-semibold text-accent transition-colors duration-200 hover:text-primary"
           >
             {isSignup ? "Sign In" : "Sign Up"}
           </Link>

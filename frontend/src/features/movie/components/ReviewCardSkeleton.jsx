@@ -3,7 +3,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 const ReviewCardSkeleton = () => {
   return (
-    <div className="rounded-xl bg-neutral-50 px-3 py-3 md:px-5 md:py-4 font-inter">
+    <div className="rounded-xl bg-primary/3 px-3 py-3 md:px-5 md:py-4 font-inter">
       <Skeleton width={96} height={14} borderRadius={6} />
 
       <div className="mt-3 flex flex-col gap-1.5">

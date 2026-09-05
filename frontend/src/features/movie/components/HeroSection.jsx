@@ -261,7 +261,7 @@ const HeroSection = () => {
                 href={`https://www.youtube.com/watch?v=${trailer.key}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-lg border border-white/40 text-white font-medium hover:bg-white/10 transition-all duration-300"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-lg border border-white/40 text-white font-medium hover:bg-white/10 transition-colors duration-200"
               >
                 <FaPlay />
                 Watch Trailer

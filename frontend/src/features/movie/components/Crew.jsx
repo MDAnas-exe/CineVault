@@ -91,7 +91,7 @@ export default function Crew() {
                 {Array.from({ length: 3 }).map((_, cardIndex) => (
                   <div
                     key={cardIndex}
-                    className="flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
+                    className="flex items-center gap-4 rounded-xl border border-border bg-surface p-4 shadow-sm"
                   >
                     <div className="md:size-12 size-6 self-start">
                       <Skeleton circle width="100%" height="100%" />
@@ -118,7 +118,7 @@ export default function Crew() {
 
   if (isError) {
     return (
-      <section className="mt-8 rounded-2xl border border-gray-200 bg-white py-16 shadow-sm">
+      <section className="mt-8 rounded-2xl border border-border bg-surface py-16 shadow-sm">
         <SectionState
           message="Couldn't load crew information"
           description="Something went wrong while fetching the crew. Please try again."
@@ -138,7 +138,7 @@ export default function Crew() {
 
   if (groupedCrew.length === 0) {
     return (
-      <section className="mt-8 rounded-2xl border border-gray-200 bg-white py-16 shadow-sm">
+      <section className="mt-8 rounded-2xl border border-border bg-surface py-16 shadow-sm">
         <SectionState
           message="No crew information available"
           description="Crew details aren't available for this movie."

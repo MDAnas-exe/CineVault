@@ -17,7 +17,7 @@ const Textarea = ({ isEditing, value, register, watch, className = "" }) => {
     <div className="relative">
       <textarea
         className={twMerge(
-          "w-full min-h-28 md:min-h-36 resize-none rounded-xl border border-gray-200 bg-white px-3 pb-7 pt-2.5 md:px-4 md:pb-8 md:pt-3 font-inter text-xs md:text-sm text-primary placeholder:text-neutral-400 transition-colors duration-200 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20",
+          "w-full min-h-28 md:min-h-36 resize-none rounded-xl border border-border bg-surface px-3 pb-7 pt-2.5 md:px-4 md:pb-8 md:pt-3 font-inter text-xs md:text-sm text-primary placeholder:text-secondary transition-colors duration-200 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20",
           className,
         )}
         placeholder="Share your thoughts about this movie..."
@@ -26,7 +26,7 @@ const Textarea = ({ isEditing, value, register, watch, className = "" }) => {
           rhfRef(el);
         }}
       />
-      <span className="absolute bottom-3 right-3 md:right-4 font-inter text-xs text-neutral-400">
+      <span className="absolute bottom-3 right-3 md:right-4 font-inter text-xs text-secondary">
         {watch(rest.name)?.length || 0} / {MAX_CHARS}
       </span>
     </div>

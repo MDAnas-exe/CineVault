@@ -38,14 +38,14 @@ const MobileNavbar = () => {
       {!isLoading && !isLoggedIn && (
         <Link
           to="/signup"
-          className="flex cursor-pointer items-center gap-2 rounded-xl border border-accent px-3 py-1.5 font-inter text-sm font-medium text-accent transition-all duration-500 hover:bg-accent hover:text-white md:hidden"
+          className="flex cursor-pointer items-center gap-2 rounded-xl border border-accent px-3 py-1.5 font-inter text-sm font-medium text-accent transition-colors duration-200 hover:bg-accent hover:text-white md:hidden"
         >
           <MdOutlinePersonOutline className="text-xl" />
           Sign Up
         </Link>
       )}
 
-      <ThemeToggle className="block md:hidden" />
+      <ThemeToggle className="block md:hidden ml-auto" />
 
       {isLoading && (
         <div className="w-8 lg:hidden  ">
@@ -62,11 +62,11 @@ const MobileNavbar = () => {
             <GiHamburgerMenu className="size-6" />
           </Button>
           <div
-            className={`fixed  h-screen w-full  -right-full top-0 transition-all duration-500 ${isOpen && "right-0"}`}
+            className={`fixed  h-screen w-full  -right-full top-0 transition-[right] duration-200 ${isOpen && "right-0"}`}
             onClick={() => setIsOpen(false)}
           ></div>
           <div
-            className={`fixed z-50 h-screen w-full xs:w-80 -right-full top-0 flex flex-col pr-2 pt-2.5 bg-white transition-all duration-500 ${isOpen && "right-0"}`}
+            className={`fixed z-50 h-screen w-full xs:w-80 -right-full top-0 flex flex-col pr-2 pt-2.5 bg-surface transition-[right] duration-200 ${isOpen && "right-0"}`}
           >
             <Button
               onClick={() => setIsOpen((prev) => !prev)}
@@ -82,8 +82,8 @@ const MobileNavbar = () => {
                 to={preserveQuery ? to + location.search : to}
                 className={({ isActive }) =>
                   twMerge(
-                    "block px-4 py-3 font-inter text-primary transition-colors duration-200 hover:bg-gray-100 text-left",
-                    isActive && "text-accent bg-amber-50",
+                    "block px-4 py-3 font-inter text-primary transition-colors duration-200 hover:bg-primary/5 text-left",
+                    isActive && "text-accent bg-accent/10",
                     className,
                   )
                 }
@@ -92,12 +92,12 @@ const MobileNavbar = () => {
                 <UserMenuLinks label={label} />
               </NavLink>
             ))}
-            <LogoutButton className="rounded-none shadow-white" />
+            <LogoutButton className="rounded-none shadow-surface" />
           </div>
         </div>
       )}
 
-      <SearchBar className="mt-2 flex w-full bg-gray-100 md:hidden" />
+      <SearchBar className="mt-2 flex w-full bg-primary/5 md:hidden" />
     </>
   );
 };

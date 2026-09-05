@@ -97,13 +97,13 @@ const CollectionFilters = ({ status }) => {
   }
 
   return (
-    <section className="mb-6 rounded-2xl border border-gray-200 border-l-4 border-l-accent bg-white shadow-sm sm:mb-10">
+    <section className="mb-6 rounded-2xl border border-border border-l-4 border-l-accent bg-surface shadow-sm sm:mb-10">
       <Button
         type="button"
         aria-expanded={isExpanded}
         aria-controls="collection-filter-options"
         onClick={() => setIsExpanded((expanded) => !expanded)}
-        className={`flex w-full items-center justify-between  px-4 py-4 text-left text-primary hover:bg-amber-50/60 sm:px-6 sm:py-5 ${isExpanded && " sticky top-20 md:top-15 hover:bg-white bg-white border-b border-gray-200 "}`}
+        className={`flex w-full items-center justify-between  px-4 py-4 text-left text-primary hover:bg-accent/10 sm:px-6 sm:py-5 ${isExpanded && " sticky top-20 md:top-15 hover:bg-surface bg-surface border-b border-border "}`}
       >
         <span className="flex items-center gap-3 text-lg sm:text-xl">
           <LuSlidersHorizontal
@@ -123,7 +123,7 @@ const CollectionFilters = ({ status }) => {
       <div
         id="collection-filter-options"
         inert={!isExpanded}
-        className={`overflow-hidden transition-all duration-300 ${isExpanded ? "max-h-500 border-t border-gray-200 px-4 pb-4 opacity-100 sm:px-6 sm:pb-5" : "max-h-0 opacity-0"}`}
+        className={`overflow-hidden transition-[max-height,opacity,padding,border-width] duration-200 ${isExpanded ? "max-h-500 border-t border-border px-4 pb-4 opacity-100 sm:px-6 sm:pb-5" : "max-h-0 opacity-0"}`}
       >
         <div className="grid gap-4 py-4 sm:grid-cols-2 sm:gap-6 sm:py-6 xl:grid-cols-[minmax(250px,0.85fr)_minmax(440px,1.7fr)_minmax(260px,0.9fr)_minmax(300px,1.1fr)]">
           <fieldset>
@@ -137,7 +137,7 @@ const CollectionFilters = ({ status }) => {
                   type="number"
                   min="1900"
                   max="2100"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-base text-primary outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20 sm:py-2.5"
+                  className="w-full rounded-lg border border-border px-3 py-2 text-base text-primary outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20 sm:py-2.5"
                   {...register("fromYear", {
                     min: { value: 1900, message: "Year can't be before 1900" },
                     max: {
@@ -153,7 +153,7 @@ const CollectionFilters = ({ status }) => {
                   type="number"
                   min="1900"
                   max="2100"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-base text-primary outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20 sm:py-2.5"
+                  className="w-full rounded-lg border border-border px-3 py-2 text-base text-primary outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20 sm:py-2.5"
                   {...register("toYear", {
                     max: { value: 2100, message: "Year can't be after 2100" },
                     min: {
@@ -192,7 +192,7 @@ const CollectionFilters = ({ status }) => {
           )}
         </div>
 
-        <div className="border-t border-gray-200 py-4 sm:py-5">
+        <div className="border-t border-border py-4 sm:py-5">
           <div className="mb-2 flex items-end justify-between gap-4 sm:mb-3">
             <h2 className="font-poppins text-base font-semibold text-primary sm:text-lg">
               Genres
@@ -210,7 +210,7 @@ const CollectionFilters = ({ status }) => {
             {filterGenres.map((genre, index) => (
               <GenreChip
                 key={genre.id}
-                className={` ${areAllGenresShown ? "" : getCollapsedGenreClass(index)} ${!selectedGenresIds.has(genre.id) && selectedGenresIds.size == 3 && "cursor-not-allowed border-gray-200 bg-gray-100 text-gray-400 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-400"}`}
+                className={` ${areAllGenresShown ? "" : getCollapsedGenreClass(index)} ${!selectedGenresIds.has(genre.id) && selectedGenresIds.size == 3 && "cursor-not-allowed border-border bg-primary/5 text-secondary hover:border-border hover:bg-primary/5 hover:text-secondary"}`}
                 isSelected={selectedGenresIds.has(genre.id)}
                 onClick={() => toggleGenres(genre.id)}
               >
@@ -231,7 +231,7 @@ const CollectionFilters = ({ status }) => {
           </Button>
         </div>
 
-        <div className="flex gap-3 border-t border-gray-200 pt-4 sm:justify-end">
+        <div className="flex gap-3 border-t border-border pt-4 sm:justify-end">
           <FilterActionButtons
             onClear={() => {
               setIsExpanded(false);

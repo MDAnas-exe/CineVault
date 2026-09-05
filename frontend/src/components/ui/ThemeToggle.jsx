@@ -9,7 +9,7 @@ const ThemeToggle = ({ className }) => {
     <button
       onClick={() => setIsDark((prev) => !prev)}
       className={twMerge(
-        `relative size-10 flex items-center justify-center hover:bg-gray-400 duration-200 rounded-full cursor-pointer`,
+        `relative size-10 flex items-center justify-center hover:bg-border duration-200 rounded-full cursor-pointer`,
         className,
       )}
     >

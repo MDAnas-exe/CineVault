@@ -73,7 +73,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false, movieInfo }) => {
 
   return (
     <div
-      className={` ${!isEditing && "relative rounded-xl bg-neutral-50 px-3 py-3 md:px-5 md:py-4 font-inter"} w-full md:max-w-2xl`}
+      className={` ${!isEditing && "relative rounded-xl bg-primary/3 px-3 py-3 md:px-5 md:py-4 font-inter"} w-full md:max-w-2xl`}
     >
       <div className="flex items-start justify-between gap-2">
         {!isEditing && (
@@ -87,7 +87,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false, movieInfo }) => {
             <Button
               type="button"
               onClick={() => setMenuOpen((prev) => !prev)}
-              className={`rounded-md p-1.5 text-neutral-400 hover:bg-neutral-200 hover:text-primary focus:ring-0 ${menuOpen && "focus:ring-2"}`}
+              className={`rounded-md p-1.5 text-secondary hover:bg-border hover:text-primary focus:ring-0 ${menuOpen && "focus:ring-2"}`}
               aria-label="Review options "
             >
               <FaEllipsisV className="text-xs" />
@@ -102,7 +102,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false, movieInfo }) => {
 
             <div
               className={twMerge(
-                "absolute right-0 top-8 z-10 w-32 overflow-hidden rounded-lg border border-gray-100 bg-white py-1 shadow-md origin-top-right transition-all duration-200 ease-out",
+                "absolute right-0 top-8 z-10 w-32 overflow-hidden rounded-lg border border-border bg-surface py-1 shadow-md origin-top-right transition-[opacity,scale,translate] duration-200 ease-out",
                 menuOpen
                   ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
                   : "opacity-0 scale-95 -translate-y-1 pointer-events-none",
@@ -110,7 +110,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false, movieInfo }) => {
             >
               <Button
                 type="button"
-                className="w-full rounded-none px-4 py-2 text-left font-inter text-sm font-normal text-primary hover:bg-neutral-50 active:scale-100 focus:ring-0 focus:ring-offset-0"
+                className="w-full rounded-none px-4 py-2 text-left font-inter text-sm font-normal text-primary hover:bg-primary/3 active:scale-100 focus:ring-0 focus:ring-offset-0"
                 disabled={isDeletePending || isEditPending}
                 onClick={() => setIsEditing(true)}
               >
@@ -118,7 +118,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false, movieInfo }) => {
               </Button>
               <Button
                 type="button"
-                className={`w-full rounded-none px-4 py-2 text-left font-inter text-sm font-normal text-red-600 hover:bg-red-50 active:scale-100 focus:ring-0 focus:ring-offset-0 ${isDeletePending && "flex gap-2 items-center"}`}
+                className={`w-full rounded-none px-4 py-2 text-left font-inter text-sm font-normal text-red-600 hover:bg-red-500/10 active:scale-100 focus:ring-0 focus:ring-offset-0 ${isDeletePending && "flex gap-2 items-center"}`}
                 disabled={isDeletePending}
                 onClick={() =>
                   delMutateAsync({
@@ -164,7 +164,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false, movieInfo }) => {
         <div className="mt-3 flex justify-end gap-2">
           <Button
             type="button"
-            className="rounded-lg px-3 py-1.5 md:px-4 md:py-2 font-inter text-xs md:text-sm font-medium text-neutral-500 hover:text-primary"
+            className="rounded-lg px-3 py-1.5 md:px-4 md:py-2 font-inter text-xs md:text-sm font-medium text-secondary hover:text-primary"
             onClick={() => {
               setIsEditing(false);
               reset();
@@ -187,7 +187,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false, movieInfo }) => {
                 signal: AbortSignal.timeout(8000),
               });
             })}
-            className={`rounded-lg bg-accent px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm text-primary hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50 ${isEditPending && "flex gap-2 items-center"}`}
+            className={`rounded-lg bg-accent px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm text-gray-900 hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50 ${isEditPending && "flex gap-2 items-center"}`}
             disabled={isEditPending}
           >
             {isEditPending ? (
@@ -201,7 +201,7 @@ const ReviewCard = ({ reviewInfo, isOwner = false, movieInfo }) => {
           </Button>
         </div>
       ) : (
-        <p className="mt-4 text-right font-inter text-xs text-neutral-400">
+        <p className="mt-4 text-right font-inter text-xs text-secondary">
           {getDateAdded(reviewInfo.createdAt)}
         </p>
       )}

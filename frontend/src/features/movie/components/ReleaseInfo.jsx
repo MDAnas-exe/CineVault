@@ -73,7 +73,7 @@ export default function ReleaseInfo() {
           {Array.from({ length: 4 }).map((_, sectionIndex) => (
             <div
               key={sectionIndex}
-              className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
+              className="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm"
             >
               <div className="flex items-center justify-between p-3 md:px-6 md:py-5">
                 <div className="flex items-center gap-3">
@@ -89,7 +89,7 @@ export default function ReleaseInfo() {
               <Skeleton height={1} />
 
               {/* Mobile: stacked cards */}
-              <div className="divide-y divide-gray-100 md:hidden">
+              <div className="divide-y divide-border md:hidden">
                 {Array.from({ length: 5 }).map((_, rowIndex) => (
                   <div key={rowIndex} className="p-4 space-y-2">
                     <div className="flex items-center justify-between">
@@ -155,7 +155,7 @@ export default function ReleaseInfo() {
 
   if (isError) {
     return (
-      <section className="mt-8 rounded-2xl border border-gray-200 bg-white py-16 shadow-sm">
+      <section className="mt-8 rounded-2xl border border-border bg-surface py-16 shadow-sm">
         <SectionState
           message="Couldn't load release information"
           description="Something went wrong while fetching the release information. Please try again."
@@ -168,7 +168,7 @@ export default function ReleaseInfo() {
 
   if (groupedReleaseInfo.length === 0) {
     return (
-      <section className="mt-8 rounded-2xl border border-gray-200 bg-white py-16 shadow-sm">
+      <section className="mt-8 rounded-2xl border border-border bg-surface py-16 shadow-sm">
         <SectionState
           message="No release information available"
           description="Release information isn't available for this movie."

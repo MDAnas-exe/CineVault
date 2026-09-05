@@ -91,7 +91,7 @@ const ProfileStats = () => {
         {statItems.map(({ label, value, icon: Icon }) => (
           <div
             key={label}
-            className="flex flex-col items-center justify-center rounded-xl border border-neutral-200 bg-white px-4 py-5 text-center shadow-sm"
+            className="flex flex-col items-center justify-center rounded-xl border border-border bg-surface px-4 py-5 text-center shadow-sm"
           >
             <Icon className="mb-1 text-2xl text-accent" />
             <span className="font-poppins text-2xl font-bold text-accent sm:text-3xl">

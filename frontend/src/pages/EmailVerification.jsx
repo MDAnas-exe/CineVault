@@ -48,7 +48,7 @@ function EmailVerification() {
   }, [token, mutateAsync]);
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-white px-4">
+    <main className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="relative w-full max-w-120 h-110 sm:h-120">
         <EmailVerificationCard
           imgSrc={pendingImg}

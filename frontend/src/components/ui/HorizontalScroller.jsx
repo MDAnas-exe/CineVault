@@ -12,7 +12,7 @@ const HorizontalScroller = ({ children, ariaLabel }) => {
     <div className="flex min-w-0">
       <button
         type="button"
-        className="hidden self-center rounded-full px-3 text-primary shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:flex"
+        className="hidden self-center rounded-full px-3 text-primary shadow-md transition-[scale,box-shadow] duration-200 hover:scale-105 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:flex"
         aria-label={`Scroll ${ariaLabel} left`}
         onClick={() => scroll(-300)}
       >
@@ -27,7 +27,7 @@ const HorizontalScroller = ({ children, ariaLabel }) => {
       </div>
       <button
         type="button"
-        className="ml-2 hidden self-center rounded-full px-3 text-primary shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:flex"
+        className="ml-2 hidden self-center rounded-full px-3 text-primary shadow-md transition-[scale,box-shadow] duration-200 hover:scale-105 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:flex"
         aria-label={`Scroll ${ariaLabel} right`}
         onClick={() => scroll(300)}
       >

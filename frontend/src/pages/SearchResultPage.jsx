@@ -168,12 +168,12 @@ const SearchResultsPage = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col gap-2 justify-evenly px-4 sm:px-20 lg:px-40 py-5 bg-gray-100">
+      <div className="flex flex-col gap-2 justify-evenly px-4 sm:px-20 lg:px-40 py-5 bg-background">
         <Skeleton width="30%" height={30} />
         <Skeleton width="15%" height={20} />
         {Array.from({ length: 3 }).map((_, index) => (
           <div
-            className="flex gap-2 sm:gap-6 p-2 sm:p-4 lg:p-6 rounded-2xl bg-white border border-gray-200/60 shadow-sm"
+            className="flex gap-2 sm:gap-6 p-2 sm:p-4 lg:p-6 rounded-2xl bg-surface border border-border/60 shadow-sm"
             key={index}
           >
             <div className="h-40 w-25 sm:w-30 sm:h-40 lg:w-37.5 lg:h-50 shrink-0">
@@ -197,7 +197,7 @@ const SearchResultsPage = () => {
               <div className="w-full lg:w-125">
                 <Skeleton count={2} />
               </div>
-              <hr className="border-gray-200" />
+              <hr className="border-border" />
               <div className="flex justify-between items-center">
                 <div className="hidden sm:block w-1/3">
                   <Skeleton height={22} />
@@ -238,12 +238,12 @@ const SearchResultsPage = () => {
   }
 
   return (
-    <div className="flex flex-col gap-2 justify-evenly px-2 sm:px-15 lg:px-30 py-2 sm:py-5 bg-gray-100">
+    <div className="flex flex-col gap-2 justify-evenly px-2 sm:px-15 lg:px-30 py-2 sm:py-5 bg-background">
       <div className="flex flex-col">
         <span className="text-xl lg:text-2xl font-poppins font-bold">
           Results for <span className="text-accent">"{name}"</span>
         </span>
-        <span className="text-gray-500 lg:text-base text-sm">
+        <span className="text-secondary lg:text-base text-sm">
           {total_results} {total_results > 1 ? "results" : "result"} found
         </span>
       </div>

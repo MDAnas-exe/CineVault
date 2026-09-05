@@ -24,7 +24,7 @@ const LogoutButton = ({ className = "" }) => {
     <Button
       type="button"
       className={twMerge(
-        "flex w-full items-center gap-2 rounded-b-2xl rounded-t-none bg-white px-4 py-3 text-left font-inter font-normal text-red-600 hover:bg-red-50 active:scale-100 focus:ring-0 focus:ring-offset-0 dark:bg-slate-900 dark:hover:bg-red-950/40",
+        "flex w-full items-center gap-2 rounded-b-2xl rounded-t-none bg-surface px-4 py-3 text-left font-inter font-normal text-red-600 hover:bg-red-500/10 active:scale-100 focus:ring-0 focus:ring-offset-0",
         className,
       )}
       onClick={() =>

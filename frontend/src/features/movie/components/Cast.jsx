@@ -36,7 +36,7 @@ export default function Cast() {
           {Array.from({ length: 12 }).map((_, index) => (
             <div
               key={index}
-              className="overflow-hidden rounded-2xl border border-gray-200 bg-white p-2 shadow-sm"
+              className="overflow-hidden rounded-2xl border border-border bg-surface p-2 shadow-sm"
             >
               <div className="aspect-square md:aspect-2/3 w-full">
                 <Skeleton width="100%" height="100%" className="rounded-xl" />
@@ -60,7 +60,7 @@ export default function Cast() {
 
   if (isError) {
     return (
-      <section className="mt-8 rounded-2xl border border-gray-200 bg-white py-16 shadow-sm">
+      <section className="mt-8 rounded-2xl border border-border bg-surface py-16 shadow-sm">
         <SectionState
           message="Couldn't load cast"
           description="We couldn't retrieve the cast information for this movie."
@@ -73,7 +73,7 @@ export default function Cast() {
 
   if (cast.length === 0) {
     return (
-      <section className="mt-8 rounded-2xl border border-gray-200 bg-white py-16">
+      <section className="mt-8 rounded-2xl border border-border bg-surface py-16">
         <SectionState
           message="No cast information available"
           description="This movie doesn't have any cast information available yet."
@@ -87,7 +87,7 @@ export default function Cast() {
       <div className="mb-8 flex items-center justify-between">
         <h2 className="font-poppins text-2xl md:text-5xl font-bold text-primary">
           Cast{" "}
-          <span className="font-inter text-2xl font-medium text-gray-300">
+          <span className="font-inter text-2xl font-medium text-secondary">
             ({cast.length})
           </span>
         </h2>
@@ -97,7 +97,7 @@ export default function Cast() {
         {cast.map((member) => (
           <div
             key={member.cast_id ?? member.credit_id ?? member.id}
-            className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+            className="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm transition-[translate,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-lg"
           >
             {member.profile_path ? (
               <img
@@ -107,8 +107,8 @@ export default function Cast() {
                 className=" aspect-square md:aspect-3/4 w-full md:object-cover object-top"
               />
             ) : (
-              <div className="flex aspect-3/4 items-center justify-center bg-gray-100">
-                <FaUserCircle className="text-[8rem] text-gray-300" />
+              <div className="flex aspect-3/4 items-center justify-center bg-primary/5">
+                <FaUserCircle className="text-[8rem] text-secondary" />
               </div>
             )}
 

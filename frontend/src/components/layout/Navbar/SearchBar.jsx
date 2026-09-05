@@ -30,19 +30,19 @@ const SearchBar = ({ className = "" }) => {
   return (
     <div
       className={twMerge(
-        "relative items-center rounded-xl bg-white p-2 outline-1 outline-gray-300 transition-all duration-500 hover:outline-accent focus-within:outline-accent dark:bg-slate-900 dark:outline-slate-600 md:w-2/5 md:p-2.5",
+        "relative items-center rounded-xl bg-surface p-2 outline-1 outline-border transition-colors duration-200 hover:outline-accent focus-within:outline-accent md:w-2/5 md:p-2.5",
         className,
       )}
     >
       <FaSearch
-        className="cursor-pointer text-base text-gray-400 dark:text-slate-400 sm:text-lg"
+        className="cursor-pointer text-base text-secondary sm:text-lg"
         onClick={(e) => searchMovies(e)}
       />
       <input
         type="text"
         placeholder="Search Movies..."
         enterKeyHint="search"
-        className="ml-2 w-full font-inter text-sm font-medium text-primary outline-0 placeholder:text-sm placeholder:text-gray-400 dark:text-slate-100 dark:placeholder:text-slate-400 sm:text-base sm:placeholder:text-base"
+        className="ml-2 w-full font-inter text-sm font-medium text-primary outline-0 placeholder:text-sm placeholder:text-secondary sm:text-base sm:placeholder:text-base"
         onKeyDown={(e) => searchMovies(e)}
         ref={ref}
       />

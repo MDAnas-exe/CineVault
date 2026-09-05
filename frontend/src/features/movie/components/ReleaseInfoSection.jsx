@@ -27,7 +27,7 @@ const ReleaseInfoSection = ({ section }) => {
   return (
     <div
       key={section.type}
-      className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
+      className="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm"
     >
       <button
         className="flex w-full items-center justify-between p-3 md:px-6 md:py-5 cursor-pointer"
@@ -35,7 +35,7 @@ const ReleaseInfoSection = ({ section }) => {
       >
         <div className="flex items-center gap-3">
           <SectionSubheading className="mb-0">{section.type}</SectionSubheading>
-          <span className="rounded-full bg-gray-100 px-2 md:px-3 py-1 font-inter text-xs md:text-sm text-secondary">
+          <span className="rounded-full bg-primary/5 px-2 md:px-3 py-1 font-inter text-xs md:text-sm text-secondary">
             {section.releases.length}
           </span>
         </div>
@@ -48,15 +48,15 @@ const ReleaseInfoSection = ({ section }) => {
         </span>
       </button>
 
-      <div className="h-px bg-gray-200" />
+      <div className="h-px bg-border" />
 
       <div
-        className={`overflow-hidden transition-all duration-300 ${
+        className={`overflow-hidden transition-[max-height,opacity] duration-200 ${
           isOpen ? "max-h-1000 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         {/* Mobile: stacked cards */}
-        <div className="divide-y divide-gray-100 md:hidden">
+        <div className="divide-y divide-border md:hidden">
           {section.releases.map((release, index) => (
             <div
               key={`${release.iso_3166_1}-${release.release_date}-${index}`}
@@ -75,7 +75,7 @@ const ReleaseInfoSection = ({ section }) => {
                   </span>
                 </div>
                 {release.certification && (
-                  <span className="rounded-md border border-gray-300 px-2 py-1 font-inter text-xs font-medium text-primary">
+                  <span className="rounded-md border border-border px-2 py-1 font-inter text-xs font-medium text-primary">
                     {release.certification}
                   </span>
                 )}
@@ -95,7 +95,7 @@ const ReleaseInfoSection = ({ section }) => {
         {/* Desktop: table */}
         <table className="hidden md:table w-full">
           <thead>
-            <tr className="border-b border-gray-200 bg-gray-50">
+            <tr className="border-b border-border bg-primary/3">
               <th className="px-6 py-4 text-left font-inter text-xs font-semibold uppercase tracking-wider text-secondary">
                 Date
               </th>
@@ -116,7 +116,7 @@ const ReleaseInfoSection = ({ section }) => {
             {section.releases.map((release, index) => (
               <tr
                 key={`${release.iso_3166_1}-${release.release_date}-${index}`}
-                className="border-b border-gray-100 transition-colors duration-200 hover:bg-gray-50"
+                className="border-b border-border transition-colors duration-200 hover:bg-primary/3"
               >
                 <td className="px-6 py-4 font-inter text-sm text-primary">
                   {formatDate(release.release_date)}
@@ -134,7 +134,7 @@ const ReleaseInfoSection = ({ section }) => {
                 </td>
                 <td className="px-6 py-4">
                   {release.certification && (
-                    <span className="rounded-md border border-gray-300 px-2 py-1 font-inter text-xs font-medium text-primary">
+                    <span className="rounded-md border border-border px-2 py-1 font-inter text-xs font-medium text-primary">
                       {release.certification}
                     </span>
                   )}

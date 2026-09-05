@@ -8,14 +8,14 @@ const Input = ({ type = "text", label, placeholder, icon: Icon, register }) => {
     <div>
       <label className="mb-1 block font-medium text-primary">{label}</label>
       <div
-        className="flex h-12 items-center rounded-xl border border-gray-300 bg-white px-4 transition-colors duration-200 hover:border-gray-400 focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/20"
+        className="flex h-12 items-center rounded-xl border border-border bg-surface px-4 transition-colors duration-200 hover:border-secondary focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/20"
         onClick={() => localRef.current.focus()}
       >
-        <Icon className="mr-3 text-gray-500" />
+        <Icon className="mr-3 text-secondary" />
         <input
           type={type}
           placeholder={placeholder}
-          className="w-full bg-transparent text-primary placeholder:text-gray-400 focus:outline-none"
+          className="w-full bg-transparent text-primary placeholder:text-secondary focus:outline-none"
           {...rest}
           ref={(el) => {
             rhfRef(el);

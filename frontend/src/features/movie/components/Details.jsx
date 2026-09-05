@@ -24,7 +24,7 @@ const InfoCard = ({
   horizontal = false,
 }) => (
   <div
-    className={`rounded-xl border border-gray-200 bg-white md:p-5 p-1 shadow-sm ${className}`}
+    className={`rounded-xl border border-border bg-surface md:p-5 p-1 shadow-sm ${className}`}
   >
     <div
       className={`flex items-center gap-1 md:gap-3${horizontal ? "mb-4 " : "mb-3 "}`}
@@ -70,7 +70,7 @@ export default function Details() {
           {[...Array(6)].map((_, index) => (
             <div
               key={index}
-              className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+              className="rounded-xl border border-border bg-surface p-5 shadow-sm"
             >
               <div className="mb-3 flex items-center gap-3">
                 <Skeleton circle width={32} height={32} />
@@ -80,7 +80,7 @@ export default function Details() {
             </div>
           ))}
 
-          <div className="col-span-2 rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+          <div className="col-span-2 rounded-xl border border-border bg-surface p-5 shadow-sm">
             <div className="mb-4 flex items-center gap-3">
               <Skeleton circle width={32} height={32} />
               <Skeleton width={220} height={24} />
@@ -109,7 +109,7 @@ export default function Details() {
 
   if (isError) {
     return (
-      <section className="mx-auto mt-6 rounded-xl border border-gray-200 bg-white py-15 md:py-30 shadow-sm">
+      <section className="mx-auto mt-6 rounded-xl border border-border bg-surface py-15 md:py-30 shadow-sm">
         <SectionState
           message="Couldn't load overview"
           description="We couldn't retrieve the movie information. Please try again."
@@ -216,7 +216,7 @@ export default function Details() {
                 href={`https://www.imdb.com/title/${imdb_id}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-1 items-center justify-center gap-2 rounded-xl p-2 border border-gray-200 bg-white md:p-4 font-inter text-secondary shadow-sm hover:bg-gray-50 md:text-base text-xs"
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl p-2 border border-border bg-surface md:p-4 font-inter text-secondary shadow-sm hover:bg-primary/3 md:text-base text-xs"
               >
                 <FaImdb className="text-2xl text-accent" />
                 View on IMDb
@@ -228,7 +228,7 @@ export default function Details() {
                 href={homepage}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-1 items-center justify-center gap-2 rounded-xl p-2 border border-gray-200 bg-white md:p-4 font-inter text-secondary shadow-sm hover:bg-gray-50 md:text-base text-xs"
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl p-2 border border-border bg-surface md:p-4 font-inter text-secondary shadow-sm hover:bg-primary/3 md:text-base text-xs"
               >
                 <FaLink className="text-2xl text-accent" />
                 Official Site

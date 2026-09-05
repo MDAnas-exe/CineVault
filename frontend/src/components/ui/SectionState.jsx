@@ -30,7 +30,7 @@ const SectionState = ({
 
       {buttonText && (
         <button
-          className="flex cursor-pointer items-center gap-2 rounded-lg bg-accent px-4 py-2 font-inter text-sm font-bold text-primary transition-colors duration-300 hover:bg-accent-hover sm:text-base lg:px-5 lg:text-lg"
+          className="flex cursor-pointer items-center gap-2 rounded-lg bg-accent px-4 py-2 font-inter text-sm font-bold text-gray-900 transition-colors duration-300 hover:bg-accent-hover sm:text-base lg:px-5 lg:text-lg"
           onClick={onRetry}
         >
           <IoReload />

@@ -100,7 +100,15 @@ createRoot(document.getElementById("root")).render(
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <ThemeProvider>
-          <Toaster />
+          <Toaster
+            toastOptions={{
+              style: {
+                background: "var(--color-surface)",
+                color: "var(--color-primary)",
+                border: "1px solid var(--color-border)",
+              },
+            }}
+          />
           <Analytics />
           <RouterProvider router={router} />
         </ThemeProvider>

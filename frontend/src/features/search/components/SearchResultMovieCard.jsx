@@ -48,7 +48,7 @@ const SearchResultMovieCard = ({ movie, ref }) => {
 
   return (
     <div
-      className="flex gap-2 sm:gap-6 p-2 sm:p-4 lg:p-6 rounded-2xl bg-white  font-inter border border-gray-200/60 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer sm:flex-row  sm:w-full  "
+      className="flex gap-2 sm:gap-6 p-2 sm:p-4 lg:p-6 rounded-2xl bg-surface  font-inter border border-border/60 shadow-sm hover:shadow-lg transition-shadow duration-200 cursor-pointer sm:flex-row  sm:w-full  "
       ref={ref}
       onClick={() => {
         navigate(`/movies/${id}`);
@@ -94,7 +94,7 @@ const SearchResultMovieCard = ({ movie, ref }) => {
           {overview ? overview : "N/A"}
         </p>
 
-        <hr className=" border-gray-200" />
+        <hr className=" border-border" />
 
         <div className="flex  justify-between items-center ">
           <div className=" items-center gap-2 text-accent font-medium lg:text-base sm:text-sm text-xs hidden sm:flex">
@@ -123,7 +123,7 @@ const SearchResultMovieCard = ({ movie, ref }) => {
                 releaseDate={release_date}
                 posterPath={poster_path}
                 genres={genre_ids}
-                className="w-7 h-7 lg:w-10 lg:h-10 rounded-full sm:border border-gray-200 bg-transparent hover:bg-transparent shadow-none text-primary/60 hover:text-accent focus:ring-0"
+                className="w-7 h-7 lg:w-10 lg:h-10 rounded-full sm:border border-border bg-transparent hover:bg-transparent shadow-none text-primary/60 hover:text-accent focus:ring-0"
               />
             ))}
           </UserBtnSection>

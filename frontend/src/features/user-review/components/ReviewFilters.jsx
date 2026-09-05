@@ -9,10 +9,10 @@ import FilterActionButtons from "../../../components/ui/FilterActionButtons";
 import Button from "../../../components/ui/Button";
 
 const fieldClassName =
-  "h-11 w-full min-w-0 rounded-lg border border-neutral-300 bg-white px-3.5 font-inter text-sm text-primary placeholder:text-secondary transition-colors duration-200 enabled:hover:border-accent/60 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 sm:text-sm lg:h-10.5";
+  "h-11 w-full min-w-0 rounded-lg border border-border bg-surface px-3.5 font-inter text-sm text-primary placeholder:text-secondary transition-colors duration-200 enabled:hover:border-accent/60 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 sm:text-sm lg:h-10.5";
 const labelClassName =
   "mb-1.5 block font-inter text-xs font-medium text-primary sm:text-sm";
-const optionClassName = "bg-white py-2 font-inter text-sm text-primary";
+const optionClassName = "bg-surface py-2 font-inter text-sm text-primary";
 
 const ReviewFilters = () => {
   const id = useId();
@@ -56,7 +56,7 @@ const ReviewFilters = () => {
     <form
       onSubmit={handleSubmit(applyFilters)}
       aria-labelledby={`${id}-title`}
-      className="mb-6 overflow-hidden rounded-2xl border border-neutral-200 border-l-4 border-l-accent bg-white shadow-sm md:mb-8 lg:rounded-xl"
+      className="mb-6 overflow-hidden rounded-2xl border border-border border-l-4 border-l-accent bg-surface shadow-sm md:mb-8 lg:rounded-xl"
     >
       <Button
         id={`${id}-title`}
@@ -64,8 +64,8 @@ const ReviewFilters = () => {
         aria-expanded={isExpanded}
         aria-controls={`${id}-options`}
         onClick={() => setIsExpanded((expanded) => !expanded)}
-        className={`flex w-full items-center justify-between px-4 py-4 text-left text-primary hover:bg-amber-50/60 sm:px-5 sm:py-5 ${
-          isExpanded ? "border-b border-neutral-200" : ""
+        className={`flex w-full items-center justify-between px-4 py-4 text-left text-primary hover:bg-accent/10 sm:px-5 sm:py-5 ${
+          isExpanded ? "border-b border-border" : ""
         }`}
       >
         <span className="flex items-center gap-3 font-poppins text-base font-semibold sm:text-lg">
@@ -85,7 +85,7 @@ const ReviewFilters = () => {
       <div
         id={`${id}-options`}
         inert={!isExpanded}
-        className={`overflow-hidden transition-all duration-300 ${
+        className={`overflow-hidden transition-[max-height,opacity,padding] duration-200 ${
           isExpanded
             ? "max-h-150 px-4 pb-4 opacity-100 sm:px-5 sm:pb-5"
             : "max-h-0 opacity-0"

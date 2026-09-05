@@ -24,10 +24,10 @@ export default function CrewDepartment({ title, icon: Icon, members }) {
         />
       </button>
 
-      <div className="mb-6 h-px bg-gray-200" />
+      <div className="mb-6 h-px bg-border" />
 
       <div
-        className={`overflow-hidden transition-all duration-300 ${
+        className={`overflow-hidden transition-[max-height,opacity] duration-200 ${
           expanded ? "max-h-500 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
@@ -35,7 +35,7 @@ export default function CrewDepartment({ title, icon: Icon, members }) {
           {members.map((member) => (
             <div
               key={member.credit_id}
-              className="flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+              className="flex items-center gap-4 rounded-xl border border-border bg-surface p-4 shadow-sm transition-[translate,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-md"
             >
               {member.profile_path ? (
                 <img
@@ -45,7 +45,7 @@ export default function CrewDepartment({ title, icon: Icon, members }) {
                   className="h-12 w-12 rounded-full object-top md:object-cover"
                 />
               ) : (
-                <FaUserCircle className="h-12 w-12 text-gray-300" />
+                <FaUserCircle className="h-12 w-12 text-secondary" />
               )}
 
               <div className="min-w-0">

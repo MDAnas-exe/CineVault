@@ -31,9 +31,9 @@ const UserReviewCard = ({ reviewInfo, ...rest }) => {
   return (
     <article
       {...rest}
-      className="grid min-w-0 grid-cols-[4.75rem_minmax(0,1fr)] content-start gap-3.5 rounded-xl border border-neutral-200 bg-white p-4 font-inter shadow-sm transition-shadow duration-200 hover:shadow-md focus-within:ring-2 focus-within:ring-accent/30 sm:grid-cols-[5.25rem_minmax(0,1fr)] sm:gap-4 sm:p-5 xl:grid-cols-[5.5rem_minmax(0,1fr)]"
+      className="grid min-w-0 grid-cols-[4.75rem_minmax(0,1fr)] content-start gap-3.5 rounded-xl border border-border bg-surface p-4 font-inter shadow-sm transition-shadow duration-200 hover:shadow-md focus-within:ring-2 focus-within:ring-accent/30 sm:grid-cols-[5.25rem_minmax(0,1fr)] sm:gap-4 sm:p-5 xl:grid-cols-[5.5rem_minmax(0,1fr)]"
     >
-      <div className="relative aspect-2/3 self-start overflow-hidden rounded-lg bg-neutral-100">
+      <div className="relative aspect-2/3 self-start overflow-hidden rounded-lg bg-primary/5">
         {posterPath && failedPoster !== posterPath ? (
           <img
             loading="lazy"
@@ -66,7 +66,7 @@ const UserReviewCard = ({ reviewInfo, ...rest }) => {
       </div>
 
       <footer className="col-span-2 min-w-0">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 border-b border-neutral-200 pb-2.5 text-xs leading-relaxed text-secondary">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 border-b border-border pb-2.5 text-xs leading-relaxed text-secondary">
           {writtenDate && (
             <span className="inline-flex items-center gap-1.5">
               <HiOutlineCalendarDays

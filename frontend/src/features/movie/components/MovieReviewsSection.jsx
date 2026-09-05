@@ -123,7 +123,7 @@ const MovieReviewsSection = () => {
         <div className="mt-6 flex justify-center">
           <Button
             type="button"
-            className="rounded-lg border border-gray-200 px-5 py-2 font-inter text-sm font-medium text-primary hover:bg-neutral-50"
+            className="rounded-lg border border-border px-5 py-2 font-inter text-sm font-medium text-primary hover:bg-primary/3"
             onClick={fetchNextPage}
           >
             Load More
