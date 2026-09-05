@@ -62,7 +62,7 @@ const DesktopNavbar = () => {
         </div>
       )}
 
-      <ThemeToggle />
+      <ThemeToggle className="hidden md:block" />
 
       {isLoggedIn && (
         <div className="hidden md:flex gap-5 items-center">

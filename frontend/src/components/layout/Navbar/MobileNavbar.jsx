@@ -14,6 +14,7 @@ import { twMerge } from "tailwind-merge";
 import Button from "../../ui/Button";
 import LogoutButton from "./LogoutButton";
 import { USER_MENU_LINKS } from "./userMenuConfig";
+import ThemeToggle from "../../ui/ThemeToggle";
 const MobileNavbar = () => {
   const { isLoading, isLoggedIn, user } = useAuth();
   const location = useLocation();
@@ -43,6 +44,8 @@ const MobileNavbar = () => {
           Sign Up
         </Link>
       )}
+
+      <ThemeToggle className="block md:hidden" />
 
       {isLoading && (
         <div className="w-8 lg:hidden  ">
