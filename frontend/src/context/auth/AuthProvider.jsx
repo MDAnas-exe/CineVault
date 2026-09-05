@@ -1,15 +1,9 @@
-import { useState } from "react";
-import { AuthContext } from "./AuthContext";
-import apiRequest from "../utils/apiRequest";
+import { AuthContext } from "./AuthContext.js";
+import apiRequest from "../../utils/apiRequest.js";
 import { useQuery } from "@tanstack/react-query";
-import { data } from "react-router-dom";
 
-export const AuthProvider = ({ children }) => {
-  const {
-    data: user,
-    isLoading,
-    error,
-  } = useQuery({
+const AuthProvider = ({ children }) => {
+  const { data: user, isLoading } = useQuery({
     queryKey: ["auth", "me"],
     queryFn: async ({ signal }) =>
       apiRequest({
@@ -28,3 +22,5 @@ export const AuthProvider = ({ children }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
+export default AuthProvider;
