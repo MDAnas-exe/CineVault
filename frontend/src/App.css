@@ -14,4 +14,7 @@
 
 * {
   scroll-behavior: smooth;
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
 }
