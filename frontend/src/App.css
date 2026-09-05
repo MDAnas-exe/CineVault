@@ -9,12 +9,45 @@
   --color-secondary: #6b7280;
   --color-accent: #d4a017;
   --color-accent-hover: #c89412;
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-border: #e5e7eb;
   --breakpoint-xs: 375px;
 }
 
-* {
-  scroll-behavior: smooth;
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-duration: 200ms;
-  transition-timing-function: ease;
+.dark {
+  --color-primary: #f3f4f6;
+  --color-secondary: #9ca3af;
+  --color-background: #020617;
+  --color-surface: #0f172a;
+  --color-border: #334155;
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    transition-property: background-color, border-color, color, fill, stroke, outline-color;
+    transition-duration: 200ms;
+    transition-timing-function: ease;
+  }
+
+  * {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-primary);
+    color-scheme: light;
+  }
+
+  .dark body {
+    color-scheme: dark;
+  }
+}
+
+.react-loading-skeleton {
+  --base-color: var(--color-border);
+  --highlight-color: var(--color-surface);
 }
