@@ -12,10 +12,7 @@ import { twMerge } from "tailwind-merge";
 import Skeleton from "react-loading-skeleton";
 import { MdOutlinePersonOutline } from "react-icons/md";
 import LogoutButton from "./LogoutButton";
-import {
-  PRIMARY_USER_MENU_LINKS,
-  USER_MENU_LINKS,
-} from "./userMenuConfig";
+import { PRIMARY_USER_MENU_LINKS, USER_MENU_LINKS } from "./userMenuConfig";
 
 const DesktopNavbar = () => {
   const { isLoading, isLoggedIn, user } = useAuth();
@@ -112,21 +109,23 @@ const DesktopNavbar = () => {
             <UserInfoHeader name={name} email={email} />
 
             <div>
-              {USER_MENU_LINKS.map(({ to, label, className, preserveQuery }) => (
-                <NavLink
-                  key={to}
-                  to={preserveQuery ? to + location.search : to}
-                  className={({ isActive }) =>
-                    twMerge(
-                      "block px-4 py-3 font-inter text-primary transition-colors duration-200 hover:bg-gray-100 text-left",
-                      isActive && "text-accent bg-amber-50",
-                      className,
-                    )
-                  }
-                >
-                  <UserMenuLinks label={label} />
-                </NavLink>
-              ))}
+              {USER_MENU_LINKS.map(
+                ({ to, label, className, preserveQuery }) => (
+                  <NavLink
+                    key={to}
+                    to={preserveQuery ? to + location.search : to}
+                    className={({ isActive }) =>
+                      twMerge(
+                        "block px-4 py-3 font-inter text-primary transition-colors duration-200 hover:bg-gray-100 text-left",
+                        isActive && "text-accent bg-amber-50",
+                        className,
+                      )
+                    }
+                  >
+                    <UserMenuLinks label={label} />
+                  </NavLink>
+                ),
+              )}
             </div>
 
             <div className="border-t border-gray-200 ">
