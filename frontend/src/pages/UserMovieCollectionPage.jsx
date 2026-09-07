@@ -39,7 +39,7 @@ const UserMovieCollectionPage = () => {
     queryKey: ["user-movies", status + searchParams.toString()],
     queryFn: ({ pageParam, signal }) =>
       apiRequest({
-        endpoint: `users/${status}?${searchParams.toString()}&page=${pageParam}`,
+        endpoint: `users/${status}?page=${pageParam}&${searchParams.toString()}`,
         method: "GET",
         signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
       }),

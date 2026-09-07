@@ -35,7 +35,7 @@ const UserReviewsPage = () => {
     queryKey: ["user-reviews", searchParams.toString()],
     queryFn: ({ pageParam, signal }) =>
       apiRequest({
-        endpoint: `users/reviews?${searchParams.toString()}&page=${pageParam}`,
+        endpoint: `users/reviews?page=${pageParam}&${searchParams.toString()}`,
         method: "GET",
         signal: AbortSignal.any([signal, AbortSignal.timeout(8000)]),
       }),
