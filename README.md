@@ -47,6 +47,10 @@ CineVault is a solo, full-stack MERN movie-tracking project inspired by Letterbo
 
 - Your profile shows totals and recent activity across Likes, Watch History, Watchlist, and Reviews.
 
+### Theme
+
+- Switch between light and dark themes; your preference is saved for future visits.
+
 ---
 
 ## Screenshots
