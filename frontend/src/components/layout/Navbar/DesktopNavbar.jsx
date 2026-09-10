@@ -42,12 +42,6 @@ const DesktopNavbar = () => {
         className={`hidden md:block ${!isLoading && !isLoggedIn && "ml-auto mr-5"}`}
       />
 
-      {isLoading && (
-        <div className="w-20 lg:hidden">
-          <Skeleton width="100%" height={24} />
-        </div>
-      )}
-
       {!isLoading && !isLoggedIn && (
         <Link
           to="/signup"
